@@ -8,6 +8,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import * as Leaflet from 'leaflet';
 import { ModalController } from '@ionic/angular';
 import { PlacePage } from '../pages/place/place.page';
+import { StartPage } from '../pages/start/start.page';
 declare var L: any;
 
 @Component({
@@ -59,10 +60,11 @@ export class Tab1Page {
   }
 
   openModal(){
-    this.presentModal(PlacePage);
+    this.presentModalShow(PlacePage);
   }
 
-  async presentModal(component) {
+
+  async presentModalShow(component) {
     const modal = await this.modalController.create({
       component: component,
       breakpoints: [0.0,0.6, 0.90],
@@ -75,6 +77,27 @@ export class Tab1Page {
     modal.onDidDismiss().then((data) => {
      if(data['data']){
 
+     }
+
+    });
+    return await modal.present();
+  }
+
+
+  async presentModalStart(component) {
+    const modal = await this.modalController.create({
+      component: component,
+      breakpoints: [0.0,0.7, 0.90],
+      initialBreakpoint: 0.7,
+      backdropDismiss:true,
+      swipeToClose​:true,
+      cssClass: 'small-modal'
+    });
+
+    modal.onDidDismiss().then((data) => {
+     if(data['data']){
+
+      this.runGeolocation();
      }
 
     });
@@ -117,7 +140,13 @@ export class Tab1Page {
 date1;
 
 start(){
-    this.isStart = true;
+
+  this.presentModalStart(StartPage);
+
+}
+
+runGeolocation(){
+  this.isStart = true;
 
     this.date1 = new Date();
     this.interval = window.setInterval(() => {
@@ -139,7 +168,7 @@ start(){
 
         stale: false,
 
-        distanceFilter: 10
+        distanceFilter: 15
     },(data)=>{
 
       // this.addCoordenates(data?.latitude,data?.longitude);
@@ -151,12 +180,9 @@ start(){
       this.storeCoordinate(data?.latitude, data?.longitude, this.coords);
 
 
-    }).then((watcher_id) => {
-              this.id = watcher_id
-
-
-            });
-
+  }).then((watcher_id) => {
+       this.id = watcher_id
+    });
 }
 
 
@@ -193,25 +219,28 @@ ionViewDidEnter(){
 
 initMap(){
 
-  this.lat = 20.6109151;
-  this.lng = -103.3009833
-  Geolocation.watchPosition({},(position,err) => {
-    if(position){
+  Geolocation.getCurrentPosition().then((resp) => {
+    console.log(resp);
+    this.lat = resp.coords.latitude;
+    this.lng = resp.coords.longitude;
 
 
-  this.mapa = Leaflet.map('mapa-running',{ zoomControl: false}).setView([this.lat, this.lng], 10);
 
-  this.mapa.flyTo([this.lat, this.lng], 14, {
-    animate: true,
-    duration: 1.5
-});
+
+
+
+
+    this.mapa = Leaflet.map('mapa-running',{ zoomControl: false}).setView([this.lat, this.lng], 10);
+
+      this.mapa.flyTo([this.lat, this.lng], 14, {
+        animate: true,
+        duration: 1.5
+  });
 
       var homeICon = L.icon(
         {
           iconUrl:  'https://i.ibb.co/d59mYxn/wanted.png',
-          shadowUrl: 'https://i.ibb.co/d59mYxn/wanted.png',
-          iconSize:     [25, 41], // size of the icon
-          shadowSize:   [41, 41] // size of the shadow
+          iconSize:     [31, 31], // size of the icon
         });
 
         var pointsForJson = [
@@ -221,9 +250,7 @@ initMap(){
         var userIcon = L.icon(
           {
             iconUrl:  'https://i.ibb.co/Z6f29T3/placeholder.png',
-            shadowUrl: 'https://i.ibb.co/Z6f29T3/placeholder.png',
-            iconSize:     [25, 41], // size of the icon
-            shadowSize:   [41, 41] // size of the shadow
+            iconSize:     [31, 31], // size of the icon
           });
 
     Leaflet.marker([this.lat,this.lng],{draggable: true,icon: userIcon}).on('dragend', e => this.procesar(e) ).addTo(this.mapa).bindPopup('Tu Ubicación');
@@ -242,10 +269,11 @@ initMap(){
     this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: 'red',
     weight: 8}).addTo(this.mapa);
 
+  }).catch((error) => {
+    console.log('Error getting location', error);
+  });
 
-    // this.startTracking();
-  }
-});
+
 
 }
 

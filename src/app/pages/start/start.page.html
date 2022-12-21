@@ -1,0 +1,31 @@
+<ion-content >
+  <div *ngIf="step == 1" class="p-1 mt-2">
+    <h1>Iniciar Caminata</h1>
+    <h5>¿cuál mascota?</h5>
+    <ion-item lines="none">
+      <ion-checkbox mode="md" slot="start"></ion-checkbox>
+      <ion-label>Radi</ion-label>
+    </ion-item>
+    <ion-button *ngIf="step == 1" expand="full" (click)="next()" >
+      Siguiente
+    </ion-button>
+  </div>
+  <div *ngIf="step == 2" style="margin-top: 3em;">
+    <h1 style="font-size:3em;padding:1em;">Recuerda <br> traer</h1>
+    <ion-card>
+      <ul>💧 Agua para tu mascota.</ul>
+    </ion-card>
+    <ion-card>
+      <ul>💩 Bolsas para las heces.</ul>
+
+    </ion-card>
+    <ion-card>
+      <ul>🐕‍🦺 Ir con collar y placa.</ul>
+
+    </ion-card>
+    <ion-button *ngIf="step == 2" fill="clear" expand="full" color="success" (click)="close(true)">
+      Si, lo Tengo
+    </ion-button>
+  </div>
+</ion-content>
+
