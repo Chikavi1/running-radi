@@ -13,6 +13,9 @@ export class Tab1Page {
     this.start();
   }
 
+  lat:any;
+  lng:any;
+
   start(){
 
   BackgroundGeolocation.addWatcher({
@@ -26,7 +29,8 @@ export class Tab1Page {
 
         distanceFilter: 1
     },(data)=>{
-      alert(JSON.stringify(data));
+      this.lat = data?.latitude;
+      this.lng = data?.longitude;
 
     }).then((watcher_id) => {
       // alert(watcher_id);
@@ -38,6 +42,19 @@ export class Tab1Page {
 
 }
 
+last_location:any;
 
+guess_location(){
+  BackgroundGeolocation.addWatcher(
+      {
+          requestPermissions: false,
+          stale: true
+      },
+      function (location) {
+        alert(JSON.stringify(location));
+      }).then(function (id) {
+        alert(id)
+      });
+}
 
 }
