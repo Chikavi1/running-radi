@@ -159,8 +159,6 @@ initMap(){
     if(position){
       this.lat = position.coords.latitude;
       this.lng = position.coords.longitude;
-    }
-});
 
 
   this.mapa = Leaflet.map('mapa-running').setView([this.lat, this.lng], 11);
@@ -208,6 +206,8 @@ initMap(){
 
 
     // this.startTracking();
+  }
+});
 
 }
 
