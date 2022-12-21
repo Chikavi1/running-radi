@@ -15,9 +15,7 @@ export class Tab1Page {
 
   start(){
 
-  BackgroundGeolocation.addWatcher(
-    {
-
+  BackgroundGeolocation.addWatcher({
         backgroundMessage: "Cancel to prevent battery drain.",
 
         backgroundTitle: "Tracking You.",
@@ -26,29 +24,16 @@ export class Tab1Page {
 
         stale: false,
 
-        distanceFilter: 2
-    },
-    function callback(location, error) {
-      alert(JSON.stringify(location));
-        if (error) {
-            if (error.code === "NOT_AUTHORIZED") {
-                if (window.confirm(
-                    "This app needs your location, " +
-                    "but does not have permission.\n\n" +
-                    "Open settings now?"
-                )) {
-                    BackgroundGeolocation.openSettings();
-                }
-            }
-            return console.error(error);
-        }
-        return console.log(location);
-    }
-).then(function after_the_watcher_has_been_added(watcher_id) {
+        distanceFilter: 0
+    },(data)=>{
+      alert(data);
+
+    }).then((watcher_id) => {
 
     BackgroundGeolocation.removeWatcher({
         id: watcher_id
     });
+
 });
 
 }
