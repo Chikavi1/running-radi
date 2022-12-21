@@ -14,6 +14,7 @@ export class Tab1Page {
 
   lat:any;
   lng:any;
+  time;
 
   last_location:any;
   id:any;
@@ -33,6 +34,7 @@ export class Tab1Page {
     },(data)=>{
       this.lat = data?.latitude;
       this.lng = data?.longitude;
+      this.time = data?.time;
 
     }).then((watcher_id) => {
       // alert(watcher_id);
