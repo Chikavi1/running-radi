@@ -94,7 +94,8 @@ date1;
 
     Geolocation.watchPosition({},(position,err) => {
       if(position){
-        this.addCoordenates(position.coords.latitude,position.coords.longitude);
+        // this.addCoordenates(position.coords.latitude,position.coords.longitude);
+        this.storeCoordinate(position.coords.latitude,position.coords.longitude, this.coords);
       }
   });
 
@@ -107,10 +108,12 @@ date1;
 
         stale: false,
 
-        distanceFilter: 1
+        distanceFilter: 5
     },(data)=>{
-      this.lat = data?.latitude;
-      this.lng = data?.longitude;
+
+      // this.addCoordenates(data?.latitude,data?.longitude);
+      this.storeCoordinate(data?.latitude, data?.longitude, this.coords);
+
 
     }).then((watcher_id) => {
               this.id = watcher_id
