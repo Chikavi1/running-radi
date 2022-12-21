@@ -29,10 +29,10 @@ export class Tab1Page {
       alert(data);
 
     }).then((watcher_id) => {
-
-    BackgroundGeolocation.removeWatcher({
-        id: watcher_id
-    });
+      alert(watcher_id);
+    // BackgroundGeolocation.removeWatcher({
+    //     id: watcher_id
+    // });
 
 });
 
