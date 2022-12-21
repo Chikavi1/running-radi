@@ -92,12 +92,7 @@ date1;
       this.time = this.getTimeFormatted();
     }, 1000);
 
-    Geolocation.watchPosition({},(position,err) => {
-      if(position){
-        // this.addCoordenates(position.coords.latitude,position.coords.longitude);
-        this.storeCoordinate(position.coords.latitude,position.coords.longitude, this.coords);
-      }
-  });
+
 
   BackgroundGeolocation.addWatcher({
         backgroundMessage: "Cancel to prevent battery drain.",
@@ -159,8 +154,14 @@ ionViewDidEnter(){
 }
 
 initMap(){
-  this.lat = '20.6206233';
-  this.lng = '-103.305544';
+
+  Geolocation.watchPosition({},(position,err) => {
+    if(position){
+      this.lat = position.coords.latitude;
+      this.lng = position.coords.longitude;
+    }
+});
+
 
   this.mapa = Leaflet.map('mapa-running').setView([this.lat, this.lng], 11);
 
@@ -179,7 +180,6 @@ initMap(){
 
         var pointsForJson = [
           [this.lat, this.lng],
-
         ];
 
         var userIcon = L.icon(
