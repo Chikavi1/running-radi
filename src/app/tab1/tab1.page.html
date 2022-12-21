@@ -7,14 +7,18 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div id="mapa-running" style="height: 70%;width: 100%;">
 
+  </div>
   <p>Lat: {{lat}}</p>
   <p>Lng: {{lng}}</p>
   <p>Time: {{time}}</p>
+  <p>Distance: {{distance}}</p>
 
   <ion-button (click)="start()">Start</ion-button>
-  <ion-button (click)="guess_location()">Guess</ion-button>
-  <ion-button (click)="delete()">Delete</ion-button>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-button (click)="createCoords()">draw</ion-button>
+  <ion-button (click)="delete()">Terminate</ion-button>
+  <div *ngFor="let item of coords">
+    <p>{{item.x}},{{item.y}}</p>
+  </div>
 </ion-content>
