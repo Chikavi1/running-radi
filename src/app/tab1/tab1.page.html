@@ -1,7 +1,7 @@
 
 <ion-content [fullscreen]="true">
   <p style="text-align: center;">
-    <img src="../../../assets/img/white-logo.png" alt="logo" style="margin-top:1.5em;width: 3.5em;height:3.5em;z-index: 10000;">
+    <img src="../../../assets/img/white-logo.png" alt="logo" style="margin-top:1.9em;width: 3.5em;height:3.5em;z-index: 10000;">
   </p>
   <div id="mapa-running" style="width: 100%; height: 105%;position: relative;margin-top: -12em;z-index: -1;">
 
@@ -11,32 +11,34 @@
 
     <ion-slide >
       <ion-card  style="height: 200px;width: 100%;padding: 1em !important;text-align: left;"  >
-        <p>LatLng: {{lat}} |  {{lng}} | {{coords.length}}</p>
+        <small> {{coords.length}}</small>
         <ion-row style="text-align: center;">
           <ion-col>
             <span>Time:</span>
-            <p>{{time}}</p>
+            <h1>{{time}}</h1>
           </ion-col>
           <ion-col>
             <span>Distance:</span>
-            <p>{{ distance | number : '.2-2' }} km</p>
+            <h1>{{ distance | number : '.2-2' }} km</h1>
           </ion-col>
         </ion-row>
 
-        <ion-button (click)="start()" *ngIf="!isStart" color="success">Start</ion-button>
-        <ion-button (click)="delete()"  *ngIf="isStart" color="warning">Terminate</ion-button>
-        <ion-button (click)="createCoords()">draw</ion-button>
-        <ion-button (click)="getInfo()" *ngIf="isPets">
-          <ion-icon name="paw-outline"></ion-icon>
-        </ion-button>
-        <ion-button (click)="getInfo()" *ngIf="!isPets">
-          <ion-icon name="restaurant-outline"></ion-icon>
-        </ion-button>
+        <ion-row>
+          <ion-col size="9">
+            <ion-button expand="full" (click)="start()" *ngIf="!isStart" color="success">Start</ion-button>
+            <ion-button expand="full" (click)="delete()"  *ngIf="isStart" color="warning">Terminate</ion-button>
+          </ion-col>
+          <ion-col size="3">
+            <ion-button (click)="getInfo()" *ngIf="isPets" color="tertiary">
+              <ion-icon name="paw-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="getInfo()" *ngIf="!isPets"  color="tertiary">
+              <ion-icon name="restaurant-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <!-- <ion-button (click)="createCoords()">draw</ion-button> -->
 
-
-        <div *ngFor="let item of coords">
-          <p>{{item.x}},{{item.y}}</p>
-        </div>
       </ion-card>
 
     </ion-slide>
