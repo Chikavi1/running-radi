@@ -6,6 +6,8 @@ const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("Backg
 import { Geolocation } from '@capacitor/geolocation';
 
 import * as Leaflet from 'leaflet';
+import { ModalController } from '@ionic/angular';
+import { PlacePage } from '../pages/place/place.page';
 declare var L: any;
 
 @Component({
@@ -15,7 +17,10 @@ declare var L: any;
 })
 export class Tab1Page {
 
-  constructor(){
+  constructor(private modalController:ModalController){
+    this.slide = {
+      slidesPerView: 1.1
+    }
   }
 
   lat:any;
@@ -42,6 +47,39 @@ export class Tab1Page {
   oldlng;
 
   distance = 0;
+
+  slide;
+
+  isStart:boolean = false;
+
+  isPets:boolean = true;
+
+  getInfo(){
+    this.isPets = !this.isPets;
+  }
+
+  openModal(){
+    this.presentModal(PlacePage);
+  }
+
+  async presentModal(component) {
+    const modal = await this.modalController.create({
+      component: component,
+      breakpoints: [0.0,0.6, 0.90],
+      initialBreakpoint: 0.6,
+      backdropDismiss:true,
+      swipeToClose​:true,
+      cssClass: 'small-modal'
+    });
+
+    modal.onDidDismiss().then((data) => {
+     if(data['data']){
+
+     }
+
+    });
+    return await modal.present();
+  }
 
   storeCoordinate(xVal, yVal, array) {
 
@@ -70,9 +108,6 @@ export class Tab1Page {
 
   createCoords(){
   this.storeCoordinate(this.lat, this.lng, this.coords);
-  // this.storeCoordinate(19, 1000,  this.coords);
-  // this.storeCoordinate(-300, 4578,  this.coords);
-
   }
 
   float2int (value) {
@@ -103,21 +138,24 @@ date1;
 
         stale: false,
 
-        distanceFilter: 5
+        distanceFilter: 10
     },(data)=>{
 
       // this.addCoordenates(data?.latitude,data?.longitude);
+      this.oldlat = this.lat;
+      this.oldlng = this.lng;
+      this.lat = data?.latitude;
+      this.lng = data?.longitude;
+
       this.storeCoordinate(data?.latitude, data?.longitude, this.coords);
 
 
     }).then((watcher_id) => {
               this.id = watcher_id
 
-    // BackgroundGeolocation.removeWatcher({
-    //     id: watcher_id
-    // });
+              this.isStart = true;
 
-});
+            });
 
 }
 
@@ -146,7 +184,7 @@ delete(){
   BackgroundGeolocation.removeWatcher({id:this.id});
   window.clearInterval(this.interval); // Clear the interval
   this.seconds = 0; // Sets seconds to zero
-  alert('se ha eliminado');
+  this.isStart = false;
 }
 
 ionViewDidEnter(){
@@ -155,15 +193,15 @@ ionViewDidEnter(){
 
 initMap(){
 
+  this.lat = 20.6109151;
+  this.lng = -103.3009833
   Geolocation.watchPosition({},(position,err) => {
     if(position){
-      this.lat = position.coords.latitude;
-      this.lng = position.coords.longitude;
 
 
-  this.mapa = Leaflet.map('mapa-running').setView([this.lat, this.lng], 11);
+  this.mapa = Leaflet.map('mapa-running',{ zoomControl: false}).setView([this.lat, this.lng], 10);
 
-  this.mapa.flyTo([this.lat, this.lng], 18, {
+  this.mapa.flyTo([this.lat, this.lng], 14, {
     animate: true,
     duration: 1.5
 });
