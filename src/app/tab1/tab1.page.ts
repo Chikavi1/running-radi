@@ -10,11 +10,13 @@ const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("Backg
 export class Tab1Page {
 
   constructor(){
-    this.start();
   }
 
   lat:any;
   lng:any;
+
+  last_location:any;
+  id:any;
 
   start(){
 
@@ -42,8 +44,6 @@ export class Tab1Page {
 
 }
 
-last_location:any;
-
 guess_location(){
   BackgroundGeolocation.addWatcher(
       {
@@ -53,8 +53,13 @@ guess_location(){
       function (location) {
         alert(JSON.stringify(location));
       }).then(function (id) {
-        alert(id)
+        this.id = id
       });
+}
+
+delete(){
+  BackgroundGeolocation.removeWatcher({id:this.id});
+  alert('se ha eliminado');
 }
 
 }

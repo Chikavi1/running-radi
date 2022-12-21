@@ -9,7 +9,9 @@
 <ion-content [fullscreen]="true">
   {{lat}},{{lng}}
 
-  <ion-button (click)="guess_location">Guess</ion-button>
+  <ion-button (click)="start()">Start</ion-button>
+  <ion-button (click)="guess_location()">Guess</ion-button>
+  <ion-button (click)="delete()">Delete</ion-button>
 
   <app-explore-container name="Tab 1 page"></app-explore-container>
 </ion-content>
