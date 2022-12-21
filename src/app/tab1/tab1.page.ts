@@ -24,12 +24,12 @@ export class Tab1Page {
 
         stale: false,
 
-        distanceFilter: 0
+        distanceFilter: 1
     },(data)=>{
-      alert(data);
+      alert(JSON.stringify(data));
 
     }).then((watcher_id) => {
-      alert(watcher_id);
+      // alert(watcher_id);
     // BackgroundGeolocation.removeWatcher({
     //     id: watcher_id
     // });
