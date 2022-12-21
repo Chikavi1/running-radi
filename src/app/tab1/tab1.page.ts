@@ -116,7 +116,8 @@ export class Tab1Page {
 
 date1;
 
-  start(){
+start(){
+    this.isStart = true;
 
     this.date1 = new Date();
     this.interval = window.setInterval(() => {
@@ -153,7 +154,6 @@ date1;
     }).then((watcher_id) => {
               this.id = watcher_id
 
-              this.isStart = true;
 
             });
 

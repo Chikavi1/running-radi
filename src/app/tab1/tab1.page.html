@@ -23,9 +23,9 @@
           </ion-col>
         </ion-row>
 
-        <ion-button (click)="start()" *ngIf="!isStart">Start</ion-button>
+        <ion-button (click)="start()" *ngIf="!isStart" color="success">Start</ion-button>
+        <ion-button (click)="delete()"  *ngIf="isStart" color="warning">Terminate</ion-button>
         <ion-button (click)="createCoords()">draw</ion-button>
-        <ion-button (click)="delete()"  *ngIf="!isStart">Terminate</ion-button>
         <ion-button (click)="getInfo()" *ngIf="isPets">
           <ion-icon name="paw-outline"></ion-icon>
         </ion-button>
