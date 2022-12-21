@@ -26,7 +26,7 @@
         <ion-row>
           <ion-col size="9">
             <ion-button expand="full" (click)="start()" *ngIf="!isStart" color="success">Start</ion-button>
-            <ion-button expand="full" (click)="delete()"  *ngIf="isStart" color="warning">Terminate</ion-button>
+            <ion-button expand="full" (click)="presentAlert()"  *ngIf="isStart" color="warning">Terminate</ion-button>
           </ion-col>
           <ion-col size="3">
             <ion-button (click)="getInfo()" *ngIf="isPets" color="tertiary">
@@ -43,7 +43,7 @@
 
     </ion-slide>
     <ion-slide *ngFor="let item of [1,1,1,1,1,1,1,1,1,1]">
-      <ion-card  style="height: 200px;width: 100%;padding: 1em !important;text-align: left;" (click)="openModal()"  >
+      <ion-card  style="height: 200px;width: 100%;padding: 1em !important;text-align: left;"   >
         <ion-row>
           <ion-col>
             <img src="../../../assets/img/white-logo.png" style="width: 6em;height:6em;" alt="">
@@ -51,12 +51,29 @@
           <ion-col>
             <p>Chaval 1</p>
             <p>Perdido desde ayer</p>
-            <ion-button  fill="clear">Ver más</ion-button>
+            <ion-button  fill="clear" (click)="openModal()">Ver más</ion-button>
+            <ion-button  fill="clear" (click)="verenMapa(20.616887, -103.320087)">Ver en mapa</ion-button>
+
           </ion-col>
         </ion-row>
       </ion-card>
 
     </ion-slide>
-  </ion-slides>
+  <ion-slide >
+    <ion-card  style="height: 200px;width: 100%;padding: 1em !important;text-align: left;" >
+      <ion-row>
+        <ion-col>
+          <img src="../../../assets/img/white-logo.png" style="width: 6em;height:6em;" alt="">
+        </ion-col>
+        <ion-col>
+          <p>Ver más</p>
+          <p>Ya no hay más</p>
+          <ion-button  fill="clear">Ver más</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+  </ion-slide>
+</ion-slides>
 
 </ion-content>

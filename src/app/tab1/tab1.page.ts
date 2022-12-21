@@ -6,7 +6,7 @@ const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("Backg
 import { Geolocation } from '@capacitor/geolocation';
 
 import * as Leaflet from 'leaflet';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { PlacePage } from '../pages/place/place.page';
 import { StartPage } from '../pages/start/start.page';
 declare var L: any;
@@ -18,7 +18,7 @@ declare var L: any;
 })
 export class Tab1Page {
 
-  constructor(private modalController:ModalController){
+  constructor(private modalController:ModalController,private alertController:AlertController){
     this.slide = {
       slidesPerView: 1.1
     }
@@ -144,6 +144,26 @@ start(){
   this.presentModalStart(StartPage);
 
 }
+marker;
+verenMapa(lat,lng){
+  var homeICon = L.icon(
+    {
+      iconUrl:  'https://i.ibb.co/d59mYxn/wanted.png',
+      iconSize:     [31, 31], // size of the icon
+    });
+
+  if(this.marker){
+    this.mapa.removeLayer(this.marker);
+  }
+  this.marker =  Leaflet.marker([lat,lng],{icon: homeICon}).addTo(this.mapa).bindPopup('Tu Ubicación');
+
+
+//  this.marker = Leaflet.marker([lat,lng,{draggable: true,icon: homeICon}]).addTo(this.mapa).bindPopup('Business ');
+  this.mapa.flyTo([lat, lng], 18, {
+    animate: true,
+    duration: 1.5
+});
+}
 
 runGeolocation(){
   this.isStart = true;
@@ -205,8 +225,34 @@ getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   return d.toFixed(2);
 }
 
+async presentAlert() {
+  const alert = await this.alertController.create({
+    header: '¿estas seguro?',
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+        handler: () => {
+        },
+      },
+      {
+        text: 'Si,Terminar',
+        role: 'confirm',
+        handler: () => {
 
-delete(){
+          this.terminate();
+
+        },
+      },
+    ],
+  });
+
+  await alert.present();
+
+  const { role } = await alert.onDidDismiss();
+}
+
+terminate(){
   BackgroundGeolocation.removeWatcher({id:this.id});
   window.clearInterval(this.interval); // Clear the interval
   this.seconds = 0; // Sets seconds to zero
@@ -253,7 +299,7 @@ initMap(){
             iconSize:     [31, 31], // size of the icon
           });
 
-    Leaflet.marker([this.lat,this.lng],{draggable: true,icon: userIcon}).on('dragend', e => this.procesar(e) ).addTo(this.mapa).bindPopup('Tu Ubicación');
+    // Leaflet.marker([this.lat,this.lng],{draggable: true,icon: userIcon}).on('dragend', e => this.procesar(e) ).addTo(this.mapa).bindPopup('Tu Ubicación');
 
     Leaflet.tileLayer('https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga', {
           zoom: 8,
