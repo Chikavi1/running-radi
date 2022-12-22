@@ -3,56 +3,60 @@
     <div style="padding: 1em;">
 
       <img src="../../../assets/img/white-logo.png" alt="logo" style="margin-top:1.9em;width: 3.5em;height:3.5em;z-index: 10000;">
-      <h1 style="font-weight: bold;">¡Felicidades,has terminado Luis!</h1>
+      <h1 style="font-weight: bold;">¡Felicidades, has terminado!</h1>
       <p>
-        21/12/2012
+        {{ today | date:'fullDate' }}
       </p>
       <h3>
-        ¡Recorriste 14.02 KM!
+        ¡Recorriste {{distance}} KM!
       </h3>
     </div>
   </div>
 
   <ion-card style="padding: 1em;">
-    <h1>Números</h1>
+    <h1>Datos</h1>
     <ion-row>
       <ion-col size="6">
         Distancia
       </ion-col>
       <ion-col size="6">
-        14.02 KM
+        {{distance}} KM
       </ion-col>
       <ion-col size="6">
         Tiempo
       </ion-col>
       <ion-col size="6">
-        34.64 min
+        {{time}} min
       </ion-col>
-      <ion-col size="6">
+      <!-- <ion-col size="6">
         KM/H
       </ion-col>
       <ion-col size="6">
         28.04 KM/H
-      </ion-col>
+      </ion-col> -->
     </ion-row>
   </ion-card>
   <ion-slides [options]="slide" >
     <ion-slide *ngFor="let item of [1,1]">
       <ion-card  style="padding: 1em;width: 100%;">
         <h4>Comportamiento de Radi</h4>
-        <h1>😞 😡 😐 😊 </h1>
+          <ion-chip [ngClass]="{'selected' : behavior == 1 }"  (click)="setBehavior(1)">😞</ion-chip>
+          <ion-chip [ngClass]="{'selected' : behavior == 2 }"  (click)="setBehavior(2)">😡</ion-chip>
+          <ion-chip [ngClass]="{'selected' : behavior == 3 }"  (click)="setBehavior(3)">😐</ion-chip>
+          <ion-chip [ngClass]="{'selected' : behavior == 4 }"  (click)="setBehavior(4)">😊</ion-chip>
+
         <p>¿Hizo del baño?</p>
         <ion-row>
           <ion-col>
-            <ion-chip [ngClass]="{'selected' : recommend == 1 }"  (click)="setRecommend(1)">Si</ion-chip>
-            <ion-chip [ngClass]="{'selected' : recommend == 2 }"  (click)="setRecommend(2)">No</ion-chip>
+            <ion-chip [ngClass]="{'selected' : pooped == 1 }"  (click)="setPooped(1)">Si</ion-chip>
+            <ion-chip [ngClass]="{'selected' : pooped == 2 }"  (click)="setPooped(2)">No</ion-chip>
           </ion-col>
         </ion-row>
         <p>¿Tomo agua?</p>
         <ion-row>
           <ion-col>
-            <ion-chip [ngClass]="{'selected' : recommend == 1 }"  (click)="setRecommend(1)">Si</ion-chip>
-            <ion-chip [ngClass]="{'selected' : recommend == 2 }"  (click)="setRecommend(2)">No</ion-chip>
+            <ion-chip [ngClass]="{'selected' : water == 1 }"  (click)="setWater(1)">Si</ion-chip>
+            <ion-chip [ngClass]="{'selected' : water == 2 }"  (click)="setWater(2)">No</ion-chip>
           </ion-col>
         </ion-row>
 
@@ -61,5 +65,5 @@
   </ion-slides>
 </ion-content>
 <ion-footer>
-  <ion-button color="success" expand="full" (click)="showRewardVideo()">siguiente</ion-button>
+  <ion-button color="success" expand="full" (click)="showRewardVideo()">Siguiente</ion-button>
 </ion-footer>

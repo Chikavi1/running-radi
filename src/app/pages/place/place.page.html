@@ -1,7 +1,289 @@
 <ion-content>
-  <div style="padding: 1em;">
-    <img src="../../../assets/img/white-logo.png" style="width: 6em;height:6em;" alt="">
-    <p>Chaval 1</p>
-    <p>Perdido desde ayer</p>
+
+<ion-row>
+  <ion-col [size]="device=='tablet'?10:12" [offset]="device=='tablet'?1:0">
+    <img [src]="place.image" style="width: 100%;" alt="place image">
+    <div style="padding: 1.8em;">
+      <h2 style="font-weight: 400;">{{place.title}}
+        <ion-icon *ngIf="place.verified" style="color: #11a525;" name="checkmark-circle-outline">
+        </ion-icon>
+    </h2>
+    <small *ngIf="place.place == 1">{{ 'place.restaurant' | translate }}</small>
+    <small *ngIf="place.place == 2">{{ 'place.hotel' | translate }}</small>
+    <small *ngIf="place.place == 3">{{ 'place.park' | translate }}</small>
+    <small *ngIf="place.place == 4">{{ 'place.beach' | translate }}</small>
+
+      <p><ion-icon name="pin-outline"></ion-icon>{{place.city}}</p>
+      <!-- <ion-chip color="success">
+        <span *ngIf="place.type == 1">
+          Tematico
+        </span>
+      </ion-chip> -->
+      <ion-chip color="success" *ngIf="place.food_pets">{{ 'place.food_special' | translate }}</ion-chip>
+    <p style="font-size: 1.66em;">
+      <span *ngIf="place.facebook_url">
+        <ion-icon  name="logo-facebook" (click)="openUrl(place.facebook_url)"></ion-icon>
+      </span>
+      <span *ngIf="place.instagram_url">
+        <ion-icon name="logo-instagram" (click)="openUrl(place.instagram_url)"></ion-icon>
+      </span>
+    </p>
+
+    <p style="color:orangered;font-weight: bold;" >
+      <ion-icon name="alert-circle-outline" ></ion-icon>
+      {{ 'place.infoimportant' | translate }}
+    </p>
+    <div *ngIf="place.notes">
+      {{place.notes}}
+    </div>
+    <div *ngIf="!place.notes">
+      {{ 'place.notesdefault' | translate }}
+    </div>
+
+      <ion-item-divider mode="md"> </ion-item-divider>
+
+      <h2>{{ 'place.description' | translate }}</h2>
+      <p>{{ place.description }}</p>
+      <div *ngIf="place.schedule">
+
+        <h2>{{ 'place.schedule' | translate }}</h2>
+        <ion-row>
+          <ion-col size="6">Lunes</ion-col>
+          <ion-col  size="6">
+            <span  *ngIf="monday_start != '00:00' && monday_end != '00:00'">
+              {{ monday_start }} – {{monday_end}}
+            </span>
+            <span *ngIf="monday_start == '00:00' && monday_end == '00:00'">
+              {{ 'place.break' | translate }}
+            </span>
+          </ion-col>
+          <ion-col  size="6">Martes</ion-col>
+          <ion-col  size="6">
+            <span  *ngIf="tuesday_start != '00:00' && tuesday_end != '00:00'">
+              {{tuesday_start}}–{{tuesday_end}}
+            </span>
+            <span *ngIf="tuesday_start == '00:00' && tuesday_end == '00:00'">
+              {{ 'place.break' | translate }}
+            </span>
+          </ion-col>
+        <ion-col  size="6">Miercoles</ion-col>
+        <ion-col  size="6">
+          <span  *ngIf="wednesday_start != '00:00' && wednesday_end != '00:00'">
+            {{wednesday_start}}–{{wednesday_end}}
+          </span>
+          <span *ngIf="wednesday_start == '00:00' && wednesday_end == '00:00'">
+            {{ 'place.break' | translate }}
+          </span>
+        </ion-col>
+        <ion-col  size="6">Jueves</ion-col>
+        <ion-col  size="6">
+          <span  *ngIf="thursday_start != '00:00' && thursday_end != '00:00'">
+            {{thursday_start}}–{{thursday_end}}
+          </span>
+          <span *ngIf="thursday_start == '00:00' && thursday_end == '00:00'">
+            {{ 'place.break' | translate }}
+          </span>
+
+        </ion-col>
+        <ion-col  size="6">Viernes</ion-col>
+        <ion-col  size="6">
+          <span  *ngIf="friday_start != '00:00' && friday_end != '00:00'">
+            {{friday_start}}–{{friday_end}}
+          </span>
+          <span *ngIf="friday_start == '00:00' && friday_end == '00:00'">
+            {{ 'place.break' | translate }}
+          </span>
+        </ion-col>
+        <ion-col  size="6">Sabado</ion-col>
+        <ion-col  size="6">
+          <span  *ngIf="saturday_start != '00:00' && saturday_end != '00:00'">
+            {{saturday_start}}–{{saturday_end}}
+          </span>
+          <span *ngIf="saturday_start == '00:00' && saturday_end == '00:00'">
+            {{ 'place.break' | translate }}
+          </span>
+        </ion-col>
+        <ion-col  size="6">Domingo</ion-col>
+        <ion-col  size="6">
+          <span  *ngIf="sunday_start != '00:00' && sunday_end != '00:00'">
+            {{sunday_start}}–{{sunday_end}}
+          </span>
+          <span *ngIf="sunday_start == '00:00' && sunday_end == '00:00'">
+            {{ 'place.break' | translate }}
+          </span>
+
+        </ion-col>
+      </ion-row>
+     </div>
+
+     <div (click)="adClick()">
+      <img src="https://i.ibb.co/S6YdkpJ/ads-Radi-1.png" alt="anuncion">
+    </div>
+
+     <div *ngIf="place.menu">
+       <h2>{{ 'place.menu' | translate }}</h2>
+       <img style="border-radius:1em;" [src]="place.menu" alt="menu" (click)="openMenu()">
+       <p style="color: rgb(111, 108, 108);"><ion-icon name="alert-circle-outline" ></ion-icon>{{ 'place.menuclick' | translate }} </p>
+      </div>
+
+
+      <ion-card style="padding:1em;background-color:#030284;color:white">
+        <p style="font-weight: bold;font-size:1.5em;">{{ 'place.moreinfo' | translate }} <span style="text-transform:lowercase;">{{ place.title }}</span> </p>
+        <p *ngIf="place.payments_card"><ion-icon name="checkmark-outline"></ion-icon> {{ 'place.acceptcard' | translate }} </p>
+        <p *ngIf="!place.payments_card"><ion-icon name="checkmark-outline"></ion-icon>{{ 'place.onlycash' | translate }}</p>
+        <div *ngIf="place.payments_card">
+          <ul> {{place.payment_methods}}</ul>
+        </div>
+
+        <p *ngIf="place.parking"><ion-icon name="checkmark-outline"></ion-icon>{{ 'place.yesparking' | translate }} </p>
+        <p *ngIf="!place.parking" ><ion-icon name="remove-outline"></ion-icon>{{ 'place.noparking' | translate }}  </p>
+
+        <p *ngIf="place.wifi"><ion-icon name="checkmark-outline"></ion-icon> {{ 'place.yeswifi' | translate }}</p>
+        <p *ngIf="!place.wifi" ><ion-icon name="remove-outline"></ion-icon>{{ 'place.nowifi' | translate }} </p>
+
+        <p *ngIf="place.people == 1"><ion-icon name="checkmark-outline"></ion-icon>{{ 'place.withfamily' | translate }} </p>
+        <p *ngIf="place.people == 2" ><ion-icon name="remove-outline"></ion-icon>{{ 'place.withfriends' | translate }} </p>
+
+        <p *ngIf="place.accessibility == 1"><ion-icon name="checkmark-outline"></ion-icon>{{ 'place.weelchair' | translate }} </p>
+        <p *ngIf="place.enviroment == 1"><ion-icon name="checkmark-outline"></ion-icon>{{ 'place.rooftop' | translate }} </p>
+
+      </ion-card>
+
+
+      <div *ngIf="user_id" >
+
+        <h2>{{ 'place.check' | translate }}</h2>
+        <ion-card>
+          <img style="width: 100%" alt="Silhouette of mountains" src="../../../assets/radilogo.png" />
+          <ion-card-header>
+            <ion-card-title>{{ 'place.checkin' | translate }}</ion-card-title>
+        <ion-card-subtitle>{{ 'place.checkinhere' | translate }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-button fill="clear" expand="full" (click)="goToPage('/place-check')">{{ 'place.todo' | translate }}</ion-button>
+      </ion-card-content>
+      </ion-card>
+      </div>
+
+      <ion-item-divider mode="md">
+      </ion-item-divider>
+
+      <h2>{{ 'place.reviews' | translate }}</h2>
+
+      <ion-row *ngIf="reviews.length != 0">
+        <ion-col size="10">
+          <h1 style="font-size: 2.9em;"> {{ (total_score/reviews.length)/2 | number : '.1-1' }}/5,0</h1>
+          <p>
+            <ion-icon *ngIf="(total_score/2) >= 1" style="color:#eab728" name="star"></ion-icon>
+            <ion-icon *ngIf="(total_score/2) >= 2" style="color:#eab728" name="star"></ion-icon>
+            <ion-icon *ngIf="(total_score/2) >= 3" style="color:#eab728" name="star"></ion-icon>
+            <ion-icon *ngIf="(total_score/2) >= 4" style="color:#eab728" name="star"></ion-icon>
+            <ion-icon *ngIf="(total_score/2) >= 5" style="color:#eab728" name="star"></ion-icon>
+            <ion-icon *ngIf="((total_score/2) * 10 % 10 /10) >= 0.5" style="color:#eab728" name="star-half"></ion-icon>
+          </p>
+
+          <h5>{{ 'place.basedon' | translate }} <span style="font-weight: bold;">{{ reviews.length }} {{ 'place.reviews' | translate }}</span> </h5>
+        </ion-col>
+        <!-- <ion-col size="6">
+         <p>Sabor  <ion-progress-bar color="warning" [value]="(((attention*100)/(reviews.length*10))/100)"></ion-progress-bar></p>
+         <p>Entorno <ion-progress-bar color="warning" [value]="(((cleaning*100)/(reviews.length*10))/100)"></ion-progress-bar></p>
+         <p>Atención <ion-progress-bar color="warning" [value]="(((puntuality*100)/(reviews.length*10))/100)"></ion-progress-bar></p>
+        </ion-col> -->
+      </ion-row>
+
+
+      <ion-slides  [options]="slideOpts">
+        <ion-slide *ngFor="let review of reviews" >
+          <ion-card (click)="presentReview(review)" style="height: 17em;min-height: 17em;max-height: 17em;border-radius: 1em;width: 100% !important;min-width: 100% !important;">
+            <ion-card-header>
+              <ion-row>
+                <ion-col size="3">
+                  <img style="width:3em;height:3em;border-radius: 50%;" [src]="review.user_photo" alt="{{review.user_name}}">
+                </ion-col>
+                <ion-col size="9">
+                  <ion-card-title style="font-weight: 700;text-align: left;">
+                    <span>{{review.user_name }}</span>
+                   </ion-card-title>
+                   <ion-card-subtitle>
+                     <p style="text-align: left;">{{review.date | date:'dd/MM/yy'}}</p>
+                    <p style="margin-top:-.1em;vertical-align: middle;text-align: left;color:#eab728
+                  ">{{ review.score/2 }} / 5 </p>
+                    </ion-card-subtitle>
+                  </ion-col>
+                </ion-row>
+              </ion-card-header>
+
+              <ion-card-content >
+                <div style="text-align: left;">
+                  <p  class="truncate">{{ review.comments }}</p>
+                  <div *ngIf="review.reply">
+                    <p style="margin-top:.91em;font-weight: bold;">{{ 'place.replyestablishment' | translate }}</p>
+                    <p style="font-size: .85em" class="truncate">{{ review.reply }}</p>
+                  </div>
+                </div>
+          </ion-card-content>
+        </ion-card>
+        </ion-slide>
+      </ion-slides>
+
+      <div *ngIf="reviews.length === 0">
+        <h4 class="text-center">{{ 'vets.noreviews' | translate }}</h4>
+      </div>
+
+      <ion-button *ngIf="user_id" fill="clear" expand="full" (click)="goReviewCreate()">{{ 'place.leavereview' | translate }}</ion-button>
+
+      <ion-item-divider mode="md">
+      </ion-item-divider>
+
+
+      <h2>{{ 'place.location' | translate }}</h2>
+      <div id="mapId" #leafletMap style="width: 100%; height: 30em;border-radius: 2em !important;">
+      </div>
+      <ion-row>
+        <ion-col size="10">
+          <p>{{ place.address }}</p>
+        </ion-col>
+        <ion-col size="2">
+          <h1 (click)="copyText(place.address)">
+            <ion-icon name="copy-outline"></ion-icon>
+          </h1>
+        </ion-col>
+      </ion-row>
+
+    </div>
+  </ion-col>
+
+  <div  (click)="adClick()">
+    <img src="https://i.ibb.co/S6YdkpJ/ads-Radi.png" alt="anuncion">
   </div>
+
+</ion-row>
+
+
+
 </ion-content>
+<ion-footer>
+<ion-row>
+  <ion-col [size]="device=='tablet'?10:12" [offset]="device=='tablet'?1:0">
+    <ion-row>
+      <ion-col [size]="device=='tablet'?10:8">
+        <ion-button (click)="openUrl(place.google_link)" style="background-color: #4285f4 !important;" expand="full">
+          <ion-icon name="logo-google"></ion-icon>{{ 'place.maps' | translate }}
+        </ion-button>
+      </ion-col>
+      <ion-col [size]="device=='tablet'?1:2">
+        <ion-button color="dark" (click)="call(place.cellphone)">
+          <ion-icon name="call-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col [size]="device=='tablet'?1:2">
+        <ion-button  color="dark"  (click)="options()">
+          <ion-icon  name="ellipsis-horizontal-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-col>
+</ion-row>
+
+</ion-footer>

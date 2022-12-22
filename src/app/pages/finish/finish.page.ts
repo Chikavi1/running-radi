@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdMob,RewardAdOptions,RewardAdPluginEvents,AdMobRewardItem } from '@capacitor-community/admob';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-finish',
@@ -7,14 +8,24 @@ import { AdMob,RewardAdOptions,RewardAdPluginEvents,AdMobRewardItem } from '@cap
   styleUrls: ['./finish.page.scss'],
 })
 export class FinishPage implements OnInit {
-  recommend;
   slide;
 
-  constructor() {
+  behavior;
+  pooped;
+  water;
+
+  today;
+  distance;
+  time;
+  id_pet;
+
+  constructor(private modalCtrl:ModalController) {
     this.initialize();
+    this.today = new Date();
    }
 
   ngOnInit() {
+    console.log(this.distance,this.time,this.id_pet)
   }
 
   async initialize(){
@@ -29,8 +40,16 @@ export class FinishPage implements OnInit {
 
   }
 
-  setRecommend(s){
+  setPooped(s){
+    this.pooped = s;
+  }
 
+  setWater(s){
+    this.water = s;
+  }
+
+  setBehavior(s){
+    this.behavior = s;
   }
 
   async showRewardVideo(){
@@ -38,6 +57,7 @@ export class FinishPage implements OnInit {
       RewardAdPluginEvents.Rewarded,
       (reward: AdMobRewardItem) => {
         console.log('REWARD: ',reward);
+        this.modalCtrl.dismiss();
       }
     )
     const options: RewardAdOptions = {

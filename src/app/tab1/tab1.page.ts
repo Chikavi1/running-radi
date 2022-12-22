@@ -139,6 +139,11 @@ export class Tab1Page {
   async presentModalComplete(component) {
     const modal = await this.modalController.create({
       component: component,
+      componentProps:{
+        distance: this.distance,
+        time: this.time,
+        id_pet: 1
+      },
       breakpoints: [0.0,1],
       initialBreakpoint: 1,
       backdropDismiss:true,
@@ -159,6 +164,9 @@ export class Tab1Page {
   async presentModalShow(component) {
     const modal = await this.modalController.create({
       component: component,
+      componentProps:{
+        id: 1
+      },
       breakpoints: [0.0,0.6, 0.90],
       initialBreakpoint: 0.6,
       backdropDismiss:true,

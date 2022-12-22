@@ -10,6 +10,7 @@ export class StartPage implements OnInit {
 
   constructor(private modalCtrl:ModalController) { }
   step = 1;
+  pet_selected;
   ngOnInit() {
   }
 
