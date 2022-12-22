@@ -20,6 +20,7 @@ declare var L: any;
 export class Tab1Page {
 
   constructor(private modalController:ModalController,private alertController:AlertController){
+    this.items = this.pets;
     this.slide = {
       slidesPerView: 1.1
     }
@@ -56,8 +57,78 @@ export class Tab1Page {
 
   isPets:boolean = true;
 
+
+  places:any = [
+    {
+      "image": "https://i.ibb.co/6rKNjzg/coffee.jpg",
+      "title": "Coffe and Pets",
+      "subtitle":"subtitle",
+      "latitude": "20.614203",
+      "longitude": "-103.316067"
+    },
+    {
+      "image": "https://i.ibb.co/F70nS9B/Whats-App-Image-2022-12-01-at-11-49-28-AM.jpg",
+      "title": "Petunia",
+      "subtitle":"subtitle",
+      "latitude": "20.615820",
+      "longitude": "-103.304319"
+    },
+    {
+      "image": "https://i.ibb.co/B3fT3KP/image.png",
+      "title": "Urbana Gourmet",
+      "subtitle":"subtitle",
+      "latitude": "20.638449",
+      "longitude": "-103.311984"
+    },
+    {
+      "image": "https://i.ibb.co/fNQDTY5/image.png",
+      "title": "Bendigo Cage",
+      "subtitle":"subtitle",
+      "latitude": "20.643959",
+      "longitude": " -103.318934"
+    }
+  ];
+  items:any;
+
+  pets:any = [
+    {
+      "image": "https://i.ibb.co/44dMw7K/083bb445cf89.png",
+      "title": "pelusa",
+      "subtitle":"20/12/2022",
+      "latitude": "20.620491",
+      "longitude": "-103.315560"
+    },
+    {
+      "image": "https://i.ibb.co/zFfYCLs/e35946d2b404.png",
+      "title": "Corki",
+      "subtitle":"18/12/2022",
+      "latitude": "20.614200",
+      "longitude": "-103.316471"
+    },
+    {
+      "image": "https://i.ibb.co/Twpwrqd/734347785ffa.png",
+      "title": "pulguitas",
+      "subtitle":"17/12/2022",
+      "latitude": "20.625732",
+      "longitude": "-103.310321"
+    },
+    {
+      "image": "https://i.ibb.co/zSM7JRJ/09615e6fd7dc.png",
+      "title": "Fok",
+      "subtitle":"14/12/2022",
+      "latitude": "20.626997",
+      "longitude": "-103.307285"
+    }
+  ]
+
   getInfo(){
     this.isPets = !this.isPets;
+    if(this.isPets){
+      this.items = this.pets;
+    }else{
+      this.items = this.places;
+
+    }
   }
 
   openModal(){

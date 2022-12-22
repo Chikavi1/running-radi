@@ -12,7 +12,10 @@
     <ion-slide >
       <ion-card  style="height: 200px;width: 100%;padding: 1em !important;text-align: left;"  >
         <small> {{coords.length}}</small>
-        <ion-row style="text-align: center;">
+        <div *ngIf="!isStart">
+          <p><ion-icon name="alert-circle-outline"></ion-icon> Mientras sales a pasear, ayuda a las personas a encontrar a su mascota o puedes mirar lugares pet friendly cerca de por donde andas.</p>
+        </div>
+        <ion-row style="text-align: center;" *ngIf="isStart">
           <ion-col>
             <span>Time:</span>
             <h1>{{time}}</h1>
@@ -25,15 +28,15 @@
 
         <ion-row>
           <ion-col size="9">
-            <ion-button expand="full" (click)="start()" *ngIf="!isStart" color="success">Start</ion-button>
-            <ion-button expand="full" (click)="presentAlert()"  *ngIf="isStart" color="warning">Terminate</ion-button>
+            <ion-button expand="full" (click)="start()" *ngIf="!isStart" color="success">Comenzar</ion-button>
+            <ion-button expand="full" (click)="presentAlert()"  *ngIf="isStart" color="warning">Terminar</ion-button>
           </ion-col>
           <ion-col size="3">
             <ion-button (click)="getInfo()" *ngIf="isPets" color="tertiary">
-              <ion-icon name="paw-outline"></ion-icon>
+              <ion-icon name="restaurant-outline"></ion-icon>
             </ion-button>
             <ion-button (click)="getInfo()" *ngIf="!isPets"  color="tertiary">
-              <ion-icon name="restaurant-outline"></ion-icon>
+              <ion-icon name="paw-outline"></ion-icon>
             </ion-button>
           </ion-col>
         </ion-row>
@@ -42,18 +45,24 @@
       </ion-card>
 
     </ion-slide>
-    <ion-slide *ngFor="let item of [1,1,1,1,1,1,1,1,1,1]">
+    <ion-slide *ngFor="let item of items">
       <ion-card  style="height: 200px;width: 100%;padding: 1em !important;text-align: left;"   >
         <ion-row>
           <ion-col>
-            <img src="../../../assets/img/white-logo.png" style="width: 6em;height:6em;" alt="">
+            <img [src]="item.image" style="width: 6em;height:6em;" alt="">
           </ion-col>
           <ion-col>
-            <p>Chaval 1</p>
-            <p>Perdido desde ayer</p>
-            <ion-button  fill="clear" (click)="openModal()">Ver más</ion-button>
-            <ion-button  fill="clear" (click)="verenMapa(20.616887, -103.320087)">Ver en mapa</ion-button>
+            <p>{{item.title}}</p>
+            <p>{{item.subtitle}}</p>
 
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button  fill="clear" (click)="openModal()">Ver más</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button  fill="clear" (click)="verenMapa(item.latitude,item.longitude)">Ver en mapa</ion-button>
           </ion-col>
         </ion-row>
       </ion-card>
