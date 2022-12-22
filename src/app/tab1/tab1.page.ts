@@ -9,6 +9,7 @@ import * as Leaflet from 'leaflet';
 import { AlertController, ModalController } from '@ionic/angular';
 import { PlacePage } from '../pages/place/place.page';
 import { StartPage } from '../pages/start/start.page';
+import { FinishPage } from '../pages/finish/finish.page';
 declare var L: any;
 
 @Component({
@@ -63,6 +64,26 @@ export class Tab1Page {
     this.presentModalShow(PlacePage);
   }
 
+
+  async presentModalComplete(component) {
+    const modal = await this.modalController.create({
+      component: component,
+      breakpoints: [0.0,1],
+      initialBreakpoint: 1,
+      backdropDismiss:true,
+      swipeToClose​:true,
+      cssClass: 'small-modal'
+    });
+
+    modal.onDidDismiss().then((data) => {
+     if(data['data']){
+
+
+     }
+
+    });
+    return await modal.present();
+  }
 
   async presentModalShow(component) {
     const modal = await this.modalController.create({
@@ -257,6 +278,8 @@ terminate(){
   window.clearInterval(this.interval); // Clear the interval
   this.seconds = 0; // Sets seconds to zero
   this.isStart = false;
+
+  this.presentModalComplete(FinishPage);
 }
 
 ionViewDidEnter(){
