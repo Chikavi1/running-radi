@@ -10,4 +10,6 @@
  <string name="capacitor_background_geolocation_notification_icon">
         drawable/ic_tracking
     </string>
+    <string name="admob_app_id">ca-app-pub-7789760036582954~4462805879</string>
+
 </resources>
