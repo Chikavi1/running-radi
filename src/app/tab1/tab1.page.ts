@@ -167,7 +167,7 @@ export class Tab1Page {
       componentProps:{
         id: 1
       },
-      breakpoints: [0.0,0.6, 0.90],
+      breakpoints: [0.0,0.6, 1],
       initialBreakpoint: 0.6,
       backdropDismiss:true,
       swipeToClose​:true,

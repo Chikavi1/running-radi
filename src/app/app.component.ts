@@ -14,5 +14,7 @@ export class AppComponent {
     let language = localStorage.getItem('language')?localStorage.getItem('language'):'en';
     this.translateService.setDefaultLang(language);
     this.translateService.addLangs(['en','es']);
+    localStorage.setItem('sandbox','true')
+
   }
 }
