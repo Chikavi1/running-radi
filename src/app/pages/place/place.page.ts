@@ -159,6 +159,10 @@ export class PlacePage implements OnInit {
 
   }
 
+  close(){
+    this.modalController.dismiss();
+  }
+
   presentReview(review){
     // this.presentSmallModal(PlaceReviewPage,review);
   }

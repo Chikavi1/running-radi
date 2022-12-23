@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent {
   constructor(      private translateService: TranslateService,
     private router:Router    ) {
-    // this.router.navigateByUrl('/finish');
+    // this.router.navigateByUrl('/run-show');
     let language = localStorage.getItem('language')?localStorage.getItem('language'):'en';
     this.translateService.setDefaultLang(language);
     this.translateService.addLangs(['en','es']);

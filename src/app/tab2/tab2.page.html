@@ -1,17 +1,62 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <ion-header collapse="condense" style="margin-top: 4em;">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Descubre</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <div style="padding: 2em;">
+    <h1>Actividad</h1>
+    <h2>Ultimos registros</h2>
+
+    <ion-slides  [options]="slide" >
+
+      <ion-slide *ngFor="let item of [1,1,1,1,1,1]" style="text-align: left;">
+        <ion-card style="padding:2em;" (click)="goToPage('run-show')">
+          <h3>20/12/2022 12:20 PM </h3>
+          <h2>5.65 KM  &#x2022; 45:60 Min</h2>
+        </ion-card>
+
+      </ion-slide>
+    </ion-slides>
+
+    <ion-item-divider mode="md"> </ion-item-divider>
+
+
+    <h1>Cerca de ti</h1>
+
+    <h2>Mascotas desaparecidas</h2>
+
+    <ion-slides  [options]="slidePets">
+      <ion-slide  *ngFor="let item of [1,1,1,1,1,1]" style="text-align: left;" (click)="goToPage('place')">
+       <ion-card style="text-align: left;margin-left: 1.5em;border-radius: 1em;width: 100%;">
+          <img  class="border-radius-img" src="https://i.ibb.co/zSM7JRJ/09615e6fd7dc.png" style="width:100%;object-fit: cover;min-height: 18em;max-height: 18em;height: 18em;">
+          <div style="padding:1em;">
+            <p style="font-weight: 800;" class="capitalize">Nombre <br>
+              <span style="font-weight: 300;">2 Km</span> </p>
+          </div>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+
+    <h2>Lugares Pet Friendly cerca de ti</h2>
+
+    <ion-slides  [options]="slidePets">
+      <ion-slide  *ngFor="let item of [1,1,1,1,1,1]" style="text-align: left;" (click)="goToPage('place')">
+       <ion-card style="text-align: left;margin-left: 1.5em;border-radius: 1em;width: 100%;">
+          <img  class="border-radius-img" src="https://i.ibb.co/F70nS9B/Whats-App-Image-2022-12-01-at-11-49-28-AM.jpg" style="width:100%;object-fit: cover;min-height: 18em;max-height: 18em;height: 18em;">
+          <div style="padding:1em;">
+            <p style="font-weight: 800;" class="capitalize">Petunia<br>
+              <span style="font-weight: 300;">2 Km</span> </p>
+          </div>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+
+    <ion-item-divider mode="md"> </ion-item-divider>
+
+    <h2>Sugerencias</h2>
+
+  </div>
+
 </ion-content>

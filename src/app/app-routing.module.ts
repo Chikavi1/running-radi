@@ -17,6 +17,10 @@ const routes: Routes = [
   {
     path: 'finish',
     loadChildren: () => import('./pages/finish/finish.module').then( m => m.FinishPageModule)
+  },
+  {
+    path: 'run-show',
+    loadChildren: () => import('./pages/run-show/run-show.module').then( m => m.RunShowPageModule)
   }
 ];
 @NgModule({

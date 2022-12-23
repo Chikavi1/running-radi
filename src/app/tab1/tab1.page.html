@@ -48,11 +48,11 @@
     <ion-slide *ngFor="let item of items">
       <ion-card  style="height: 200px;width: 100%;padding: 1em !important;text-align: left;"   >
         <ion-row>
-          <ion-col>
-            <img [src]="item.image" style="width: 6em;height:6em;" alt="">
+          <ion-col size="5">
+            <img [src]="item.image" alt="image" style="border-radius: .5em;">
           </ion-col>
-          <ion-col>
-            <p>{{item.title}}</p>
+          <ion-col size="7">
+            <p style="font-weight: bold;text-transform: capitalize;">{{item.title}}</p>
             <p>{{item.subtitle}}</p>
 
           </ion-col>
@@ -71,10 +71,10 @@
   <ion-slide >
     <ion-card  style="height: 200px;width: 100%;padding: 1em !important;text-align: left;" >
       <ion-row>
-        <ion-col>
+        <ion-col size="7">
           <img src="../../../assets/img/white-logo.png" style="width: 6em;height:6em;" alt="">
         </ion-col>
-        <ion-col>
+        <ion-col size="5">
           <p>Ver más</p>
           <p>Ya no hay más</p>
           <ion-button  fill="clear">Ver más</ion-button>
