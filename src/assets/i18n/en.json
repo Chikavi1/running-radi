@@ -1,0 +1,42 @@
+{
+  "checkout.paymentmethod":"Payment method",
+    "checkout.radipoints":"Radi points ",
+    "checkout.nopaymentmethod":"You need to add a payment method to pay",
+    "checkout.addpaymentmethod":"Add payment method",
+    "checkout.edit":"Edit",
+
+    "payments.delete":"Delete",
+    "payments.radipoints":"Radi Points",
+    "payments.addcard":"Add Card",
+    "payments.debitorcredit":"Debit/credit",
+    "payments.giftcard":"Gift Card",
+
+    "addcard.placeholdenumber":"",
+    "addcard.placeholdernumber":"Enter your card number",
+    "addcard.placeholdercardholder":"Enter cardholder",
+    "addcard.placeholdercvv":"Enter your CVV",
+    "addcard.expirationdate":"Expiration date",
+    "addcard.monthexpiration":"Month expiration",
+    "addcard.yearexpiration":"Year expiration",
+    "addcard.add":"Add",
+    "addcard.redeem":"Redeem",
+    "addcard.card":"card",
+    "addcard.cardholder":"Cardholder",
+    "addcard.expiration":"Exp",
+    "addcard.numbercard":"Number Card",
+    "addcard.cvv":"CVV",
+    "addcard.securitymessage":"Data protected with TSL encryption",
+    "addcard.placeholdercode":"Enter Code",
+    "addcard.conditions":"*By redeeming your gift card,you agree to Radi's gift card terms and conditions.",
+    "addcard.close":"Close",
+    "addcard.addcard":"Add Card",
+    "addcard.redeemcard":"Redeem Card",
+    "addcard.successredeem":"Correct code, congratulations",
+    "addcard.failedredeem":"Invalid code",
+
+    "addcard.incorrect_number":"Incorrect number, check it.",
+    "addcard.card_declined":"Card declined, try another.",
+    "addcard.invalid_cvc":"Incorrect CVC, try another.",
+    "addcard.invalid_expiry_month":"Invalid expiration month."
+
+}

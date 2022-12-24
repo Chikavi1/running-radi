@@ -1,0 +1,37 @@
+
+
+<ion-content>
+  <ion-card style="padding:1em;">
+
+    <h2>Cuenta Premium</h2>
+    <p>
+
+    Fecha de Vencimiento: <br> {{this.datos.current_period_end*1000 | date:'fullDate':'es'}}
+    </p>
+    <p *ngIf="!datos.cancel_at_period_end">
+      Automatico
+    </p>
+
+    <p *ngIf="datos.cancel_at_period_end">
+      Subscripción Cancelada
+    </p>
+
+<p style="font-weight: bold;">
+  {{datos.plan?.amount / 100}} {{datos.plan?.currency}}
+</p>
+
+
+<p *ngIf="datos.plan?.interval == 'month'">
+  Mensual
+</p>
+<p *ngIf="datos.plan?.interval == 'year'">
+  Anual
+</p>
+<p  *ngIf="datos.status == 'active'" >
+  Vigente
+</p>
+<!-- <ion-button color="danger" expand="block" fill="clear" (click)="presentAlert()">Cancelar Subscripción</ion-button> -->
+</ion-card>
+
+
+</ion-content>

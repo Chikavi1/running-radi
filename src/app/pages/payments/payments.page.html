@@ -1,0 +1,41 @@
+<ion-content>
+  <ion-fab style="margin-top: 2em;"  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-row>
+    <ion-col [size]="device=='tablet'?8:12" [offset]="device=='tablet'?2:0">
+
+
+  <div style="margin-top: 6em;" >
+  <ion-item-sliding  *ngFor="let card of cards">
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="delete(card,card.customer,card.id)">{{ 'payments.delete' | translate }}</ion-item-option>
+      </ion-item-options>
+    <ion-item lines="none" (click)="updateDefaultCard(card.customer,card.id)">
+      <ion-checkbox *ngIf="!menu" mode="ios"  color="primary"  slot="start"></ion-checkbox>
+      <ion-label >
+        <p>{{card.brand}} &#183;&#183;&#183;&#183; {{card.last4}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-item-sliding>
+
+  <ion-item lines="none" (click)="selectRadi()">
+    <ion-checkbox [disabled]="price >= total" *ngIf="!menu" mode="ios"  color="primary"  slot="start"></ion-checkbox>
+    <ion-label >
+      <p>{{ 'payments.radipoints' | translate }}(<span style="color:green;">{{ total }} MXN</span> )</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item (click)="addCard()" lines="none">
+    <ion-icon style="zoom:1.5" name="add"></ion-icon>
+    <ion-label style="margin-left: 1.6em;">
+      <h3>{{ 'payments.addcard' | translate }}</h3>
+    </ion-label>
+  </ion-item>
+  </div>
+</ion-col>
+</ion-row>
+</ion-content>

@@ -21,6 +21,26 @@ const routes: Routes = [
   {
     path: 'run-show',
     loadChildren: () => import('./pages/run-show/run-show.module').then( m => m.RunShowPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'subscription',
+    loadChildren: () => import('./pages/subscription/subscription.module').then( m => m.SubscriptionPageModule)
+  },
+  {
+    path: 'subscriptions',
+    loadChildren: () => import('./pages/subscriptions/subscriptions.module').then( m => m.SubscriptionsPageModule)
+  },
+  {
+    path: 'payments',
+    loadChildren: () => import('./pages/payments/payments.module').then( m => m.PaymentsPageModule)
+  },
+  {
+    path: 'card',
+    loadChildren: () => import('./pages/card/card.module').then( m => m.CardPageModule)
   }
 ];
 @NgModule({

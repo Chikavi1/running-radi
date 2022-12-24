@@ -1,37 +1,48 @@
+<ion-content>
+  <div style="margin:2em;">
 
-<ion-content [fullscreen]="true" >
-  <div style="padding: 1em;margin-top:4em">
+    <ion-item lines="none" (click)="goToPage('/profile')" >
+      <ion-icon slot="end" name="bookmark-outline"></ion-icon>
+      <ion-label>Personal información</ion-label>
+    </ion-item>
+    <ion-item lines="none" (click)="goToPage('/payments')" >
+      <ion-icon slot="end" name="bookmark-outline"></ion-icon>
+      <ion-label>Tarjetas</ion-label>
+    </ion-item>
+    <ion-item lines="none" (click)="goToPage('/subscription')" >
+  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
+  <ion-label>Lenguaje</ion-label>
+</ion-item>
+<ion-item lines="none" (click)="goToPage('/cards')" >
+  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
+  <ion-label>Gift Card</ion-label>
+</ion-item>
 
-    <h2 style="text-align: center;font-weight: bold;">Selecciona un Plan</h2>
-    <ion-card>
-      <h4 style="text-align: center;">Beneficios</h4>
-      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
-      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
-      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
-      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
-      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
-      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
-      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
 
-    </ion-card>
-    <ion-card style="padding: 1em;" (click)="payment = 1" [ngClass]="{'selected' : payment == 1 }">
-    <h2>
-      <!-- <ion-checkbox slot="start" ([ngModel])="payment" ></ion-checkbox> -->
-      Mensualmente
-    </h2>
-    <p style="color:green;font-weight: bold;">
-      99.99 MXN
-    </p>
-  </ion-card>
-  <ion-card style="padding: 1em;"  (click)="payment = 2"  [ngClass]="{'selected' : payment == 2 }">
-    <h2>
-      <!-- <ion-checkbox slot="start"  ([ngModel])="payment"></ion-checkbox> -->
-      Anualmente
-    </h2>
-    <p style="color:green;font-weight: bold;" >
-      999.99 MXN <span style="color:gray;text-decoration:line-through;">1199.88 MXN</span>
-    </p>
-  </ion-card>
-  <ion-button expand="full" [disabled]="!payment">Confirmar Compra</ion-button>
+<ion-item lines="none" (click)="goToPage('/cards')" >
+  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
+  <ion-label>Notficationes</ion-label>
+</ion-item>
+
+<ion-item lines="none" (click)="goToPage('/cards')" >
+  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
+  <ion-label>Cambiar contraseña</ion-label>
+</ion-item>
+
+<ion-item lines="none" (click)="goToPage('/cards')" >
+  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
+  <ion-label>Centro de ayuda</ion-label>
+</ion-item>
+
+<ion-item lines="none" (click)="goToPage('/cards')" >
+  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
+  <ion-label>Terminos de servicio</ion-label>
+</ion-item>
+
+<ion-item lines="none" (click)="goToPage('/cards')" >
+  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
+  <ion-label>Acerca de Radi </ion-label>
+</ion-item>
+
 </div>
 </ion-content>

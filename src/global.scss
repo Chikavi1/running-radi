@@ -25,3 +25,14 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 @import "~leaflet/dist/leaflet.css";
+
+
+.new-input{
+  background-color: white;
+  border: 2px solid #dcdfe4;
+  border-radius: .5em;
+  padding-left: .5em !important;
+}
+.new-input:hover{
+  border: 2px solid #898cf5;
+}

@@ -1,0 +1,71 @@
+
+<ion-content [fullscreen]="true" >
+  <div style="padding: 1em;margin-top:4em">
+
+    <h2 style="text-align: center;font-weight: bold;">Selecciona un Plan</h2>
+    <ion-card>
+      <h4 style="text-align: center;">Beneficios</h4>
+      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
+      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
+      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
+      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
+      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
+      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
+      <ul><ion-icon name="checkmark-outline"></ion-icon> Beneficio 1</ul>
+
+    </ion-card>
+
+    <ion-row >
+
+      <ion-col size="9">
+       <h5 style="font-weight: bold;">{{ 'checkout.paymentmethod' | translate }}</h5>
+      </ion-col >
+      <ion-col size="3">
+        <h5  style="color:#745CFF;text-align: right;" (click)="goToPage('payments')">{{ 'checkout.edit' | translate }}</h5>
+      </ion-col>
+    </ion-row>
+
+    <div *ngIf="payment == 1">
+      <div *ngIf="card">
+        <div style="margin-left:1em;">
+          <p>{{ card.brand }} **** {{ card.last4 }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="payment == 2">
+      <p>{{ 'checkout.radipoints' | translate }}({{total_points}})</p>
+    </div>
+
+    <div class="text-center" *ngIf="!payment">
+      <p>{{ 'checkout.nopaymentmethod' | translate }}</p>
+      <ion-button expand="block" color="primary" fill="clear" (click)="goToPage('payments')">{{ 'checkout.addpaymentmethod' | translate }}</ion-button>
+
+    </div>
+
+
+    <ion-card style="padding: 1em;" (click)="interval = 1" [ngClass]="{'selected' : interval == 1 }">
+    <h2>
+      <!-- <ion-checkbox slot="start" ([ngModel])="payment" ></ion-checkbox> -->
+      Mensualmente
+    </h2>
+    <p style="color:green;font-weight: bold;">
+      99.99 MXN
+    </p>
+  </ion-card>
+  <ion-card style="padding: 1em;"  (click)="interval = 2"  [ngClass]="{'selected' : interval == 2 }">
+    <h2>
+      <!-- <ion-checkbox slot="start"  ([ngModel])="payment"></ion-checkbox> -->
+      Anualmente
+    </h2>
+    <p style="color:green;font-weight: bold;" >
+      999.99 MXN <span style="color:gray;text-decoration:line-through;">1199.88 MXN</span>
+    </p>
+  </ion-card>
+
+
+  <ion-button expand="full" [disabled]="!interval">Siguiente</ion-button>
+
+  <!-- <ion-button expand="full" [disabled]="!payment">Confirmar Compra</ion-button> -->
+</div>
+</ion-content>
