@@ -1,0 +1,45 @@
+
+<ion-content class="margin-top-3">
+
+  <ion-row>
+    <ion-col size="4" offset="4">
+
+      <!-- <img style="width: 100%;" src="../../../assets/icon/icon_app.png" alt="img"> -->
+     </ion-col>
+  </ion-row>
+
+<ion-row>
+<ion-col size="12">
+ <h3 class="text-center" >Radi</h3>
+ <p class="text-center">{{ 'login.slogan' | translate }}</p>
+</ion-col>
+</ion-row>
+
+<div style="padding:1.5em;" >
+ <div class="line-input">
+   <ion-label style="margin-left: 1em;margin-top: 4em;" color="primary">{{ 'register.email' | translate }}</ion-label>
+     <ion-input  class="new-input" style="background-color: transparent;" [(ngModel)]="email"  type="email" placeholder="{{ 'login.placeholderemail' | translate }}"></ion-input>
+ </div>
+
+ <div class="line-input mt-1" style="margin-top:1em;">
+   <ion-label style="margin-left: 1em;margin-top: 4em;" color="primary">{{ 'register.password' | translate }}</ion-label>
+   <ion-item class="new-input" style="background-color: transparent !important;">
+     <ion-input style="background-color: transparent;" [hidden]="showPassword" [(ngModel)]="password" type="password" class="ion-text-left" placeholder="{{ 'login.placeholderpassword' | translate }}"></ion-input>
+     <ion-input style="background-color: transparent;"  [hidden]="!showPassword" [(ngModel)]="password" type="text" class="ion-text-left" placeholder="{{ 'login.placeholderpassword' | translate }}"></ion-input>
+     <a class="type-toggle" (click)="toggleShow()">
+       <ion-icon class="show-option" [hidden]="showPassword" name="eye-off-outline"></ion-icon>
+       <ion-icon class="hide-option" [hidden]="!showPassword" name="eye-outline"></ion-icon>
+    </a>
+
+   </ion-item>
+ </div>
+
+ <p style="text-align: center;color:cornflowerblue;" (click)="forgotPass()">{{ 'login.forgotpassword' | translate }}</p>
+
+ <ion-button [disabled]="email == '' || password == '' " (click)="login()" style="width: 100%;"  color="tertiary">{{ 'login.login' | translate }}</ion-button>
+ <hr>
+ <p class="text-center">{{ 'login.noaccount' | translate }}<span style="color:cornflowerblue;" (click)="registrate()"> {{ 'login.signup' | translate }} </span></p>
+
+</div>
+
+</ion-content>

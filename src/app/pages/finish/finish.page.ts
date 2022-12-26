@@ -19,6 +19,8 @@ export class FinishPage implements OnInit {
   time;
   id_pet;
 
+  json_points;
+
   constructor(private modalCtrl:ModalController) {
     this.initialize();
     this.today = new Date();
@@ -53,6 +55,27 @@ export class FinishPage implements OnInit {
   }
 
   async showRewardVideo(){
+    let meta_data = {
+      "behavior": this.behavior,
+      "pooped" : this.pooped,
+      "water" : this.water
+    }
+
+    let data = {
+      "id_user": localStorage.getItem('user_id'),
+      "id_pets": this.id_pet,
+      "distance": this.distance,
+      "time": this.time,
+      "created": new Date(),
+      "json_points": JSON.stringify(this.json_points),
+      "meta_data": JSON.stringify(meta_data)
+    }
+
+    localStorage.setItem('activity',JSON.stringify(data));
+
+
+    alert(JSON.stringify(data));
+
     AdMob.addListener(
       RewardAdPluginEvents.Rewarded,
       (reward: AdMobRewardItem) => {

@@ -2,9 +2,10 @@
   <div *ngIf="step == 1" style="margin-top: 3em;padding:2em;">
     <h1>Iniciar Caminata</h1>
     <h5>¿cuál mascota?</h5>
-    <ion-item lines="none">
+
+    <ion-item lines="none"  style="background: transparent !important;" *ngFor="let mascota of mascotas">
       <ion-checkbox  [(ngModel)]="pet_selected" mode="md" slot="start"></ion-checkbox>
-      <ion-label>Radi</ion-label>
+      <ion-label>{{mascota.name}}</ion-label>
     </ion-item>
     <ion-button [disabled]="!pet_selected" *ngIf="step == 1" expand="full" (click)="next()" >
       Siguiente

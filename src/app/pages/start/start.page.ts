@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-start',
@@ -7,8 +8,14 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./start.page.scss'],
 })
 export class StartPage implements OnInit {
-
-  constructor(private modalCtrl:ModalController) { }
+mascotas:any = [];
+user_id;
+  constructor(private modalCtrl:ModalController,private api: DataService) {
+    this.user_id = localStorage.getItem('user_id');
+    this.api.getPets(this.user_id).subscribe( datos => {
+      this.mascotas = datos;
+    });
+   }
   step = 1;
   pet_selected;
   ngOnInit() {

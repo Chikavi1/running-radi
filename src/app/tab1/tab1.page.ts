@@ -139,10 +139,11 @@ export class Tab1Page {
   async presentModalComplete(component) {
     const modal = await this.modalController.create({
       component: component,
-      componentProps:{
+      componentProps: {
         distance: this.distance,
         time: this.time,
-        id_pet: 1
+        id_pet: 1, // cambia
+        json_points: this.coords
       },
       breakpoints: [0.0,1],
       initialBreakpoint: 1,
@@ -246,11 +247,21 @@ start(){
 }
 marker;
 verenMapa(lat,lng){
-  var homeICon = L.icon(
-    {
-      iconUrl:  'https://i.ibb.co/d59mYxn/wanted.png',
-      iconSize:     [31, 31], // size of the icon
-    });
+  if(this.isPets){ 
+    var homeICon = L.icon(
+      {
+        iconUrl:  'https://i.ibb.co/d59mYxn/wanted.png',
+        iconSize:     [31, 31], // size of the icon
+      });
+  }else{
+    var homeICon = L.icon(
+      {
+        iconUrl:  'https://i.ibb.co/X2gkTYX/shops.png',
+        iconSize:     [31, 31], // size of the icon
+      });
+  }
+
+ 
 
   if(this.marker){
     this.mapa.removeLayer(this.marker);
@@ -402,8 +413,20 @@ initMap(){
           });
 
     // Leaflet.marker([this.lat,this.lng],{draggable: true,icon: userIcon}).on('dragend', e => this.procesar(e) ).addTo(this.mapa).bindPopup('Tu Ubicación');
+// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}
+// https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga
+// https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png
 
-    Leaflet.tileLayer('https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga', {
+let tile;
+  if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+    // light mode 
+    tile = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+  }else{
+    // dark mode
+    tile = 'https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga';
+  }
+
+Leaflet.tileLayer(tile, {
           zoom: 8,
           zoomControl: false,
           maxZoom: 18,

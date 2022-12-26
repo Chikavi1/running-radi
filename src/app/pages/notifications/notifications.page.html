@@ -1,0 +1,74 @@
+<ion-content>
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+<ion-row>
+  <ion-col [size]="device=='tablet'?8:12" [offset]="device=='tablet'?2:0">
+   
+  <div style="margin:2em;margin-top: 4em;">
+    
+    
+
+    <div *ngIf="notifications.length != 0">
+      <h2>{{ 'notifications.schedulenotification' | translate }}</h2>
+      <ion-item lines="none" *ngFor="let notification of notifications">
+        <ion-avatar slot="start">
+          <img [src]="notification.attachments[0]">
+        </ion-avatar>
+        <ion-label>
+          {{ notification.title }}
+          <br> {{ notification.trigger.at | date: 'medium' }}
+          <br> {{ notification.id }}
+        </ion-label>
+      </ion-item>
+      <ion-button color="danger" expand="block" fill="clear" (click)="cancelAll()">{{ 'notifications.cancelall' | translate }}</ion-button>
+    </div>
+    <hr>
+    <h2>{{ 'notifications.title' | translate }}</h2>
+    <p style="color:#7c7c7c;font-weight: 300;font-size: 1.2em;">{{ 'notifications.subtitle' | translate }}</p>
+    <h3>{{ 'notifications.reminders' | translate }}</h3>
+    
+    <ion-card style="border-radius: 1em;">
+      <ion-list>
+        <ion-item lines="none">
+          <ion-label>{{ 'notifications.push' | translate }}</ion-label>
+          <ion-toggle [(ngModel)]="reminder_push"></ion-toggle>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>{{ 'notifications.email' | translate }}</ion-label>
+          <ion-toggle [(ngModel)]="reminder_email"></ion-toggle>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>{{ 'notifications.sms' | translate }}</ion-label>
+          <ion-toggle [(ngModel)]="reminder_sms"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+    
+    
+    <h3>{{ 'notifications.advice' | translate }}</h3>
+    <ion-card  style="border-radius: 1em;">
+    <ion-list>
+      <ion-item lines="none">
+        <ion-label>{{ 'notifications.push' | translate }}</ion-label>
+        <ion-toggle [(ngModel)]="ad_push"></ion-toggle>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>{{ 'notifications.email' | translate }}</ion-label>
+        <ion-toggle [(ngModel)]="ad_email"></ion-toggle>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>{{ 'notifications.sms' | translate }}</ion-label>
+        <ion-toggle [(ngModel)]="ad_sms"></ion-toggle>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  </div>
+
+</ion-col>
+</ion-row>
+  </ion-content>
+  

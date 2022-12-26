@@ -1,48 +1,218 @@
-<ion-content>
-  <div style="margin:2em;">
 
-    <ion-item lines="none" (click)="goToPage('/profile')" >
-      <ion-icon slot="end" name="bookmark-outline"></ion-icon>
-      <ion-label>Personal información</ion-label>
-    </ion-item>
-    <ion-item lines="none" (click)="goToPage('/payments')" >
-      <ion-icon slot="end" name="bookmark-outline"></ion-icon>
-      <ion-label>Tarjetas</ion-label>
-    </ion-item>
-    <ion-item lines="none" (click)="goToPage('/subscription')" >
-  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
-  <ion-label>Lenguaje</ion-label>
-</ion-item>
-<ion-item lines="none" (click)="goToPage('/cards')" >
-  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
-  <ion-label>Gift Card</ion-label>
-</ion-item>
+<ion-content style="background-color: #eaecee;">
 
 
-<ion-item lines="none" (click)="goToPage('/cards')" >
-  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
-  <ion-label>Notficationes</ion-label>
-</ion-item>
+  <ion-row>
+    <ion-col [size]="device =='tablet'?8:12" [offset]="device =='tablet'?2:0">
+      <div *ngIf="!mostrar">
 
-<ion-item lines="none" (click)="goToPage('/cards')" >
-  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
-  <ion-label>Cambiar contraseña</ion-label>
-</ion-item>
 
-<ion-item lines="none" (click)="goToPage('/cards')" >
-  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
-  <ion-label>Centro de ayuda</ion-label>
-</ion-item>
+        <ion-row style="margin-left: 1em;">
+          <ion-col size="3">
+            <ion-skeleton-text animated style="width: 5em;margin:1.5em;border-radius:50%;height:5em ;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="8">
+            <ion-skeleton-text animated style="width: 30%;margin-left:1.5em;margin-top:2.5em;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 25%;margin-left:1.5em;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 18%;margin-left:1.5em;"></ion-skeleton-text>
 
-<ion-item lines="none" (click)="goToPage('/cards')" >
-  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
-  <ion-label>Terminos de servicio</ion-label>
-</ion-item>
+          </ion-col>
+        </ion-row>
 
-<ion-item lines="none" (click)="goToPage('/cards')" >
-  <ion-icon slot="end" name="bookmark-outline"></ion-icon>
-  <ion-label>Acerca de Radi </ion-label>
-</ion-item>
+        <ion-skeleton-text animated style="width: 30%;margin-left:3em;height: 1em;"></ion-skeleton-text>
 
-</div>
+        <ion-row style="margin-top:1em;">
+          <ion-skeleton-text animated style="width: 60%;height: 15em;margin-left:4em;border-radius: 1em;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 3%;height: 15em;margin-left:2.5em;border-radius: 1em 0em 0em 1em;"></ion-skeleton-text>
+        </ion-row>
+
+        <ion-skeleton-text animated style="width: 35%;margin-left:3em;height: 1em;margin-top:2em;"></ion-skeleton-text>
+
+        <ion-row *ngFor="let prueba of [1,1,1,1]">
+          <ion-col size="8">
+            <ion-skeleton-text animated style="width: 75%;margin-left:3em;height: 1em;margin-top:2em;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="3">
+            <ion-skeleton-text animated style="width: 45%;margin-left:3em;height: 1em;margin-top:2em;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-skeleton-text animated style="width: 35%;margin-left:3em;height: 1em;margin-top:2em;"></ion-skeleton-text>
+
+      </div>
+
+      <div *ngIf="mostrar">
+        <div *ngIf="user_id">
+
+              <div style="margin:2em;">
+                <ion-item lines="none" *ngIf="datos">
+                      <ion-avatar (click)="goToPage('/edit-profile')" style="width:5em;height: 5em;" slot="start" lines="none">
+                        <ion-img [src]="datos? datos?.photo:'../assets/bg-user.png'"></ion-img>
+                      </ion-avatar>
+                      <ion-label>
+                        <h2 class="capitalize">{{ datos.name }}</h2>
+                        <p (click)="goToPage('/profile')">{{ 'menu.show_profile' | translate }} </p>
+                      </ion-label>
+                    </ion-item>
+              <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.pets' | translate }}</h2>
+
+              <ion-slides [options]="slide">
+                <ion-slide (click)="goToPage('/create-pet')">
+                  <ion-card style="width:250px;height:250px;border-radius:1em; background-color: rgba(0,0,0,0.8);filter:brightness(0.8);">
+                    <h1 style="color:white;margin-top:2em;">{{ 'menu.add' | translate }} <br> {{ 'menu.pet' | translate }}</h1>
+                  </ion-card>
+                </ion-slide>
+
+
+                <ion-slide (click)="goToPets(mascota.id)"  *ngFor="let mascota of mascotas">
+                  <ion-card style="width:250px;height:250px;border-radius:1em; background-color: rgba(0,0,0,0.8);filter:brightness(0.8);">
+                    <ion-img style="width:250px;height:250px;border-radius:1em;object-fit: cover;" [src]="mascota?.photo"></ion-img>
+                    <p class="truncate" style="color:white;margin-top: -2em;font-size: 1.5em;margin-left: .5em;font-weight: bold;">{{mascota.name}}</p>
+                  </ion-card>
+                </ion-slide>
+              </ion-slides>
+
+              <!-- <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.visit' | translate }}</h2>
+              <ion-item lines="none" (click)="goToPage('/next-visits')">
+                <ion-icon slot="end" name="calendar-outline"></ion-icon>
+                <ion-label>{{ 'menu.next_vists' | translate }}</ion-label>
+              </ion-item>
+              -->
+
+              <!-- <div *ngIf="isMobile">
+                <ion-item lines="none" (click)="goToPage('/reminders')">
+                  <ion-icon slot="end" name="alarm-outline"></ion-icon>
+                  <ion-label>{{ 'menu.reminders' | translate }}</ion-label>
+                </ion-item>
+              </div> -->
+
+              <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.configuration' | translate }}</h2>
+
+              <ion-item lines="none" (click)="goToPage('/profile')">
+                <ion-icon slot="end" name="person-circle-outline"></ion-icon>
+                <ion-label>{{ 'menu.personal_information' | translate }}</ion-label>
+              </ion-item>
+
+
+              <!-- traducir
+
+              <ion-item lines="none" (click)="goToPage('/rewards',{code:datos.code})">
+                <ion-icon slot="end" name="wallet-outline"></ion-icon>
+                <ion-label>{{ 'menu.points' | translate }}</ion-label>
+              </ion-item>
+
+              <!-++- <ion-item lines="none" (click)="goToPage('/my-business',{code:datos.code})">
+                <ion-icon slot="end" name="business-outline"></ion-icon>
+                <ion-label>Mis negocios</ion-label>
+              </ion-item> -->
+
+              <ion-item lines="none" (click)="goToPage('/gifts',{buyGift:true,name:datos.name})">
+                <ion-icon slot="end" name="gift-outline"></ion-icon>
+                <ion-label>{{ 'menu.gift' | translate }}</ion-label>
+              </ion-item>
+
+              <div *ngIf="isMobile">
+
+                <!-- <ion-item lines="none" (click)="goToPage('/address')">
+                  <ion-icon slot="end" name="location-outline"></ion-icon>
+                  <ion-label>{{ 'menu.addresses' | translate }}</ion-label>
+                </ion-item> -->
+              </div>
+
+              <ion-item lines="none" (click)="goToPage('/payments',{menu:true})">
+                <ion-icon slot="end" name="card-outline"></ion-icon>
+                <ion-label>{{ 'menu.payments' | translate }}</ion-label>
+              </ion-item>
+
+              <ion-item lines="none" (click)="goToPage('/notifications')">
+                <ion-icon slot="end" name="notifications-outline"></ion-icon>
+                <ion-label>{{ 'menu.notifications' | translate }}</ion-label>
+              </ion-item>
+
+
+              <ion-item lines="none" (click)="goToPage('/language')">
+                <ion-icon slot="end"  name="language"></ion-icon>
+                <ion-label>{{ 'menu.language' | translate }}</ion-label>
+              </ion-item>
+
+              <ion-item lines="none" (click)="goToPage('/change-password',{login:1})">
+                <ion-icon slot="end"  name="lock-closed-outline"></ion-icon>
+                <ion-label>{{ 'menu.changepassword' | translate }}</ion-label>
+              </ion-item>
+
+              <!-- <ion-item lines="none" (click)="goToPage('/dark-mode',{})">
+                <ion-icon slot="end"  name="cloudy-night-outline"></ion-icon>
+                <ion-label>Dark mode</ion-label>
+              </ion-item> -->
+
+
+              <h2 style="color:#868686;margin-left: .5em;">{{ 'menu.help' | translate }}</h2>
+
+              <ion-item lines="none" (click)="goToPage('/helpcenter')">
+                <ion-icon slot="end" name="help-circle-outline"></ion-icon>
+                <ion-label>{{ 'menu.help_center' | translate }}</ion-label>
+              </ion-item>
+
+              <!-- <ion-item lines="none" (click)="goToPage('/stories')" >
+                <ion-icon slot="end" name="clipboard-outline"></ion-icon>
+                <ion-label>{{ 'menu.guide' | translate }}</ion-label>
+              </ion-item> -->
+
+
+              <ion-item lines="none"  (click)="openBlank('https://radi.pet/terms')">
+                <ion-icon slot="end" name="document-text-outline"></ion-icon>
+                <ion-label>{{ 'menu.terms_of_service' | translate }}</ion-label>
+              </ion-item>
+
+              <ion-item lines="none"  (click)="goToPage('/info-app')">
+                <ion-icon slot="end" name="information-circle-outline"></ion-icon>
+                <ion-label>{{ 'menu.about' | translate }}</ion-label>
+              </ion-item>
+
+              <ion-item lines="none">
+                <ion-icon slot="end" ></ion-icon>
+                <ion-label style="color:red;font-weight: bold;font-size:1.2em;" (click)="logout()">{{ 'menu.logout' | translate }}</ion-label>
+              </ion-item>
+            </div>
+
+        </div>
+        <div *ngIf="!user_id">
+          <div style="margin-top:8em;margin-bottom: 8em;">
+
+            <h2 class="text-center" >{{ 'login.needlogin' | translate }}</h2>
+            <ion-row>
+              <ion-col [size]="device =='tablet'?4:12" [offset]="device =='tablet'?4:0">
+                <ion-button expand="full" fill="clear"  (click)="login()">{{ 'login.login' | translate }}</ion-button>
+              </ion-col>
+            </ion-row>
+          </div>
+
+
+          <ion-item lines="none" (click)="goToPage('/language')">
+            <ion-icon slot="end"  name="language"></ion-icon>
+            <ion-label>{{ 'menu.language' | translate }}</ion-label>
+          </ion-item>
+
+          <h2 style="color:#868686;margin-left: .5em;">{{ 'menu.help' | translate }}</h2>
+
+          <ion-item lines="none" (click)="goToPage('/helpcenter')">
+            <ion-icon slot="end" name="help-circle-outline"></ion-icon>
+            <ion-label>{{ 'menu.help_center' | translate }}</ion-label>
+          </ion-item>
+
+          <ion-item lines="none"  (click)="openBlank('https://radi.pet/terms')">
+            <ion-icon slot="end" name="document-text-outline"></ion-icon>
+            <ion-label>{{ 'menu.terms_of_service' | translate }}</ion-label>
+          </ion-item>
+
+          <ion-item lines="none"  (click)="goToPage('/info-app')">
+            <ion-icon slot="end" name="information-circle-outline"></ion-icon>
+            <ion-label>{{ 'menu.about' | translate }}</ion-label>
+          </ion-item>
+
+        </div>
+      </div>
+  </ion-col>
+</ion-row>
+
 </ion-content>

@@ -1,0 +1,92 @@
+<ion-content>
+  <form style="margin:1em;" [formGroup]="registrationForm" (ngSubmit)="submit()">
+    <div *ngIf="step === 1" style="padding:.65em;">
+
+    <h2 class="mt-3">{{ 'register.title' | translate }}</h2>
+    <p>{{ 'register.subtitle' | translate }}</p>
+
+      <ion-label style="margin-left: 1em;margin-top: 4em;" color="primary">{{ 'register.name' | translate }}</ion-label>
+          <ion-input placeholder="{{ 'register.placeholdername' | translate }}" style="margin-bottom:1em;" class="new-input" maxLength="35" autocapitalize inputmode="text" formControlName="name"></ion-input>
+        <div *ngFor="let error of errorMessages.name">
+          <ng-container *ngIf="name.hasError(error.type) && (name.dirty || name.touched)">
+            <small class="error-message">{{error.message}}</small>
+          </ng-container>
+        </div>
+
+
+        <ion-label style="margin-left: 1em;margin-top: 4em;" color="primary">{{ 'register.cellphone' | translate }}</ion-label>
+
+        <ion-row style="margin:1em 0em;">
+          <ion-col size="6">
+              <ion-select placeholder="{{ 'register.country' | translate }}"  formControlName="cellphone_country" class="new-input" style="width: 100%;" value="03">
+                <ion-select-option [value]="c.code" *ngFor="let c of countries">{{ c.name }}</ion-select-option>
+                <!-- <ion-select-option value="57">+57 Colombia</ion-select-option>
+                <ion-select-option value="+52">+52 México</ion-select-option>
+                <ion-select-option value="+1">+1  USA </ion-select-option>
+                <ion-select-option value="+90">+90 Turquia</ion-select-option>
+                <ion-select-option value="+1">+1  Canada</ion-select-option> -->
+              </ion-select>
+
+          </ion-col>
+          <ion-col size="6">
+              <ion-input class="new-input" maxLength="12" (keypress)="numberOnlyValidation($event)" placeholder="{{ 'register.placeholderphone' | translate }}" maxLength="12" autocapitalize inputmode="tel" formControlName="cellphone"></ion-input>
+          </ion-col>
+        </ion-row>
+
+
+        <div *ngFor="let error of errorMessages.cellphone">
+          <ng-container *ngIf="cellphone.hasError(error.type) && (cellphone.dirty || cellphone.touched)">
+            <small class="error-message">{{error.message}}</small>
+          </ng-container>
+        </div>
+
+        <ion-label style="margin-left: 1em;margin-top: 4em;" color="primary">{{ 'register.email' | translate }}</ion-label>
+
+        <ion-item class="new-input"  style="margin-bottom:1em;">
+          <ion-input placeholder="{{ 'register.placeholderemail' | translate }}"  maxLength="40" inputmode="email" formControlName="email"></ion-input>
+        </ion-item>
+
+        <div *ngFor="let error of errorMessages.email">
+          <ng-container *ngIf="email.hasError(error.type) && (email.dirty || email.touched)">
+            <small class="error-message">{{error.message}}</small>
+          </ng-container>
+        </div>
+
+
+        <ion-label style="margin-left: 1em;margin-top: 4em;" color="primary">{{ 'register.password' | translate }}</ion-label>
+
+        <ion-item class="new-input" style="background-color: transparent;">
+          <ion-input maxLength="30"  placeholder="{{ 'register.placeholderpassword' | translate }}" [hidden]="showPassword"  formControlName="password" [(ngModel)]="contra"  type="password" class="ion-text-left" ></ion-input>
+          <ion-input maxLength="30"  placeholder="{{ 'register.placeholderpassword' | translate }}"  [hidden]="!showPassword" formControlName="password" [(ngModel)]="contra" type="text" class="ion-text-left" ></ion-input>
+            <a class="type-toggle" (click)="toggleShow()">
+              <ion-icon class="show-option" [hidden]="showPassword" name="eye-off-outline"></ion-icon>
+              <ion-icon class="hide-option" [hidden]="!showPassword" name="eye-outline"></ion-icon>
+            </a>
+        </ion-item>
+
+        <div *ngFor="let error of errorMessages.password">
+          <ng-container *ngIf="password.hasError(error.type) && (password.dirty || password.touched)">
+            <small  class="error-message">{{error.message}}</small>
+          </ng-container>
+        </div>
+
+
+    <ion-button style="width: 100%;margin-top: 1em;"  type="submit"  [disabled]="!registrationForm.valid"  color="tertiary">{{ 'register.register' | translate }}</ion-button>
+    <p class="text-center">{{ 'register.account' | translate }}<span style="color:cornflowerblue;" (click)="exit(false)"> {{ 'register.login' | translate }} </span></p>
+
+  </div>
+<div *ngIf="step === 2">
+
+  <h2>Necesitamos validar tu cuenta te llegara un código a tu correo electrónico.</h2>
+
+  <code-input [isCodeHidden]="true"
+  [codeLength]="6"
+  (codeChanged)="onCodeChanged($event)"
+  (codeCompleted)="onCodeCompleted($event)">
+</code-input>
+
+</div>
+
+</form>
+
+</ion-content>

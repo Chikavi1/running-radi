@@ -1,7 +1,13 @@
-
+<!-- 
 
 <ion-content>
-  <ion-card style="padding:1em;">
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-card style="padding:1em;margin-top:5em;">
 
     <h2>Cuenta Premium</h2>
     <p>
@@ -30,8 +36,193 @@
 <p  *ngIf="datos.status == 'active'" >
   Vigente
 </p>
-<!-- <ion-button color="danger" expand="block" fill="clear" (click)="presentAlert()">Cancelar Subscripción</ion-button> -->
+ <ion-button color="danger" expand="block" fill="clear" (click)="presentAlert()">Cancelar Subscripción</ion-button> 
 </ion-card>
 
 
+</ion-content> -->
+
+
+<ion-content >
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab  vertical="top" horizontal="end"  slot="fixed" (click)="editProfile()">
+    <ion-fab-button mode="ios" size="small" translucent  color="motel"   style="outline: none !important;    ">
+      <ion-icon name="pencil-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-row>
+    <ion-col [size]="device=='tablet'?8:12" [offset]="device=='tablet'?2:0">
+    <p class="color-principal text-center" style="font-size: 1.8em;margin-top: 3.5em;font-weight: bold;">
+    <span *ngIf="!edit">
+      {{ 'editprofile.myprofile' | translate }}
+    </span>
+    <span *ngIf="edit">
+      {{ 'editprofile.editprofile' | translate }}
+    </span>
+    </p>
+
+    <ion-row>
+      <ion-col size="4" offset="4">
+        <img style="border-radius:50%" [src]="photo" alt="profile user">
+      </ion-col>
+    </ion-row>
+
+    <h3 class="text-center capitalize">{{ name }}</h3>
+    <h2 class="text-center" *ngIf="subscription">
+      <ion-chip color="success">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>&nbsp; Premium
+      </ion-chip>
+    </h2>
+    <ion-row >
+      <ion-col offset="1" size="5">
+        <div style="text-align: center;">
+          <span>{{ 'editprofile.points' | translate }}</span>
+          <h4>{{datos.points}}</h4>
+        </div>
+      </ion-col>
+      <ion-col size="5">
+        <div style="text-align: center;">
+          <span>{{ 'editprofile.since' | translate }}</span>
+          <h4>{{ datos.createdAt | date:'dd/MM/yy' }}</h4>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-card style="padding: 1em;">
+      <h2>{{ 'editprofile.aboutme' | translate }}</h2>
+      <p *ngIf="!edit">{{description}}</p>
+      <div *ngIf="edit">
+        <ion-input maxlength="250" class="new-input"  [(ngModel)]="description"></ion-input>
+        <p>{{description?description.length:0}}/250</p>
+      </div>
+    </ion-card>
+
+    <div  *ngIf="!edit">
+    <ion-card style="padding: 1em;" (click)="presentAcknowledge()">
+      <ion-row>
+        <ion-col size="3">
+          <ion-icon name="trophy-outline" style="font-size: 5em;padding-top: .3em;"></ion-icon>
+        </ion-col>
+        <ion-col size="8">
+          <h2>{{ 'editprofile.acknowledgments' | translate }}</h2>
+          <p>{{ 'editprofile.acknowledgmentssubtitle' | translate }}</p>
+          <p  class="bold">{{ 'editprofile.seemore' | translate }}</p>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+
+
+    <ion-card style="padding: 1em;">
+      <div class="form-group">
+        <span >{{ 'editprofile.email' | translate }}</span>
+        <h4>{{ datos.email }}</h4>
+      </div>
+      <div class="form-group">
+        <span >{{ 'editprofile.usersince' | translate }}</span>
+        <h4>{{ datos.createdAt | date:'dd/MM/yy' }}</h4>
+      </div>
+      <div class="form-group">
+        <span>{{ 'editprofile.country' | translate }}</span>
+        <h4>{{datos.country}}</h4>
+      </div>
+      <div class="form-group">
+        <span>{{ 'editprofile.currency' | translate }}</span>
+        <h4>{{datos.currency}}</h4>
+      </div>
+
+      <hr>
+
+   <ion-row >
+    <ion-col size="9">
+      <h4>{{ 'editprofile.subscription' | translate }}</h4>
+      <ion-chip *ngIf="!subscription">
+        {{ 'editprofile.free' | translate }}
+      </ion-chip>
+      <ion-chip *ngIf="subscription"  color="success">
+       Premium
+      </ion-chip>
+    </ion-col>
+    <ion-col>
+      <!-- <p style="text-align: right;">
+        {{ 'editprofile.change' | translate }}
+      </p> -->
+    </ion-col>
+   </ion-row>
+
+   <ion-row>
+    <ion-col size="9">
+      <h4>{{ 'editprofile.identity' | translate }}</h4>
+      <ion-chip color="danger" *ngIf="!identification">
+        <ion-icon name="alert-circle-outline"></ion-icon>&nbsp;  {{ 'editprofile.noverify' | translate }}
+      </ion-chip>
+      <ion-chip color="success" *ngIf="identification" >
+        <ion-icon name="checkmark-circle-outline"></ion-icon>&nbsp;  {{ 'editprofile.verify' | translate }}
+      </ion-chip>
+    </ion-col>
+    <ion-col *ngIf="!identification">
+      <p (click)="goToPage('/verification')" style="text-align: right;">
+        {{ 'editprofile.check' | translate }}
+      </p>
+    </ion-col>
+   </ion-row>
+
+   </ion-card>
+   <ion-button color="danger" expand="full" fill="clear" (click)="presentAlertPrompt()">
+    {{ 'editprofile.deleteaccount' | translate }}
+  </ion-button>
+
+
+    <!-- <h3>Reconocimientos</h3>
+    <img width="70" src="https://cdn-icons-png.flaticon.com/512/4689/4689189.png"/> -->
+
+
+  </div>
+
+  <div style="padding-top: 1em;" *ngIf="edit" >
+    <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.name' | translate }}</ion-label>
+    <ion-row justify-content-center align-items-center  style="margin:1em;">
+      <ion-col size="12">
+        <ion-input  maxlength="30" class="new-input" placeholder="{{ 'editprofile.placeholdername' | translate }} " type="text" [(ngModel)]="name" ></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.gender' | translate }}</ion-label>
+    <ion-row>
+      <ion-col size="12" >
+        <ion-select value="1" [(ngModel)]="gender"  interface="action-sheet" placeholder="{{'editprofile.placeholdergender' | translate }}"
+        okText="{{ 'createinjection.donetext' | translate }}" cancelText="{{ 'createinjection.canceltext' | translate }}"  placeholder="{{ 'editprofile.gender' | translate }}" class="new-input" style="margin:0em 1em;">
+        <ion-select-option value="1">{{ 'editprofile.male' | translate }}</ion-select-option>
+        <ion-select-option value="2">{{ 'editprofile.female' | translate }}</ion-select-option>
+        <ion-select-option value="3">{{ 'editprofile.other' | translate }}</ion-select-option>
+      </ion-select>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.cellphone' | translate }}</ion-label>
+  <ion-row justify-content-center align-items-center  style="margin:1em;">
+    <ion-col size="12">
+      <ion-input type="tel" (keypress)="numberOnlyValidation($event)" pattern="^(0\W*7\W*(?:\d\W*){9})$" [(ngModel)]="cellphone" maxlength="10"  class="new-input" placeholder="{{'editprofile.placeholdercellphone' | translate }}" type="text"></ion-input>
+    </ion-col>
+  </ion-row>
+
+  <ion-button style="margin: 1em;" expand="full" (click)="actualizar()">
+    {{ 'editprofile.update' | translate }}
+  </ion-button>
+
+
+  </div>
+
+
+</ion-col>
+</ion-row>
+
 </ion-content>
+

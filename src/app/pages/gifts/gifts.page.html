@@ -1,0 +1,111 @@
+<ion-content>
+  <ion-row>
+    <ion-col [size]="device=='tablet'?8:12" [offset]="device=='tablet'?2:0">
+
+    
+  <div style="padding: 1em;margin-top: 2em;">
+    <div *ngIf="!buyGift">
+      <h2 style="text-align: center;">{{ 'thanks.titlefound' | translate }}</h2>
+      <p>{{ 'thanks.subtitlefound' | translate }}</p>
+    </div>
+
+    <div *ngIf="buyGift">
+      <h2 style="text-align: center;">{{ 'thanks.title' | translate }}</h2>
+      <p>{{ 'thanks.subtitle' | translate }}</p>
+    </div>
+    
+    <ion-slides pager="false" [options]="slide">
+      <ion-slide (click)="selectAmount(50)">
+        <ion-card [ngClass]="{'selected' : amount == 50 }">
+          <ion-card-title>500 {{ 'thanks.points' | translate }} </ion-card-title>
+          <ion-card-subtitle>50 pesos</ion-card-subtitle>
+        </ion-card>
+      </ion-slide>
+      <ion-slide>
+        <ion-card [ngClass]="{'selected' : amount == 100 }" (click)="selectAmount(100)">
+          <ion-card-title>1000 {{ 'thanks.points' | translate }} </ion-card-title>
+          <ion-card-subtitle>100 pesos</ion-card-subtitle>
+        </ion-card>
+      </ion-slide>
+      <ion-slide>
+        <ion-card [ngClass]="{'selected' : amount == 200 }" (click)="selectAmount(200)">
+          <ion-card-title>20k {{ 'thanks.points' | translate }}</ion-card-title>
+          <ion-card-subtitle>200 MXN</ion-card-subtitle>
+        </ion-card>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-card [ngClass]="{'selected' : amount == 500 }"  (click)="selectAmount(500)">
+          <ion-card-title>50k {{ 'thanks.points' | translate }}</ion-card-title>
+          <ion-card-subtitle>500 MXN</ion-card-subtitle>
+        </ion-card>
+      </ion-slide>
+
+
+      <ion-slide>
+        <ion-card [ngClass]="{'selected' : amount == 1000 }" (click)="selectAmount(1000)">
+          <ion-card-title>100k {{ 'thanks.points' | translate }}</ion-card-title>
+          <ion-card-subtitle>1000 MXN</ion-card-subtitle>
+        </ion-card>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-card [ngClass]="{'selected' : amount == 2000 }" (click)="selectAmount(2000)">
+          <ion-card-title>200k {{ 'thanks.points' | translate }}</ion-card-title>
+          <ion-card-subtitle>2000 MXN</ion-card-subtitle>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>   
+
+  <div *ngIf="amount != 0">
+    <ion-row > 
+      <ion-col size="9">
+        <h5 style="font-weight: bold;">{{ 'thanks.paymentmethod' | translate }}</h5> 
+      </ion-col >
+      <ion-col size="3">
+        <h5  style="color:#745CFF;text-align: right;" (click)="goPayments()">{{ 'thanks.edit' | translate }}</h5>
+      </ion-col>
+    </ion-row>
+    
+    <div *ngIf="card">
+      <div style="margin-left:1em;">
+        <p>{{ card.brand }} **** {{ card.last4 }}</p>
+      </div>
+    </div>
+    
+    <div class="text-center" *ngIf="!card">
+      <p>{{ 'thanks.nopayment' | translate }}</p>
+      <p  class="color-principal "  (click)="goPayments()">{{ 'thanks.addpayment' | translate }}</p>
+    </div>
+   <h1 style="color:green;">${{ amount }} MXN</h1>
+   <div *ngIf="buyGift"> 
+     <div class="margin-top">
+       <ion-label>{{ 'thanks.from' | translate }}</ion-label>
+       <ion-input type="email" (ionChange)="validateEmail(email)" [(ngModel)]="email" class="new-input" placeholder="{{ 'thanks.placeholderemail' | translate }}"></ion-input>
+        <p *ngIf="!validate" style="color:orangered;">{{ 'thanks.errorfrom' | translate }}</p>
+      </div>
+    
+    </div>
+    <div class="margin-top">
+      <ion-label>{{ 'thanks.message' | translate }}</ion-label>
+      <ion-textarea *ngIf="!buyGift" [(ngModel)]="description" class="new-input" placeholder="{{ 'thanks.placeholdermessagefound' | translate }}"></ion-textarea>
+      <ion-textarea *ngIf="buyGift"  [(ngModel)]="message" class="new-input" placeholder="{{ 'thanks.placeholdermessage' | translate }}"></ion-textarea>
+    </div>
+  </div>
+  </div>
+</ion-col>
+</ion-row>
+</ion-content>
+<ion-footer >
+  <ion-row>
+    <ion-col size="6">
+      <ion-button (click)="back()" expand="block" color="danger" fill="clear">{{ 'thanks.close' | translate }}</ion-button>
+    </ion-col>
+    <ion-col size="6" *ngIf="!buyGift" >
+      <ion-button  [disabled]="amount === 0 || !card || !sendData" (click)="give()" expand="block">{{ 'thanks.give' | translate }}</ion-button>
+    </ion-col>
+    <ion-col size="6" *ngIf="buyGift" >
+      <ion-button  [disabled]="amount === 0 || !card || validate === false || !sendData" (click)="gift()" expand="block">{{ 'thanks.give' | translate }}</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

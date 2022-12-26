@@ -26,13 +26,187 @@
 @import "~@ionic/angular/css/flex-utils.css";
 @import "~leaflet/dist/leaflet.css";
 
-
-.new-input{
-  background-color: white;
-  border: 2px solid #dcdfe4;
-  border-radius: .5em;
-  padding-left: .5em !important;
+// ERROR
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 1.1em;
+  text-align: center !important;
 }
-.new-input:hover{
-  border: 2px solid #898cf5;
+
+// MODALES
+.my-custom-modal-css .modal-wrapper {
+    height: 20% !important;
+    top: 80% !important;
+    position: absolute !important;
+    display: block !important;
+ }
+
+ .height-org-tablet{
+   height: 66%;
+ }
+
+ .height-org-phone{
+  height: 42%;
+}
+
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mx-2{
+  margin: 6em 0em 2em 0em;
+}
+
+// color
+.text-green{
+  color:green;
+}
+
+.text-red{
+  color:red;
+}
+
+//   TEXT
+.text-center{
+    text-align: center;
+}
+.text-left{
+  text-align: left;
+}
+.capital:first-letter {text-transform: uppercase}
+
+.capitalize{
+    text-transform: capitalize;
+}
+
+ion-fab{
+  margin-top:1em;
+}
+// PADDINGS
+.padding-1{
+    padding:1em;
+}
+
+// SELECT
+.selected{
+    border: 2px solid #182;
+}
+
+.capitalize{
+   text-transform: capitalize !important;
+}
+
+// BOLD
+.bold{
+  font-weight: bold;
+}
+
+// MARGINS
+.m-1{
+    margin:1em;
+}
+.mt-2{
+    margin-top: 2em;
+}
+.mt-3{
+  margin-top: 3em;
+
+}
+.mt-4{
+  margin-top:4em !important;
+}
+.p-1{
+  padding: 1em !important;
+}
+.p-2{
+  padding:2em !important;
+}
+// INPUTS & TEXTAREA
+.new-input{
+    background-color: transparent;
+    border: 2px solid #dcdfe4;
+    border-radius: .5em;
+    padding-left: .5em !important;
+  }
+  .new-input:hover{
+    border: 2px solid #898cf5;
+  }
+
+  .text-area{
+    width: 100%;
+    max-height: 8em;
+    box-sizing: border-box;
+    background-color: #edf2f7;
+    border-radius: 4px;
+    padding-left: 1em;
+
+  }
+
+  .text-area:hover{
+    background-color: white;
+    padding-left: 1em;
+
+    border: 2px solid #9f7aea;
+  }
+
+
+  .ml-1{
+    margin-left: 1em;
+  }
+  .ml-4{
+    margin-left: 4em;
+  }
+  .ml-8{
+    margin-left: 8em;
+  }
+  .w-full{
+width: 100%;
+  }
+  .bg-footer{
+    background-color: white !important;
+}
+
+  body.dark {
+
+
+    .bg-footer{
+      background-color: #1a1a1a !important;
+    }
+
+    code-input span{
+      color:white !important;
+    }
+
+    .calendar{
+      background-color: #121212 !important;
+      color:white !important;
+    }
+    button.days-btn[_ngcontent-mwk-c9] p[_ngcontent-mwk-c9]{
+        color:white !important;
+        }
+
+    div.mat-step-label{
+      color:white !important;
+  }
+  .mat-select-value-text{
+    color:white !important;
+  }
+
+
+    .calendar button[disabled]{
+      background-color:rgba(255, 0, 0, 0.233) !important;
+    }
+    .calendar p{
+      color:white !important ;
+    }
+  
+
+  ion-item{
+    --background: transparent !important;
+  }
+
+
 }

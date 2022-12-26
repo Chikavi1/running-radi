@@ -40,5 +40,9 @@ export class SubscriptionPage {
       this.navCtrl.navigateForward(page);
     }
 
+    beforePage(){
+      this.navCtrl.back();
+    }
+
 
   }

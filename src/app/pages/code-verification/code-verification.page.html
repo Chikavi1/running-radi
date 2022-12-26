@@ -1,0 +1,22 @@
+<ion-content>
+  <ion-fab vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button color="motel" Borde="false">
+      <ion-icon name="chevron-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+<ion-row style="margin-top:2em;">
+  <ion-col [size]="device=='tablet'?6:12" [offset]="device=='tablet'?3:0">
+
+    <div style="margin:3em 1em;">
+    <h4>{{ 'codeverification.title' | translate }} </h4>
+    <p>{{ 'codeverification.subtitle' | translate }} </p>
+    <p>{{ 'codeverification.email' | translate }} </p>
+      <code-input [isCodeHidden]="true"
+      [codeLength]="6"
+      (codeChanged)="onCodeChanged($event)"
+      (codeCompleted)="onCodeCompleted($event)">
+    </code-input>
+  </div>
+  </ion-col>
+</ion-row>
+</ion-content>

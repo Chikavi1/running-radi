@@ -1,0 +1,63 @@
+<ion-content >
+
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-row>
+    <ion-col [size]="device =='tablet'?8:12" [offset]="device =='tablet'?2:0">
+    
+  <img [ngClass]="{'ml-8' : device == 'tablet' }"  src="../../../assets/svgs/customer.svg" width="450" height="250" alt="">
+  <div style="margin: .7em;">
+    <h2 style="text-align: center;margin-top:-2em;">{{ 'helpcenter.title' | translate }}</h2>
+  
+    <ion-segment scrollable [(ngModel)]="menu" mode="md" value="globe" style="margin: 1em 1.2em;">
+    <ion-segment-button value="general">
+      <ion-label>{{ 'helpcenter.general' | translate }}</ion-label>
+    </ion-segment-button>
+
+  <ion-segment-button value="profile">
+    <ion-label>{{ 'helpcenter.profile' | translate }}</ion-label>
+  </ion-segment-button>
+
+  <ion-segment-button value="reservations">
+    <ion-label>{{ 'helpcenter.reservations' | translate }}</ion-label>
+  </ion-segment-button>
+
+  <ion-segment-button value="search">
+    <ion-label>{{ 'helpcenter.search' | translate }}</ion-label>
+  </ion-segment-button>
+
+  <ion-segment-button value="adoptions">
+    <ion-label>{{ 'helpcenter.adoptions' | translate }}</ion-label>
+  </ion-segment-button>
+
+  <ion-segment-button value="lost">
+    <ion-label>{{ 'helpcenter.lost' | translate }}</ion-label>
+  </ion-segment-button>
+
+  <ion-segment-button value="services">
+    <ion-label>{{ 'helpcenter.services' | translate }}</ion-label>
+  </ion-segment-button>
+
+</ion-segment>
+
+
+<div style="margin:1em;">
+  <div *ngFor="let question of questions">
+    <ion-item detail lines="none" *ngIf="question.category === menu"  (click)="openModal(question.title,question.response)" >
+      <ion-label >
+        {{ question.title }}
+      </ion-label>
+    </ion-item>
+  </div>
+</div>
+
+
+
+  </div>
+
+</ion-col>
+</ion-row>
+</ion-content>

@@ -41,6 +41,66 @@ const routes: Routes = [
   {
     path: 'card',
     loadChildren: () => import('./pages/card/card.module').then( m => m.CardPageModule)
+  },
+  {
+    path: 'acknowledge',
+    loadChildren: () => import('./pages/acknowledge/acknowledge.module').then( m => m.AcknowledgePageModule)
+  },
+  {
+    path: 'language',
+    loadChildren: () => import('./pages/language/language.module').then( m => m.LanguagePageModule)
+  },
+  {
+    path: 'gifts',
+    loadChildren: () => import('./pages/gifts/gifts.module').then( m => m.GiftsPageModule)
+  },
+  {
+    path: 'blog/:slug',
+    loadChildren: () => import('./pages/blog/blog.module').then( m => m.BlogPageModule)
+  },
+  {
+    path: 'lostpet',
+    loadChildren: () => import('./pages/lostpet/lostpet.module').then( m => m.LostpetPageModule)
+  },
+  {
+    path: 'helpcenter',
+    loadChildren: () => import('./pages/helpcenter/helpcenter.module').then( m => m.HelpcenterPageModule)
+  },
+  {
+    path: 'info-app',
+    loadChildren: () => import('./pages/info-app/info-app.module').then( m => m.InfoAppPageModule)
+  },
+  {
+    path: 'change-password',
+    loadChildren: () => import('./pages/change-password/change-password.module').then( m => m.ChangePasswordPageModule)
+  },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./pages/notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'forgot-pass',
+    loadChildren: () => import('./pages/forgot-pass/forgot-pass.module').then( m => m.ForgotPassPageModule)
+  },
+  {
+    path: 'modal-help',
+    loadChildren: () => import('./pages/modal-help/modal-help.module').then( m => m.ModalHelpPageModule)
+  },
+  {
+    path: 'code-verification',
+    loadChildren: () => import('./pages/code-verification/code-verification.module').then( m => m.CodeVerificationPageModule)
+  },
+  {
+    path: 'modal-announcement',
+    loadChildren: () => import('./pages/modal-announcement/modal-announcement.module').then( m => m.ModalAnnouncementPageModule)
   }
 ];
 @NgModule({

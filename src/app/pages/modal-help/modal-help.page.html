@@ -1,0 +1,13 @@
+
+<ion-content>
+  <div style="padding: 1.4em;">
+    <h2 style="text-transform: capitalize; font-size: 2.5em;font-weight: bold;">{{title}}</h2>
+    <p style="font-size:1.5em;" 
+    [innerHTML]="response" >
+  </p>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-button (click)="close()" fill="clear" expand="block">{{ 'thanks.close' | translate }}</ion-button>
+</ion-footer>

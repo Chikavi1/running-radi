@@ -1,0 +1,29 @@
+
+<ion-content>
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <div class="text-center padding-1 " style="margin-top: 2em;">
+    <h1 (click)="sumClicks()">Radi Pets Runner</h1>
+    <p>{{versionNumber}}</p>
+    <p>🇲🇽</p>
+    <p>Zapopan, Jalisco. México</p>
+
+    <div *ngIf="plt === 'capacitor'">
+      <div *ngIf="plt === 'ios'">
+        <a href="itms-apps://itunes.apple.com/app/id842849113">
+          <ion-button expand="full" >{{ 'infoapp.rateus' | translate }}</ion-button>
+        </a>
+      </div>
+      <div *ngIf="plt === 'android'">
+        <a href="market://details?id=pet.radi.radi" target="_blank">
+          <ion-button expand="full" >{{ 'infoapp.rateus' | translate  }} </ion-button>
+        </a>
+      </div>
+    </div>
+
+    <ion-button expand="full" (click)="goToPage('/feedback')" fill="clear">{{ 'infoapp.sendmessage' | translate }} </ion-button>
+  </div>
+</ion-content>

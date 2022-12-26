@@ -1,0 +1,28 @@
+<ion-content >
+  <div style="padding: 1em;margin-top: 5em;">
+    <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+      <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+        <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <ion-row>
+      <ion-col [size]="device=='tablet'?6:12" [offset]="device=='tablet'?3:0">
+
+     
+    <h3 style="font-weight: bold;">{{ 'forgot.title' | translate }}</h3>
+    <p style="font-size: 1.3em;font-weight: 200;">{{ 'forgot.subtitle' | translate }}</p>
+    <ion-label style="margin-left: 1em;margin-top: 4em;" color="primary">{{ 'forgot.email' | translate }}</ion-label>
+    <ion-row justify-content-center align-items-center  style="margin:1em;">
+      <ion-col size="12">
+        <ion-input class="new-input" [(ngModel)]="email" placeholder="{{ 'forgot.placeholderemail' | translate }} " type="email"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-button expand="full" [disabled]=" email == ''" (click)="enviar()" >
+      {{ 'forgot.send' | translate }}
+    </ion-button>
+  </ion-col>
+</ion-row>
+  </div>
+</ion-content>
