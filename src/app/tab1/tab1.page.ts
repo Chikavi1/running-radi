@@ -142,7 +142,7 @@ export class Tab1Page {
       componentProps: {
         distance: this.distance,
         time: this.time,
-        id_pet: 1, // cambia
+        pet_id: this.pet_selected, // cambia
         json_points: this.coords
       },
       breakpoints: [0.0,1],
@@ -154,7 +154,11 @@ export class Tab1Page {
 
     modal.onDidDismiss().then((data) => {
      if(data['data']){
+      this.coords = [];
+      this.distance = 0;
+      this.time = '';
 
+      //
 
      }
 
@@ -184,7 +188,7 @@ export class Tab1Page {
     return await modal.present();
   }
 
-
+  pet_selected;
   async presentModalStart(component) {
     const modal = await this.modalController.create({
       component: component,
@@ -197,7 +201,9 @@ export class Tab1Page {
 
     modal.onDidDismiss().then((data) => {
      if(data['data']){
-
+      console.log(data['data']);
+      this.pet_selected = data['data'][0]
+      // hacer if si tiene premium validar
       this.runGeolocation();
      }
 
@@ -247,7 +253,7 @@ start(){
 }
 marker;
 verenMapa(lat,lng){
-  if(this.isPets){ 
+  if(this.isPets){
     var homeICon = L.icon(
       {
         iconUrl:  'https://i.ibb.co/d59mYxn/wanted.png',
@@ -261,7 +267,7 @@ verenMapa(lat,lng){
       });
   }
 
- 
+
 
   if(this.marker){
     this.mapa.removeLayer(this.marker);
@@ -383,12 +389,6 @@ initMap(){
     this.lat = resp.coords.latitude;
     this.lng = resp.coords.longitude;
 
-
-
-
-
-
-
     this.mapa = Leaflet.map('mapa-running',{ zoomControl: false}).setView([this.lat, this.lng], 10);
 
       this.mapa.flyTo([this.lat, this.lng], 14, {
@@ -419,7 +419,7 @@ initMap(){
 
 let tile;
   if(window.matchMedia('(prefers-color-scheme: dark)').matches){
-    // light mode 
+    // light mode
     tile = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
   }else{
     // dark mode
@@ -437,7 +437,7 @@ Leaflet.tileLayer(tile, {
           center: [this.lat, this.lng]
           }).addTo(this.mapa);
 
-    this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: 'red',
+    this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',
     weight: 8}).addTo(this.mapa);
 
   }).catch((error) => {

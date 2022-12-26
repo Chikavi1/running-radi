@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdMob,RewardAdOptions,RewardAdPluginEvents,AdMobRewardItem } from '@capacitor-community/admob';
 import { ModalController } from '@ionic/angular';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-finish',
@@ -17,17 +18,19 @@ export class FinishPage implements OnInit {
   today;
   distance;
   time;
-  id_pet;
+  pet_id;
 
   json_points;
 
-  constructor(private modalCtrl:ModalController) {
+  constructor(
+    private modalCtrl:ModalController,
+    private api:DataService) {
     this.initialize();
     this.today = new Date();
    }
 
   ngOnInit() {
-    console.log(this.distance,this.time,this.id_pet)
+    console.log(this.distance,this.time,this.pet_id)
   }
 
   async initialize(){
@@ -62,8 +65,8 @@ export class FinishPage implements OnInit {
     }
 
     let data = {
-      "id_user": localStorage.getItem('user_id'),
-      "id_pets": this.id_pet,
+      "user_id": localStorage.getItem('user_id'),
+      "pet_id": this.pet_id,
       "distance": this.distance,
       "time": this.time,
       "created": new Date(),
@@ -71,16 +74,17 @@ export class FinishPage implements OnInit {
       "meta_data": JSON.stringify(meta_data)
     }
 
-    localStorage.setItem('activity',JSON.stringify(data));
-
-
-    alert(JSON.stringify(data));
-
     AdMob.addListener(
       RewardAdPluginEvents.Rewarded,
       (reward: AdMobRewardItem) => {
+
+        this.api.createActivity(data).subscribe((data:any) => {
+          if(data.status == 200){
+            this.modalCtrl.dismiss();
+          }
+        })
+
         console.log('REWARD: ',reward);
-        this.modalCtrl.dismiss();
       }
     )
     const options: RewardAdOptions = {

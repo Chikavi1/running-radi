@@ -13,6 +13,7 @@ export class AppComponent {
     private screenOrientation:ScreenOrientation,
     private translateService: TranslateService,
     private router:Router) {
+      localStorage.setItem('device','phone');
     // this.router.navigateByUrl('/profile');
     window.screen.orientation.lock('portrait');
     let language = localStorage.getItem('language')?localStorage.getItem('language'):'en';

@@ -19,7 +19,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/finish/finish.module').then( m => m.FinishPageModule)
   },
   {
-    path: 'run-show',
+    path: 'run-show/:id',
     loadChildren: () => import('./pages/run-show/run-show.module').then( m => m.RunShowPageModule)
   },
   {

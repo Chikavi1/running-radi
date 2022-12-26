@@ -26,6 +26,20 @@ export class DataService {
     }
    }
 
+
+   getActivity(id){
+    return this.http.get(this.MODE + 'activity/' + id);
+   }
+
+   createActivity(data){
+    return this.http.post(this.MODE + 'activity', JSON.parse(JSON.stringify(data)), this.options);
+   }
+
+
+   getActivities(user_id){
+    return this.http.get(this.MODE + 'activities/' + user_id);
+   }
+
    createCustomer(data):any{
     return this.http.post(this.MODE + 'createCostumer', JSON.parse(JSON.stringify(data)), this.options);
   }

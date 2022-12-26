@@ -3,10 +3,27 @@
     <h1>Iniciar Caminata</h1>
     <h5>¿cuál mascota?</h5>
 
-    <ion-item lines="none"  style="background: transparent !important;" *ngFor="let mascota of mascotas">
-      <ion-checkbox  [(ngModel)]="pet_selected" mode="md" slot="start"></ion-checkbox>
+    <!-- <ion-list>
+      <ion-item>
+        <ion-select placeholder="Select fruit">
+          <ion-select-option value="apples">Apples</ion-select-option>
+          <ion-select-option value="oranges">Oranges</ion-select-option>
+          <ion-select-option value="bananas">Bananas</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list> -->
+    <ion-list style="margin: 2em 0em;">
+      <ion-item>
+        <ion-select (ionChange)="handleChange($event)" placeholder="Selecciona la mascota" [multiple]="true">
+          <ion-select-option [value]="mascota.id" *ngFor="let mascota of mascotas">{{mascota.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    {{ pet_selected }}
+    <!-- <ion-item lines="none"  style="background: transparent !important;" *ngFor="let mascota of mascotas">
+      <ion-checkbox (click) mode="md" slot="start"></ion-checkbox>
       <ion-label>{{mascota.name}}</ion-label>
-    </ion-item>
+    </ion-item> -->
     <ion-button [disabled]="!pet_selected" *ngIf="step == 1" expand="full" (click)="next()" >
       Siguiente
     </ion-button>

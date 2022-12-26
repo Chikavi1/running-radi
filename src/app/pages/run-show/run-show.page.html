@@ -12,11 +12,11 @@
   <div style="margin-top:-6em;z-index:1000;">
 
     <ion-card style="padding:2em">
-      <h2 style="text-align: center;padding: 1em;">12 de diciembre del 2022</h2>
+      <h2 style="text-align: center;padding: 1em;">{{activity.createdAt | date:'fullDate'}}</h2>
       <p>Distancia</p>
-      <h2>2.43 km</h2>
+      <h2>{{ activity.distance }} km</h2>
       <p>Tiempo</p>
-      <h2>12.53  Mim</h2>
+      <h2>{{ activity.time }} Min</h2>
       <p>Velocidad Promedio</p>
       <h2>2.43 km/h</h2>
       <p>Velocidad Maxima</p>
@@ -26,11 +26,11 @@
         <h2>Mascota</h2>
         <ion-row>
           <ion-col size="5">
-            <img src="https://i.ibb.co/zSM7JRJ/09615e6fd7dc.png" style="border-radius: 1em;" alt="">
+            <img [src]="activity.pet_photo" style="border-radius: 1em;" alt="">
           </ion-col>
           <ion-col  size="7">
-            <h2>Radi</h2>
-            <p>Mediano</p>
+            <h2>{{activity.pet_name}}</h2>
+            <p>{{activity.pet_size}}</p>
           </ion-col>
         </ion-row>
     </ion-card>

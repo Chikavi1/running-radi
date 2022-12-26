@@ -21,6 +21,12 @@ export class Tab2Page {
     this.api.getBlogs().subscribe(data => {
       this.blogs = data;
     })
+if(localStorage.getItem('user_id')){
+  this.api.getActivities(localStorage.getItem('user_id')).subscribe(data => {
+    console.log(data);
+    this.activity = data;
+  })
+}
   }
 
   slide = {
@@ -34,10 +40,14 @@ export class Tab2Page {
     this.navCtrl.navigateForward(page)
   }
 
+  goToRun(id){
+    this.navCtrl.navigateForward('run-show/'+id);
+  }
+
   goToBlog(slug){
     this.navCtrl.navigateForward('blog/'+slug);
   }
-  
+
   async presentModalShow(component) {
     const modal = await this.modalController.create({
       component: component,

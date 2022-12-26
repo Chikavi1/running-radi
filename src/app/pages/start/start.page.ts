@@ -26,7 +26,11 @@ user_id;
   }
 
   close(success){
-    this.modalCtrl.dismiss(success);
+    this.modalCtrl.dismiss(this.pet_selected);
+  }
+
+  handleChange(ev) {
+    this.pet_selected = ev.target.value;
   }
 
 }

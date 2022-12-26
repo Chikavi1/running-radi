@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import * as Leaflet from 'leaflet';
+import { DataService } from 'src/app/services/data.service';
 declare var L: any;
 
 @Component({
@@ -10,7 +12,17 @@ declare var L: any;
 })
 export class RunShowPage implements OnInit {
 
-  constructor(private navCtrl:NavController) { }
+  activity:any=[];
+  constructor(private navCtrl:NavController,private api: DataService,private activatedRoute: ActivatedRoute) {
+
+    // alert(this.activatedRoute.snapshot.paramMap.get('id'))
+    this.api.getActivity(this.activatedRoute.snapshot.paramMap.get('id')).subscribe(data => {
+      console.log(data);
+      this.activity = data[0];
+    })
+
+
+   }
   lat = 20.620616;
   lng = -103.305521;
 
