@@ -14,6 +14,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { OneSignal } from '@awesome-cordova-plugins/onesignal/ngx';
+import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -29,7 +30,7 @@ export function createTranslateLoader(http: HttpClient) {
     }
   }),    HttpClientModule,
     IonicModule.forRoot(), AppRoutingModule],
-  providers: [OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [BarcodeScanner,OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

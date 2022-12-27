@@ -20,6 +20,9 @@ declare var L: any;
 export class Tab1Page {
 
   constructor(private modalController:ModalController,private alertController:AlertController){
+    window.screen.orientation.lock('portrait');
+
+
     this.items = this.pets;
     this.slide = {
       slidesPerView: 1.1

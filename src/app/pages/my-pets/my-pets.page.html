@@ -1,0 +1,29 @@
+<ion-content>
+  <ion-fab style="margin-top: 2em;"  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent  color="motel"  style="  outline: none !important;">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <div class="text-center" *ngIf="mascotas.length != 0">
+    <h1 style="padding:1em;margin-top:4em;">Mis Mascotas</h1>
+
+    <ion-card (click)="goToPets(mascota.id)" *ngFor="let mascota of mascotas">
+      <ion-row>
+      <ion-col>
+          <img [src]="mascota.photo" alt="pet image">
+      </ion-col>
+      <ion-col>
+        <h2>{{mascota.name}}</h2>
+        <p>{{mascota.size}}</p>
+        <p>Ver más</p>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</div>
+
+<div class="text-center p-1" style="margin-top: 4em;"  *ngIf="mascotas.length == 0">
+  <h2>Por el momento no tienes mascotas.</h2>
+  <ion-button fill="clear">Agregar mascota</ion-button>
+</div>
+
+</ion-content>

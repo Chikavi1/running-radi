@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DataService } from '../../services/data.service';
+import { LoginPage } from '../login/login.page';
 
 @Component({
   selector: 'app-start',
@@ -12,13 +13,20 @@ mascotas:any = [];
 user_id;
   constructor(private modalCtrl:ModalController,private api: DataService) {
     this.user_id = localStorage.getItem('user_id');
-    this.api.getPets(this.user_id).subscribe( datos => {
-      this.mascotas = datos;
-    });
+    this.getPets()
    }
+
   step = 1;
   pet_selected;
   ngOnInit() {
+  }
+
+  getPets(){
+    if(this.user_id){
+      this.api.getPets(this.user_id).subscribe( datos => {
+        this.mascotas = datos;
+      });
+    }
   }
 
   next(){
@@ -31,6 +39,31 @@ user_id;
 
   handleChange(ev) {
     this.pet_selected = ev.target.value;
+  }
+
+  login(){
+    this.presentModal(LoginPage);
+   }
+
+   async presentModal(component) {
+    const modal = await this.modalCtrl.create({
+      component: component,
+      breakpoints: [0.0, 0.90],
+      initialBreakpoint: 0.90,
+      backdropDismiss:true,
+      swipeToClose​:true,
+      cssClass: 'small-modal'
+    });
+
+    modal.onDidDismiss().then((data) => {
+     if(data['data']){
+        this.user_id = localStorage.getItem('user_id');
+        this.getPets();
+
+     }
+
+    });
+    return await modal.present();
   }
 
 }

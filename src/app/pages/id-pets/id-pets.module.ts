@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { StartPageRoutingModule } from './start-routing.module';
+import { IdPetsPageRoutingModule } from './id-pets-routing.module';
 
-import { StartPage } from './start.page';
+import { IdPetsPage } from './id-pets.page';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -15,8 +15,8 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     TranslateModule,
-    StartPageRoutingModule
+    IdPetsPageRoutingModule
   ],
-  declarations: [StartPage]
+  declarations: [IdPetsPage]
 })
-export class StartPageModule {}
+export class IdPetsPageModule {}

@@ -55,12 +55,36 @@ export class DataService {
     return this.http.get('https://json.geoiplookup.io/');
   }
 
+  uploadPetsImageProfile(data){
+    return this.http.post(this.MODE+'uploadPetsImageProfile', JSON.parse(JSON.stringify(data)),this.options);
+  }
+
   getPets(id): any {
     return this.http.get(this.MODE + 'pets/user/' + id);
   }
 
   forgotPassword(email):any{
     return this.http.post(this.MODE+'forgot',JSON.parse(JSON.stringify({email:email})),this.options);
+  }
+
+  getIdentification(id_pet){
+    return this.http.post(this.MODE + 'identifications/get', JSON.parse(JSON.stringify({id:id_pet})), this.options);
+  }
+
+  associatedId(data){
+    return this.http.post(this.MODE + 'identifications/associated', JSON.parse(JSON.stringify(data)), this.options);
+  }
+
+  getPetInfo(PetId): any {
+    return this.http.get(this.MODE + 'pets/showOrg/' + PetId);
+  }
+
+   getBreedInfo(data){
+    return this.http.post(this.MODE + 'breeds/search', JSON.parse(JSON.stringify(data)), this.options);
+  }
+
+  updatePet(data):any{
+    return this.http.put(this.MODE + 'pets/update', JSON.parse(JSON.stringify(data)), this.options);
   }
 
   validateToken(token):any{

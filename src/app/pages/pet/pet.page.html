@@ -1,0 +1,289 @@
+<ion-content fullscreen >
+
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div *ngIf="!noContent">
+
+
+  <ion-row [ngClass]="{'wrapper' : device == 'tablet' }" >
+    <ion-col [size]="device == 'tablet'?5:12"  [ngClass]="{'stuck' : device == 'tablet' }" >
+      <ion-slides  class="thumbnail"  pager="true"  [options]="slideOpts">
+        <ion-slide>
+            <img  style="object-fit: cover;height: 18em;width: 100%;border-radius: 1em;margin-top:.5em;" [src]="pet.photo" [alt]="pet.name">
+        </ion-slide>
+        <ion-slide class="slider-1 " *ngFor="let image of images">
+        </ion-slide>
+      </ion-slides>
+
+
+    <ion-row >
+      <ion-col size="9" style="margin-left: 1em;" class="padding-1">
+        <span style="font-weight: 300;font-size: 1.1em;" *ngIf="pet.status === 0">En memoria de </span>
+        <h3 style="font-weight: bold;font-size:1.5em; text-transform: capitalize;
+        ">{{pet.name}}</h3>
+        <ion-chip >
+          <ion-label>{{ necklaceTitle | translate }}</ion-label>
+        </ion-chip>
+        <!-- <img style="width: 20%;" src={{necklaceSrc}} alt=""> -->
+        <ion-chip color="success" *ngIf="pet.sterelized">
+          <ion-label>{{ 'pets.sterilized' | translate }}</ion-label>
+        </ion-chip>
+        <!-- <ion-chip color="success" >
+          <ion-label>Adoptado</ion-label>
+        </ion-chip> -->
+        <ion-chip color="danger" *ngIf="!pet.sterelized">
+          <ion-label>{{ 'pets.nosterilezed' | translate }}</ion-label>
+        </ion-chip>
+        <ion-chip color="warning" *ngIf="pet.muzzle">
+          <ion-icon name="warning-outline"></ion-icon>
+          <ion-label>{{ 'pets.needmuzzle' | translate }}</ion-label>
+        </ion-chip>
+
+
+
+
+
+      </ion-col>
+      <ion-col size="1"></ion-col>
+      <ion-col size="1">
+        <svg *ngIf="pet.status === 0" style="height:3em;width: 3em;margin-top:1em" enable-background="new 0 0 504.928 504.928" height="512" viewBox="0 0 504.928 504.928" width="512" xmlns="http://www.w3.org/2000/svg"><g><g><path d="m195.764 153.542c-20.378-28.302-23.348-65.262-7.752-96.456 13.147-26.291 39.572-42.624 68.967-42.624s55.82 16.333 68.967 42.624c15.597 31.194 12.627 68.154-7.751 96.456l-42.876 59.55 45.805 63.016 54.171-89.79.222-.379c22.004-39.041 21.644-85.45-.965-124.144s-62.862-61.795-107.697-61.795l-9.876.014v-.014h-9.897c-44.815 0-85.068 23.101-107.675 61.795-22.609 38.695-22.969 85.103-.965 124.144l192.436 318.988 85.077-47.856z"/><path d="m256.979 89.069c18.62 0 35.859 7.59 48.224 20.789 2.304-13.195.425-27.02-5.812-39.494-8.084-16.168-24.336-26.212-42.412-26.212s-34.327 10.045-42.412 26.213c-6.238 12.477-8.117 26.304-5.81 39.502 12.364-13.203 29.601-20.798 48.222-20.798z"/><path d="m186.828 324.334-97.855 127.66 94.106 52.934 56.639-93.883z"/></g></g></svg>
+      </ion-col>
+    </ion-row>
+
+    <ion-card *ngIf="pet.status === 0" style="border-radius: 1em;padding: 1em">
+      <ion-card-title>{{ 'pets.restinpeace' | translate }} <span style="text-transform: capitalize; ">{{ pet.name }}</span> </ion-card-title>
+      <p style="font-size: 1.3em;font-weight: 300;">{{ 'pets.messagerest' | translate }}</p>
+    </ion-card>
+
+
+
+
+    <h3 style="padding: 1em;font-weight: bold;">{{ 'pets.about' | translate }}</h3>
+    <p style="margin-left: 2em;" class="capital" >{{ pet.description }}</p>
+
+    <h3 style="padding: 1em;font-weight: bold;" *ngIf="pet.chronic_disease">{{ 'pets.chronicdiseases' | translate }}</h3>
+    <p style="margin-left: 2em;color:gray" *ngIf="!pet.chronic_disease">{{ 'pets.nochronicdiseases' | translate }}</p>
+    <p style="margin-left: 2em;" *ngIf="pet.chronic_disease" >{{ pet.chronic_disease }}</p>
+
+
+    </ion-col>
+
+    <ion-col [size]="device === 'tablet'?7:12" [ngClass]="{'fixedbox' : device == 'tablet' }" >
+      <ion-grid style="padding: .5em;">
+        <ion-row >
+          <ion-col>
+            <div style="height:10em;background-color: #6495ED;padding:1em;color:white;border-radius: 1em;">
+              <ion-icon  style="zoom:2.0;" name="calendar-outline"></ion-icon>
+              <h3>{{ 'pets.age' | translate }}</h3>
+
+              <div *ngIf="pet.birthday != null">
+                  <span *ngIf="dateFormat === 'days'">
+                    <span *ngIf="age === 1">{{ age }} dia</span>
+                    <span *ngIf="age != 1">Recién nacido</span>
+                  </span>
+                  <span *ngIf="dateFormat === 'months'">
+                    <span *ngIf="age === 1">{{ age }} mes</span>
+                    <span *ngIf="age != 1">{{ age }} meses</span>
+                  </span>
+                  <span *ngIf="dateFormat === 'years'">
+                    <span *ngIf="age === 1">{{ age }} año</span>
+                    <span *ngIf="age != 1">{{ age }} años</span>
+                  </span>
+                  <!-- {{ 'pets.years' | translate }} -->
+                </div>
+                <div *ngIf="pet.birthday === null">
+                  <span>No definido</span>
+                </div>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div style="height:10em;background-color: #9E700B;padding:1em;color:white;border-radius: 1em;">
+              <ion-icon  style="zoom:2.0;" name="paw"></ion-icon>
+              <h3> {{ 'pets.size' | translate }}</h3>
+              <h2 class="bold" *ngIf="pet.size === 'mn'">{{ 'pets.mini' | translate }}</h2>
+              <h2 class="bold" *ngIf="pet.size === 'sm'">{{ 'pets.small' | translate }}</h2>
+              <h2 class="bold" *ngIf="pet.size === 'md'">{{ 'pets.medium' | translate }}</h2>
+              <h2 class="bold" *ngIf="pet.size === 'lg'">{{ 'pets.big' | translate }}</h2>
+              <h2 class="bold" *ngIf="pet.size === 'xl'">{{ 'pets.extra-big' | translate }}</h2>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <div style="height:10em;background-color: #1B499E;padding:1em;color:white;border-radius: 1em;">
+              <ion-icon  style="zoom:2.0;" name="male-female-outline"></ion-icon>
+              <h3>{{ 'pets.gender' | translate }} </h3>
+              <h2 class="bold" *ngIf="pet.gender == 1">{{ 'pets.male' | translate }}</h2>
+              <h2 class="bold" *ngIf="pet.gender == 2">{{ 'pets.female' | translate }}</h2>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div style="height:10em;background-color: #EBB53F;padding:1em;color:white;border-radius: 1em;">
+              <ion-icon  style="zoom:2.0;" name="color-palette-outline"></ion-icon>
+              <h3>{{ 'pets.specie' | translate }}</h3>
+              <h2 class="bold" *ngIf="pet.specie === 1">{{ 'pets.cat' | translate }}</h2>
+              <h2 class="bold" *ngIf="pet.specie === 2">{{ 'pets.dog' | translate }}</h2>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <!-- <h2 style="padding-left: 2em;" (click)="goToPage('/moments')">Moments</h2> -->
+
+      <h3 class="padding-1">Activity</h3>
+
+      <ion-grid>
+        <ion-segment
+        [(ngModel)]="injections"
+        (ionChange)="segmentChanged($event)"
+        scrollable
+        value="vaccines"
+         style="margin: 1em 1.2em;">
+          <ion-segment-button value="vaccines">
+            <ion-label>{{ 'pets.vaccines' | translate }}</ion-label>
+          </ion-segment-button>
+
+          <ion-segment-button value="deworming">
+            <ion-label>{{ 'pets.deworming' | translate }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <div *ngIf="injections == 'vaccines'">
+
+        <div *ngIf="vaccines.length == 0">
+          <ion-row>
+              <ion-col size="3"></ion-col>
+              <ion-col size="6">
+                <img width="220" src="https://i.ibb.co/S39Jzdm/vaccine.png" alt="">
+              </ion-col>
+              <ion-col></ion-col>
+          </ion-row>
+            <h2 style="text-align: center;">{{ 'pets.novaccines' | translate }}</h2>
+            <!-- <p style="margin:0em 1em"  *ngIf="owner">Puedes subir las vacunas que le han puesto, sin embargo no tendrán validez hasta que un veterinario las apruebe.</p> -->
+        </div>
+
+        <div *ngIf="vaccines.length != 0" >
+            <ion-item lines="none" style="border-radius: .7em;margin-bottom: .7em;" *ngFor="let vaccine of vaccines;let i = index">
+              <ion-icon *ngIf="vaccine.status == 2" slot="end" style="color:green;" name="shield-checkmark-outline"></ion-icon>
+              <ion-label >
+                <h2 class="capitalize">{{vaccine.name}}</h2>
+                <h3 class="capitalize">{{vaccine.date  |  date:'fullDate':'es'}}</h3>
+              </ion-label>
+            </ion-item>
+        </div>
+
+        <!-- <ion-button expand="block" fill="clear" *ngIf="owner" (click)="OpenInjection('vaccine')">Agregar vacuna</ion-button> -->
+        </div>
+
+        <div *ngIf="injections == 'deworming'">
+          <div *ngIf="dewormings.length == 0">
+            <ion-row>
+              <ion-col size="3"></ion-col>
+              <ion-col size="6">
+                <img width="220" src="https://i.ibb.co/CmZL3Dy/vaccination.png" alt="">
+              </ion-col>
+              <ion-col></ion-col>
+            </ion-row>
+
+            <h2 style="text-align: center;">{{ 'pets.nodeworming' | translate }}</h2>
+            <!-- <p style="margin:0em 1em"  *ngIf="owner" >Puedes subir las desparasitaciones que le han puesto, sin embargo no tendrán validez hasta que un veterinario las apruebe.</p> -->
+          </div>
+          <div *ngIf="dewormings.length != 0">
+            <ion-item-sliding style="border-radius: .7em;margin-bottom: .7em;" *ngFor="let deworming of dewormings;let i = index">
+
+              <ion-item lines="none" >
+                <ion-icon *ngIf="deworming.status == 2" slot="end" style="color:green;" name="shield-checkmark-outline"></ion-icon>
+                <ion-label >
+                  <h2 class="capitalize">{{deworming.name}}</h2>
+                  <h3 class="capitalize">{{deworming.date  |  date:'fullDate':'es'}}</h3>
+                </ion-label>
+              </ion-item>
+            </ion-item-sliding>
+
+          </div>
+
+
+          <!-- <ion-button expand="block" fill="clear" *ngIf="owner" (click)="OpenInjection('deworming')">Agregar Desparasitación</ion-button> -->
+        </div>
+        <ion-item-divider mode="md"> </ion-item-divider>
+
+  <ion-card >
+  <img style="width: 100%;" [src]="breedData.image" alt="image pet breed">
+  <div style=padding:1em;>
+
+    <h2>{{breedData.name}}</h2>
+    <!-- <p>{{ breedData.size }}</p> -->
+    <ion-row>
+      <ion-col>
+        <p>Vida Prom.<br>
+        {{ breedData.lifeExpentacy }} años</p>
+      </ion-col>
+      <ion-col>
+        <p>Peso Minimo <br>
+          {{ breedData.minWeight }} KG
+        </p>
+
+      </ion-col>
+      <ion-col>
+        <p>
+          Peso Maximo <br>
+          {{ breedData.maxWeight }} KG
+        </p>
+
+      </ion-col>
+    </ion-row>
+    <p>{{ breedData.clean }}</p>
+    <p>{{ breedData.description }}</p>
+    <p>{{ breedData.behavior }}</p>
+    <p>
+      * Información puede variar.
+    </p>
+    <small>
+      FUENTE: Royalcanin
+    </small>
+  </div>
+  </ion-card>
+
+      </ion-grid>
+    </ion-col>
+  </ion-row>
+</div>
+<div *ngIf="noContent">
+  <h2 class="text-center" style="margin-top:4em;">{{ 'pets.noexist' | translate }}</h2>
+  <ion-button (click)="beforePage()" color="primary" expand="block" fill="clear">{{ 'createpet.back' | translate }}</ion-button>
+</div>
+
+<ion-fab *ngIf="owner" (click)="presentActionSheet()" slot="fixed" color="success" vertical="bottom" horizontal="end" >
+  <ion-fab-button>
+    <ion-icon   name="ellipsis-vertical"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+</ion-content>
+
+<ion-footer mode="md"  *ngIf="pet.status === 2">
+
+  <ion-row style="padding: 1em;" *ngIf="user_id">
+    <ion-col>
+      <p style="color: green;font-weight: bold;">{{ 'pets.inadoption' | translate }}</p>
+    </ion-col>
+    <ion-col>
+      <ion-button  expand="full" color="primary" (click)="Adoption()">{{ 'pets.adopt' | translate }}</ion-button>
+    </ion-col>
+  </ion-row>
+
+<ion-row *ngIf="!user_id">
+  <ion-col>
+    <p style="padding-left:.6em;color: orangered;font-weight: bold;">{{ 'login.needlogin' | translate }}</p>
+  </ion-col>
+  <ion-col>
+    <ion-button style="padding-top:.6em;"  expand="full" color="tertiary" (click)="login()">{{ 'login.login' | translate }} </ion-button>
+  </ion-col>
+</ion-row>
+</ion-footer>
+

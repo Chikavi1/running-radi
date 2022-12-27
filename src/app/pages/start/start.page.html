@@ -1,32 +1,35 @@
 <ion-content >
   <div *ngIf="step == 1" style="margin-top: 3em;padding:2em;">
     <h1>Iniciar Caminata</h1>
-    <h5>¿cuál mascota?</h5>
 
-    <!-- <ion-list>
-      <ion-item>
-        <ion-select placeholder="Select fruit">
-          <ion-select-option value="apples">Apples</ion-select-option>
-          <ion-select-option value="oranges">Oranges</ion-select-option>
-          <ion-select-option value="bananas">Bananas</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-list> -->
-    <ion-list style="margin: 2em 0em;">
-      <ion-item>
-        <ion-select (ionChange)="handleChange($event)" placeholder="Selecciona la mascota" [multiple]="true">
-          <ion-select-option [value]="mascota.id" *ngFor="let mascota of mascotas">{{mascota.name}}</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-list>
-    {{ pet_selected }}
-    <!-- <ion-item lines="none"  style="background: transparent !important;" *ngFor="let mascota of mascotas">
-      <ion-checkbox (click) mode="md" slot="start"></ion-checkbox>
-      <ion-label>{{mascota.name}}</ion-label>
-    </ion-item> -->
-    <ion-button [disabled]="!pet_selected" *ngIf="step == 1" expand="full" (click)="next()" >
-      Siguiente
-    </ion-button>
+    <div  *ngIf="user_id">
+      <div *ngIf="mascotas.length != 0">
+        <h5>¿cuál mascota?</h5>
+        <ion-list style="margin: 2em 0em;" >
+          <ion-item>
+            <ion-select (ionChange)="handleChange($event)" placeholder="Selecciona la mascota" [multiple]="true">
+              <ion-select-option [value]="mascota.id" *ngFor="let mascota of mascotas">{{mascota.name}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+
+        <ion-button [disabled]="!pet_selected" *ngIf="step == 1" expand="full" (click)="next()" >
+          Siguiente
+        </ion-button>
+      </div>
+
+      <div class="text-center p-1" style="margin-top: 4em;"  *ngIf="mascotas.length == 0">
+        <h2>Por el momento no tienes mascotas.</h2>
+        <ion-button fill="clear">Agregar mascota</ion-button>
+      </div>
+    </div>
+
+    <div  style="margin-top: 4em;"  *ngIf="!user_id">
+      <h4>Necesitas iniciar sesión para guardar los paseos con tus mascotas.</h4>
+      <ion-button expand="full" fill="clear"  (click)="login()">{{ 'login.login' | translate }}</ion-button>
+    </div>
+
+
   </div>
   <div *ngIf="step == 2" style="margin-top: 3em;">
     <h1 style="font-size:3em;padding:1em;">Recuerda <br> traer</h1>

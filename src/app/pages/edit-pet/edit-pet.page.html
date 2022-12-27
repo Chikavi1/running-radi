@@ -1,0 +1,65 @@
+<ion-content>
+
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+<ion-row>
+  <ion-col [size]="device ==='tablet'?10:12" [offset]="device=='tablet'?1:0">
+
+  <ion-fab vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button color="motel" Borde="false">
+      <ion-icon name="chevron-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+<h2  class="mt-3" style="text-align:center;font-weight: 400;">{{ 'editpet.title' | translate }} {{pet.name}}</h2>
+
+  <!-- <ion-segment
+    style="margin-top: 3em;"
+    value="informacion"
+    scrollable="true"
+    [(ngModel)]="segmentModel"
+    (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="informacion">
+      <ion-label>{{ 'editpet.infomation' | translate }}</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="caracteristicas">
+      <ion-label>{{ 'editpet.characteristic' | translate }}</ion-label>
+    </ion-segment-button>
+  </ion-segment> -->
+
+  <div *ngIf="segmentModel === 'informacion'">
+
+    <ion-row>
+      <ion-col [size]="device=='tablet'?6:12">
+        <img *ngIf="!photo" [src]="pet.photo" style="width: 100%;max-height: 100% !important;border-radius: 1em;" alt="image pet">
+        <img *ngIf="photo" [src]="photo" style="width: 100%;max-height: 100% !important;border-radius: 1em;" alt="pet image">
+        <ion-button (click)="getPicture()" class="ion-float-right" color="light" style="margin-top:-4em;">{{ 'editpet.changephoto' | translate }}</ion-button>
+      </ion-col>
+      <ion-col>
+        <div size="12"  style="margin:1em;">
+
+          <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editpet.name' | translate }}</ion-label>
+          <ion-row justify-content-center align-items-center  style="margin:1em;">
+            <ion-col size="12">
+              <ion-input [(ngModel)]="name" class="new-input" placeholder="{{ 'editpet.placeholdername' | translate }}" type="text" ></ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editpet.description' | translate }}</ion-label>
+            <div style="margin: 1em;">
+              <ion-textarea rows="7" [(ngModel)]="description" class="new-input" placeholder="{{ 'editpet.placeholderdescription' | translate }}" type="text"></ion-textarea>
+            </div>
+        </div>
+    </ion-col>
+  </ion-row>
+  </div>
+
+
+  </ion-col>
+  </ion-row>
+</ion-content>
+<ion-button [disabled]="pet.name == name && pet.description == description" (click)="update()" color="tertiary" expand="full">{{ 'editpet.update' | translate }}</ion-button>
+

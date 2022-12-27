@@ -1,0 +1,99 @@
+
+
+<ion-content>
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab *ngIf="step != 1"  vertical="top" horizontal="start"  slot="fixed" (click)="beforeStep()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+<h2 style="text-align: center;margin-top: 4em;">Pre registro de lugar Pet friendly</h2>
+<div class="p-1">
+<div *ngIf="step == 1">
+
+  <ion-item lines="none">
+    <ion-select [(ngModel)]="owner" class="new-input  mtb-1" style="width: 100%;" placeholder="Selecciona una opción" interface="popover">
+      <ion-select-option value="1">Soy Dueño</ion-select-option>
+      <ion-select-option value="2">Soy Cliente</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-select [(ngModel)]="type" class="new-input  mtb-1"  style="width: 100%;" placeholder="Tipo de establecimiento" interface="popover">
+      <ion-select-option value="1">Restaurantes</ion-select-option>
+      <ion-select-option value="2">Hoteles</ion-select-option>
+      <ion-select-option value="3">Parque</ion-select-option>
+      <ion-select-option value="4">Plaza</ion-select-option>
+      <ion-select-option value="5">Playa</ion-select-option>
+      <ion-select-option value="6">Atracción</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-input [(ngModel)]="name" class="new-input mtb-1" placeholder="Nombre del establecimiento">
+    </ion-input>
+  </ion-item>
+
+  <div style="padding: 0em 1.5em;">
+    <ion-label >Para facilitar el proceso puedes pegar el link de google</ion-label>
+  </div>
+
+  <ion-item lines="none">
+    <ion-select [(ngModel)]="google" class="new-input  mtb-1"  style="width: 100%;" placeholder="tienes Google Maps" interface="popover">
+      <ion-select-option value="1">Si tengo.</ion-select-option>
+      <ion-select-option value="2">No tengo.</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button color="dark" (click)="nextStep()" [disabled]="!owner || !type || !name || !google">Siguiente</ion-button>
+</div>
+
+  <div *ngIf="step == 2">
+  <div *ngIf="google == 1">
+    <img style="border-radius:1em;" src="https://i.ibb.co/x2btb0Y/Whats-App-Image-2022-12-26-at-5-28-05-PM.jpg" alt="image">
+    <p>Ingresa la direccion del establecimiento en google maps, selecciona la opcion de compartir, despues da clic en copiar y en el siguiente campo ingresa el link.</p>
+    <ion-item lines="none">
+      <ion-input class="new-input  mtb-1" [(ngModel)]="url" placeholder="Ingresa el link">
+      </ion-input>
+    </ion-item>
+    <ion-button color="dark" (click)="nextStep()" [disabled]="!url">Siguiente</ion-button>
+  </div>
+
+  <div *ngIf="google == 2">
+
+   <ion-item lines="none">
+     <ion-input  [(ngModel)]="street" class="new-input  mtb-1" placeholder="Calle y numero">
+    </ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-input [(ngModel)]="city" class="new-input  mtb-1" placeholder="Ciudad">
+    </ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-input [(ngModel)]="state" class="new-input  mtb-1" placeholder="Estado">
+    </ion-input>
+  </ion-item>
+
+  <ion-button color="dark" (click)="nextStep()" [disabled]="!street || !city || !state">Siguiente</ion-button>
+</div>
+  </div>
+
+  <div *ngIf="step == 3">
+    <p *ngIf="owner == 1">Un miembro del equipo de Radi Pets, tomará la información enviada para agregar tu establecimiento. Se comunicara contigo lo más pronto posible, cualquier sugerencia falsa será castigada en la plataforma. </p>
+    <p *ngIf="owner == 2">Un miembro del equipo de Radi Pets, tomará la información enviada y agregará un lugar Pet Friendly para que la comunidad conozca más lugares, así, al enviarla, notifico que mi sugerencia es auténtica y de mi experiencia, cualquier sugerencia falsa será castigada en la plataforma. </p>
+
+    <ion-button color="dark" expand="full" (click)="send()">Enviar</ion-button>
+
+  </div>
+
+
+
+</div>
+
+</ion-content>

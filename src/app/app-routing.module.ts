@@ -101,7 +101,36 @@ const routes: Routes = [
   {
     path: 'modal-announcement',
     loadChildren: () => import('./pages/modal-announcement/modal-announcement.module').then( m => m.ModalAnnouncementPageModule)
+  },
+  {
+    path: 'register-place',
+    loadChildren: () => import('./pages/register-place/register-place.module').then( m => m.RegisterPlacePageModule)
+  },
+  {
+    path: 'my-pets',
+    loadChildren: () => import('./pages/my-pets/my-pets.module').then( m => m.MyPetsPageModule)
+  },
+  {
+    path: 'pet/:id',
+    loadChildren: () => import('./pages/pet/pet.module').then( m => m.PetPageModule)
+  },  {
+    path: 'qr-user',
+    loadChildren: () => import('./pages/qr-user/qr-user.module').then( m => m.QrUserPageModule)
+  },
+  {
+    path: 'id-pets',
+    loadChildren: () => import('./pages/id-pets/id-pets.module').then( m => m.IdPetsPageModule)
+  },
+  {
+    path: 'edit-pet',
+    loadChildren: () => import('./pages/edit-pet/edit-pet.module').then( m => m.EditPetPageModule)
+  },
+  {
+    path: 'photo-modal',
+    loadChildren: () => import('./pages/photo-modal/photo-modal.module').then( m => m.PhotoModalPageModule)
   }
+
+
 ];
 @NgModule({
   imports: [

@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { StartPageRoutingModule } from './start-routing.module';
+import { QrUserPageRoutingModule } from './qr-user-routing.module';
 
-import { StartPage } from './start.page';
-import { TranslateModule } from '@ngx-translate/core';
+import { QrUserPage } from './qr-user.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TranslateModule,
-    StartPageRoutingModule
+    QrUserPageRoutingModule
   ],
-  declarations: [StartPage]
+  declarations: [QrUserPage]
 })
-export class StartPageModule {}
+export class QrUserPageModule {}

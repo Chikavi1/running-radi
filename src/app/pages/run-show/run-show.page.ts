@@ -44,28 +44,20 @@ export class RunShowPage implements OnInit {
 
       this.mapa = Leaflet.map('mapa-run',{ zoomControl: false}).setView([this.lat, this.lng], 10);
 
-        this.mapa.flyTo([this.lat, this.lng], 14, {
+        this.mapa.flyTo([this.lat, this.lng], 16, {
           animate: true,
           duration: 1.5
     });
 
-        var homeICon = L.icon(
-          {
-            iconUrl:  'https://i.ibb.co/d59mYxn/wanted.png',
-            iconSize:     [31, 31], // size of the icon
-          });
 
-          var pointsForJson = [
-            [this.lat, this.lng],
-          ];
+      let array = []
+      let myfor = JSON.parse(this.activity.json_points)
 
-          var userIcon = L.icon(
-            {
-              iconUrl:  'https://i.ibb.co/Z6f29T3/placeholder.png',
-              iconSize:     [31, 31], // size of the icon
-            });
+      myfor.forEach(element => {
+        array.push([element.x,element.y]);
+      });
 
-      // Leaflet.marker([this.lat,this.lng],{draggable: true,icon: userIcon}).on('dragend', e => this.procesar(e) ).addTo(this.mapa).bindPopup('Tu Ubicación');
+      let pointsForJson = array;
 
       Leaflet.tileLayer('https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga', {
             zoom: 8,
@@ -78,10 +70,21 @@ export class RunShowPage implements OnInit {
             center: [this.lat, this.lng]
             }).addTo(this.mapa);
 
-      // this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: 'red',
-      // weight: 8}).addTo(this.mapa);
+setTimeout(() => {
+  this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: 'red',
+  weight: 8}).addTo(this.mapa);
+},1700)
 
 
+  }
+
+
+  lngLatArrayToLatLng(lngLatArray) {
+    return lngLatArray.map(this.lngLatToLatLng);
+  }
+
+  lngLatToLatLng(lngLat) {
+    return [lngLat[0], lngLat[1]];
   }
 
 }

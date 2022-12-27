@@ -22,10 +22,9 @@ export class Tab2Page {
       this.blogs = data;
     })
 if(localStorage.getItem('user_id')){
-  this.api.getActivities(localStorage.getItem('user_id')).subscribe(data => {
-    console.log(data);
-    this.activity = data;
-  })
+  // this.api.getActivities(localStorage.getItem('user_id')).subscribe(data => {
+  //   this.activity = data;
+  // })
 }
   }
 
