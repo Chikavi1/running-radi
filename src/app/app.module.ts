@@ -15,6 +15,7 @@ import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/n
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { OneSignal } from '@awesome-cordova-plugins/onesignal/ngx';
 import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
+// import { Network } from '@awesome-cordova-plugins/network/ngx';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

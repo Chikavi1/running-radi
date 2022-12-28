@@ -6,10 +6,15 @@ const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("Backg
 import { Geolocation } from '@capacitor/geolocation';
 
 import * as Leaflet from 'leaflet';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { PlacePage } from '../pages/place/place.page';
 import { StartPage } from '../pages/start/start.page';
 import { FinishPage } from '../pages/finish/finish.page';
+
+// import { Network } from '@awesome-cordova-plugins/network/ngx';
+
+import { Network } from '@capacitor/network';
+
 declare var L: any;
 
 @Component({
@@ -19,14 +24,35 @@ declare var L: any;
 })
 export class Tab1Page {
 
-  constructor(private modalController:ModalController,private alertController:AlertController){
-    window.screen.orientation.lock('portrait');
+  constructor(private modalController:ModalController,private alertController:AlertController,private toastController:ToastController){
+
+
 
 
     this.items = this.pets;
     this.slide = {
       slidesPerView: 1.1
     }
+  }
+
+  ionViewWillEnter(){
+    Network.addListener('networkStatusChange', status => {
+      console.log('Network status changed', status);
+
+      if(status.connected == false){
+        // alert('no hay internet')
+        this.presentToast();
+      }
+
+    });
+
+    const logCurrentNetworkStatus = async () => {
+      const status = await Network.getStatus();
+      console.log('Network status:', status);
+    };
+
+
+
   }
 
   lat:any;
@@ -160,6 +186,8 @@ export class Tab1Page {
       this.coords = [];
       this.distance = 0;
       this.time = '';
+      this.pLineGroup.removeFrom(this.mapa)
+
 
       //
 
@@ -311,7 +339,6 @@ runGeolocation(){
         distanceFilter: 15
     },(data)=>{
 
-      // this.addCoordenates(data?.latitude,data?.longitude);
       this.oldlat = this.lat;
       this.oldlng = this.lng;
       this.lat = data?.latitude;
@@ -385,19 +412,20 @@ ionViewDidEnter(){
   this.initMap();
 }
 
+pLineGroup = L.layerGroup()
+
+
 initMap(){
 
   Geolocation.getCurrentPosition().then((resp) => {
-    console.log(resp);
     this.lat = resp.coords.latitude;
     this.lng = resp.coords.longitude;
-
     this.mapa = Leaflet.map('mapa-running',{ zoomControl: false}).setView([this.lat, this.lng], 10);
 
       this.mapa.flyTo([this.lat, this.lng], 14, {
         animate: true,
         duration: 1.5
-  });
+        });
 
       var homeICon = L.icon(
         {
@@ -440,8 +468,11 @@ Leaflet.tileLayer(tile, {
           center: [this.lat, this.lng]
           }).addTo(this.mapa);
 
-    this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',
-    weight: 8}).addTo(this.mapa);
+          this.pLineGroup.addLayer( L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8}))
+          this.pLineGroup.addTo(this.mapa)
+
+    // this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8})
+    // .addTo(this.mapa);
 
   }).catch((error) => {
     console.log('Error getting location', error);
@@ -489,6 +520,16 @@ getTimeFormatted() {
     formatted_time += ':' + seconds_st;
   }
   return formatted_time;
+}
+
+async presentToast() {
+  const toast = await this.toastController.create({
+    message: 'No internet,el mapa puede fallar',
+    duration: 1500,
+    position: 'bottom'
+  });
+
+  await toast.present();
 }
 
 

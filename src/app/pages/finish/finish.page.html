@@ -12,6 +12,10 @@
       </h3>
     </div>
   </div>
+  <ion-card *ngIf="offline" style="padding:1em;">
+    <h2 style="color:orangered;"><ion-icon name="alert-circle-outline"></ion-icon> Estas desconectado</h2>
+    <p>Tu proceso se guardará en tu telefono por unos dias, cuando tengas conexion a internet lo podras subir de nuevo en el apartado de actividades pendientes</p>
+  </ion-card>
 
   <ion-card style="padding: 1em;">
     <h1>Datos</h1>
@@ -28,12 +32,6 @@
       <ion-col size="6">
         {{time}} min
       </ion-col>
-      <!-- <ion-col size="6">
-        KM/H
-      </ion-col>
-      <ion-col size="6">
-        28.04 KM/H
-      </ion-col> -->
     </ion-row>
   </ion-card>
   <ion-slides [options]="slide" >

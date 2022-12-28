@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import * as Leaflet from 'leaflet';
 import { DataService } from 'src/app/services/data.service';
 declare var L: any;
+
+declare var require: any;
+const Hashids = require('hashids/cjs');
+const hashids = new Hashids('Elradipet10Lt', 6,'ABCEIU1234567890');
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-run-show',
@@ -12,14 +18,18 @@ declare var L: any;
 })
 export class RunShowPage implements OnInit {
 
-  activity:any=[];
-  constructor(private navCtrl:NavController,private api: DataService,private activatedRoute: ActivatedRoute) {
+premium = true;
 
-    // alert(this.activatedRoute.snapshot.paramMap.get('id'))
-    this.api.getActivity(this.activatedRoute.snapshot.paramMap.get('id')).subscribe(data => {
-      console.log(data);
-      this.activity = data[0];
-    })
+    getSafeUrl(filePreviewUrl){
+      return this.sanitization.bypassSecurityTrustStyle('url(\'' + filePreviewUrl + '\')');
+    }
+
+    image  = "https://radi-images.s3.us-west-1.amazonaws.com/764fddb820c660fe";;
+
+    activity:any=[];
+
+  constructor(private sanitization: DomSanitizer,private navCtrl:NavController,private api: DataService,private activatedRoute: ActivatedRoute) {
+
 
 
    }
@@ -31,6 +41,11 @@ export class RunShowPage implements OnInit {
 
   beforePage(){
     this.navCtrl.back();
+  }
+
+
+  goToPage(page){
+    this.navCtrl.navigateForward(page)
   }
 
   ionViewDidEnter(){
@@ -71,8 +86,7 @@ export class RunShowPage implements OnInit {
             }).addTo(this.mapa);
 
 setTimeout(() => {
-  this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: 'red',
-  weight: 8}).addTo(this.mapa);
+  this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8}).addTo(this.mapa);
 },1700)
 
 
@@ -87,4 +101,7 @@ setTimeout(() => {
     return [lngLat[0], lngLat[1]];
   }
 
+  goToPets(id){
+    this.navCtrl.navigateForward('pet/'+hashids.encode(id));
+   }
 }

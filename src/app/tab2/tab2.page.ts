@@ -17,15 +17,15 @@ export class Tab2Page {
     private navCtrl:NavController,
     private modalController:ModalController,
     private api: DataService){
-      this.act = JSON.stringify(localStorage.getItem('activity'));
+
+    this.act = JSON.stringify(localStorage.getItem('activities'));
+
+
+
     this.api.getBlogs().subscribe(data => {
       this.blogs = data;
     })
-if(localStorage.getItem('user_id')){
-  this.api.getActivities(localStorage.getItem('user_id')).subscribe(data => {
-    this.activity = data;
-  })
-}
+
   }
 
   slide = {
@@ -33,6 +33,21 @@ if(localStorage.getItem('user_id')){
   }
   slidePets = {
     slidesPerView: 1.03
+  }
+
+  getActivities(){
+    if(localStorage.getItem('user_id')){
+      this.api.getActivities(localStorage.getItem('user_id')).subscribe(data => {
+        this.activity = data;
+      })
+    }
+  }
+
+  ionViewWillEnter(){
+    if(localStorage.getItem('newActivity')){
+      this.getActivities();
+      localStorage.removeItem('newActivity');
+    }
   }
 
   goToPage(page){

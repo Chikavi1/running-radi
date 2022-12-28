@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdMob,RewardAdOptions,RewardAdPluginEvents,AdMobRewardItem } from '@capacitor-community/admob';
 import { ModalController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
+import { Network } from '@capacitor/network';
 
 @Component({
   selector: 'app-finish',
@@ -57,7 +58,28 @@ export class FinishPage implements OnInit {
     this.behavior = s;
   }
 
+  offline;
+  ionViewWillEnter(){
+    Network.addListener('networkStatusChange', status => {
+      console.log('Network status changed', status);
+
+      if(status.connected == false){
+       this.offline = true;
+      }
+
+    });
+
+    const logCurrentNetworkStatus = async () => {
+      const status = await Network.getStatus();
+      console.log('Network status:', status);
+    };
+
+
+
+  }
+
   async showRewardVideo(){
+
     let meta_data = {
       "behavior": this.behavior,
       "pooped" : this.pooped,
@@ -74,26 +96,36 @@ export class FinishPage implements OnInit {
       "meta_data": JSON.stringify(meta_data)
     }
 
-    AdMob.addListener(
-      RewardAdPluginEvents.Rewarded,
-      (reward: AdMobRewardItem) => {
+    if(this.offline){
+      localStorage.setItem('activities',JSON.stringify(data));
+      this.modalCtrl.dismiss();
 
-        this.api.createActivity(data).subscribe((data:any) => {
-          if(data.status == 200){
-            this.modalCtrl.dismiss();
-          }
-        })
+      }else{
 
-        console.log('REWARD: ',reward);
-      }
-    )
-    const options: RewardAdOptions = {
-      adId: '9906704246',
-      isTesting: true
-    };
 
-    await AdMob.prepareRewardVideoAd(options);
-    await AdMob.showRewardVideoAd();
+
+        AdMob.addListener(
+          RewardAdPluginEvents.Rewarded,
+          (reward: AdMobRewardItem) => {
+
+            this.api.createActivity(data).subscribe((data:any) => {
+            localStorage.setItem('newActivity','true');
+            if(data.status == 200){
+              this.modalCtrl.dismiss();
+            }
+          })
+
+          console.log('REWARD: ',reward);
+        }
+        )
+        const options: RewardAdOptions = {
+        adId: '9906704246',
+        isTesting: true
+      };
+
+      await AdMob.prepareRewardVideoAd(options);
+      await AdMob.showRewardVideoAd();
+    }
   }
 
 

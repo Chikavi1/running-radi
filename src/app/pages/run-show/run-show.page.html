@@ -6,7 +6,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <div  id="mapa-run" style="width: 100%;height: 29em;background-color: gainsboro;z-index: -1;">
+  <div   id="mapa-run" style="width: 100%;height: 29em;background-color: gainsboro;z-index: -1;">
 
   </div>
   <div style="margin-top:-6em;z-index:1000;">
@@ -22,17 +22,52 @@
       <p>Velocidad Maxima</p>
       <h2>6.43 km/h</h2>
     </ion-card>
-    <ion-card style="padding: 1em;">
-        <h2>Mascota</h2>
-        <ion-row>
-          <ion-col size="5">
-            <img [src]="activity.pet_photo" style="border-radius: 1em;" alt="">
-          </ion-col>
-          <ion-col  size="7">
-            <h2>{{activity.pet_name}}</h2>
-            <p>{{activity.pet_size}}</p>
-          </ion-col>
-        </ion-row>
+
+    <!-- <ion-button expand="full" fill="clear">Compartir a  mis amigos</ion-button> -->
+
+    <ion-card style="padding:2em">
+      <h2 style="text-align: center;padding: 1em;">Más información</h2>
+      <p>Estado</p>
+      <h2>Cansado</h2>
+      <p>¿tomo agua?</p>
+      <h2>Si</h2>
+      <p>¿hizo sus necesidades?</p>
+      <h2>No</h2>
     </ion-card>
+
+
+
+
+    <h2 style="text-align: center;padding: 1em;">Recuerdo</h2>
+    <ion-card *ngIf="image"  style="background-repeat: no-repeat;background-size: cover;height: 20em;" [style.background-image]="getSafeUrl(image)">
+    </ion-card>
+
+    <ion-card style="padding:2em" *ngIf="!image">
+      <div *ngIf="premium">
+        <p>No hay momento,guarda tu recuerdo de esa salida con tu mascota.</p>
+        <ion-button fill="clear" expand="block" >Subir foto</ion-button>
+      </div>
+      <div *ngIf="!premium">
+        <p>No hay momento, para guardar el momento recuerda necesitas Radi Pets Premium.</p>
+        <ion-button fill="clear" expand="block" (click)="goToPage('/subscription')">Subscribirse</ion-button>
+      </div>
+    </ion-card>
+
+
+
+    <h2 class="p-1">Mascota</h2>
+    <ion-card (click)="goToPets(activity.pet_id)" >
+      <ion-row>
+      <ion-col>
+          <img [src]="activity.pet_photo" alt="pet image">
+      </ion-col>
+      <ion-col>
+        <h2>{{activity.pet_name}}</h2>
+        <p>{{activity.peT_size}}</p>
+        <p>Ver más</p>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
   </div>
 </ion-content>
