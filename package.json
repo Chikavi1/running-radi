@@ -55,6 +55,7 @@
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.9.3",
     "moment": "^2.29.4",
+    "ng-circle-progress": "^1.6.0",
     "ngx-image-cropper": "^6.3.2",
     "onesignal-cordova-plugin": "^3.3.0",
     "phonegap-plugin-barcodescanner": "^8.1.0",

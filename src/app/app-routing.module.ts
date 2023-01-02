@@ -128,6 +128,10 @@ const routes: Routes = [
   {
     path: 'photo-modal',
     loadChildren: () => import('./pages/photo-modal/photo-modal.module').then( m => m.PhotoModalPageModule)
+  },
+  {
+    path: 'set-goal',
+    loadChildren: () => import('./pages/set-goal/set-goal.module').then( m => m.SetGoalPageModule)
   }
 
 

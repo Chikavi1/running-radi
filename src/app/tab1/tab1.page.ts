@@ -412,6 +412,12 @@ ionViewDidEnter(){
   this.initMap();
 }
 
+ionViewWillLeave(){
+  if(this.isStart){
+    console.log('seconds',this.seconds);
+  }
+}
+
 pLineGroup = L.layerGroup()
 
 
