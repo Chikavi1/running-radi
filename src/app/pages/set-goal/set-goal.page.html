@@ -1,0 +1,20 @@
+<ion-content>
+  <div style="padding:1em">
+    <ion-card class="p-1" [ngClass]="{'selected' : goal == 20 }"  (click)="setGoal(20)">
+      <h3>20 min</h3> 
+      <p>Iniciando, acostumbrando a tu mascota</p>
+    </ion-card>
+    <ion-card class="p-1" [ngClass]="{'selected' : goal == 30 }"  (click)="setGoal(30)">
+      <h3>30 min</h3>
+      <p>Sube la intensidad</p>
+    </ion-card>
+    <ion-card class="p-1" [ngClass]="{'selected' : goal == 40 }"  (click)="setGoal(40)" >
+      <h3>40 min</h3>
+      <p>Se recomienda minimo 40 min al dia </p>
+    </ion-card>
+    <ion-card class="p-1" [ngClass]="{'selected' : goal == 60 }"  (click)="setGoal(60)">
+      <h3>60 min</h3>
+      <p>Tu y tu mascota son unos pro!</p>
+    </ion-card>
+  </div>
+</ion-content>

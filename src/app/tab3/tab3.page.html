@@ -55,11 +55,8 @@
                       </ion-label>
                     </ion-item>
               <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.pets' | translate }}</h2>
-              <ion-item lines="none" (click)="goToPage('/my-pets')">
-                <ion-icon slot="end" name="paw-outline"></ion-icon>
-                <ion-label>Mis mascotas</ion-label>
-              </ion-item>
-              <!-- <ion-slides [options]="slide">
+
+              <ion-slides [options]="slide">
                 <ion-slide (click)="goToPage('/create-pet')">
                   <ion-card style="width:250px;height:250px;border-radius:1em; background-color: rgba(0,0,0,0.8);filter:brightness(0.8);">
                     <h1 style="color:white;margin-top:2em;">{{ 'menu.add' | translate }} <br> {{ 'menu.pet' | translate }}</h1>
@@ -67,13 +64,8 @@
                 </ion-slide>
 
 
-                <ion-slide (click)="goToPets(mascota.id)"  *ngFor="let mascota of mascotas">
-                  <ion-card style="width:250px;height:250px;border-radius:1em; background-color: rgba(0,0,0,0.8);filter:brightness(0.8);">
-                    <ion-img style="width:250px;height:250px;border-radius:1em;object-fit: cover;" [src]="mascota?.photo"></ion-img>
-                    <p class="truncate" style="color:white;margin-top: -2em;font-size: 1.5em;margin-left: .5em;font-weight: bold;">{{mascota.name}}</p>
-                  </ion-card>
-                </ion-slide>
-              </ion-slides> -->
+                
+              </ion-slides>
 
               <!-- <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.visit' | translate }}</h2>
               <ion-item lines="none" (click)="goToPage('/next-visits')">

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
+import { SetGoalPage } from '../pages/set-goal/set-goal.page';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -13,18 +14,25 @@ export class Tab2Page {
   activity:any =  [];
   petFriendly:any = [];
   act;
+  daily_percentage = 0;
+
+  convertgoal;
   constructor(
     private navCtrl:NavController,
     private modalController:ModalController,
     private api: DataService){
-
+      // this.daily_percentage = 15;
     this.act = JSON.stringify(localStorage.getItem('activities'));
+    
+    this.convertgoal =  (parseInt(localStorage.getItem('goal'))/60);
+    console.log(this.convertgoal)
+
+    // this.getActivities();
 
 
-
-    this.api.getBlogs().subscribe(data => {
-      this.blogs = data;
-    })
+    // this.api.getBlogs().subscribe(data => {
+    //   this.blogs = data;
+    // })
 
   }
 
@@ -62,14 +70,41 @@ export class Tab2Page {
     this.navCtrl.navigateForward('blog/'+slug);
   }
 
+  openModal(){
+    this.presentModalShow(SetGoalPage);
+  }
+
   async presentModalShow(component) {
     const modal = await this.modalController.create({
       component: component,
       componentProps:{
         id: 1
       },
+      breakpoints: [0.0,0.75, 1],
+      initialBreakpoint: 0.75,
+      backdropDismiss:true,
+      swipeToClose​:true,
+      cssClass: 'small-modal'
+    });
+
+    modal.onDidDismiss().then((data) => {
+     if(data['data']){
+      this.convertgoal =  (parseInt(localStorage.getItem('goal'))/60);
+
+     }
+
+    });
+    return await modal.present();
+  }
+
+  async presentMedium(component) {
+    const modal = await this.modalController.create({
+      component: component,
+      componentProps:{
+        id: 1
+      },
       breakpoints: [0.0,0.6, 1],
-      initialBreakpoint: 0.6,
+      initialBreakpoint: 0.5,
       backdropDismiss:true,
       swipeToClose​:true,
       cssClass: 'small-modal'
