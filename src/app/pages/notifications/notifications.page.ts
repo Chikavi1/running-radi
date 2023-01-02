@@ -93,6 +93,12 @@ export class NotificationsPage {
       data: { secret: 1 },
       foreground: true
     });
+    this.localNotifications.schedule({
+      text: 'Delayed ILocalNotification',
+      trigger: {at: new Date(new Date().getTime() + 3600)},
+      led: 'FF0000',
+      sound: null
+   });
     this.presentToast('alerta x activada','success');
   }
 
