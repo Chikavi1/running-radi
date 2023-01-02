@@ -334,9 +334,9 @@ runGeolocation(){
 
       if(this.seconds % 60 == 0){
         this.localNotifications.schedule({
-          id: 1,
-          text: 'Llevas un minuto',
-          data: { secret: 1 }
+          text: 'Llevas '+this.seconds+' segundos',
+          data: { secret: 1 },
+          foreground: true
         });
       }
 

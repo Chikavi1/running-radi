@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
+import { ELocalNotificationTriggerUnit, LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 
 @Component({
   selector: 'app-notifications',
@@ -23,12 +24,16 @@ export class NotificationsPage {
   id_user;
 
   device;
+
+
+
+
   constructor(
               private navCtrl:NavController,
-              // private localNotifications:LocalNotifications,
+              private localNotifications:LocalNotifications,
               private api:DataService,
               private toastController: ToastController,
-              private alertCtrl: AlertController){ 
+              private alertCtrl: AlertController){
                 this.id_user = localStorage.getItem('user_id');
                 this.device = localStorage.getItem('device');
 
@@ -42,6 +47,53 @@ export class NotificationsPage {
                   this.ad_email        = this.data.ad_email;
                   this.ad_sms          = this.data.ad_sms;
                 });
+  }
+
+
+  createReminder(){
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth();
+    let day = new Date().getDate();
+
+    let time1 = new Date(year, month, day, 18, 0, 0);
+    let time2 = new Date(year, month, day, 11,  0, 0);
+
+    this.localNotifications.schedule([
+      {
+        id: 10,
+        title: 'Recordatorio para salir a pasear',
+        text: 'Buena hora para salir',
+        trigger: {
+          firstAt: new Date(time1),
+          every: ELocalNotificationTriggerUnit.DAY,
+        },
+        foreground: true,
+        data: {"id": 1, "name": "Mr. A"}
+      },
+      {
+        id: 11,
+        title: 'Recordatorio paseo matutino',
+        text: 'Buena hora para salir',
+        trigger: {
+          firstAt: new Date(time2),
+          every: ELocalNotificationTriggerUnit.DAY,
+        },
+        data: {"id": 2, "name": "Mr. B"},
+        foreground: true
+      }
+    ]);
+
+    this.presentToast('Reminder create','success');
+
+  }
+
+  alert(){
+    this.localNotifications.schedule({
+      text: 'Alerta x ',
+      data: { secret: 1 },
+      foreground: true
+    });
+    this.presentToast('alerta x activada','success');
   }
 
 
@@ -66,7 +118,7 @@ export class NotificationsPage {
         text: 'Eliminar',
         handler: () => {
           // this.localNotifications.cancelAll().then(data => {
-         
+
           // });
         }
       }
@@ -76,7 +128,7 @@ export class NotificationsPage {
   await alert.present();
 }
 
-  
+
   cancelAll(){
     this.presentAlertConfirm()
   }
@@ -90,29 +142,29 @@ export class NotificationsPage {
     toast.present();
   }
 
+  update(){
+    let notifications = {
+      "reminder_push"   : this.reminder_push,
+      "reminder_email"  : this.reminder_email,
+      "reminder_sms"    : this.reminder_sms,
+      "ad_push"         : this.ad_push,
+      "ad_email"        : this.ad_email,
+      "ad_sms"          : this.ad_sms
+    }
 
-ionViewWillLeave(){
 
-  let notifications = {
-    "reminder_push"   : this.reminder_push,
-    "reminder_email"  : this.reminder_email,
-    "reminder_sms"    : this.reminder_sms,
-    "ad_push"         : this.ad_push,
-    "ad_email"        : this.ad_email,
-    "ad_sms"          : this.ad_sms
+      let datos = {
+        "id"            : this.id_user,
+        "notifications" : JSON.stringify(notifications)
+      }
+
+      this.api.updateUser(datos).subscribe(data => {
+        console.log(data);
+        this.beforePage();
+      });
+
   }
 
-
-  let datos = {
-    "id"            : this.id_user,
-    "notifications" : JSON.stringify(notifications)
-  }
-
-    this.api.updateUser(datos).subscribe(data => {
-      console.log(data);
-    });
-
-}
 
 }
 
