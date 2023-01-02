@@ -15,6 +15,7 @@ import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/n
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { OneSignal } from '@awesome-cordova-plugins/onesignal/ngx';
 import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
+import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 // import { Network } from '@awesome-cordova-plugins/network/ngx';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -31,7 +32,7 @@ export function createTranslateLoader(http: HttpClient) {
     }
   }),    HttpClientModule,
     IonicModule.forRoot(), AppRoutingModule],
-  providers: [BarcodeScanner,OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [BarcodeScanner,LocalNotifications,OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

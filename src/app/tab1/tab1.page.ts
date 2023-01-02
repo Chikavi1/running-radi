@@ -14,6 +14,7 @@ import { FinishPage } from '../pages/finish/finish.page';
 // import { Network } from '@awesome-cordova-plugins/network/ngx';
 
 import { Network } from '@capacitor/network';
+import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 
 declare var L: any;
 
@@ -24,7 +25,7 @@ declare var L: any;
 })
 export class Tab1Page {
 
-  constructor(private modalController:ModalController,private alertController:AlertController,private toastController:ToastController){
+  constructor(private localNotifications: LocalNotifications,private modalController:ModalController,private alertController:AlertController,private toastController:ToastController){
 
 
 
@@ -328,6 +329,17 @@ runGeolocation(){
       // console.log((this.float2int(difference/1000)*-1));
       this.seconds = (this.float2int(difference/1000)*-1);
       this.time = this.getTimeFormatted();
+
+
+
+      if(this.seconds % 60 == 0){
+        this.localNotifications.schedule({
+          id: 1,
+          text: 'Llevas un minuto',
+          data: { secret: 1 }
+        });
+      }
+
     }, 1000);
 
 

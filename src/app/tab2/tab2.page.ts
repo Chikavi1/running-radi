@@ -3,6 +3,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { SetGoalPage } from '../pages/set-goal/set-goal.page';
 import { DataService } from '../services/data.service';
 
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -31,6 +32,7 @@ export class Tab2Page {
   constructor(
     private navCtrl:NavController,
     private modalController:ModalController,
+
     private api: DataService){
     this.acts = JSON.parse(localStorage.getItem('activities'));
       console.log(this.acts);
@@ -39,10 +41,17 @@ export class Tab2Page {
 
 
     this.date1 = new Date();
+
+
+
     this.interval = window.setInterval(() => {
       var fecha2 = new Date()
       var difference = this.date1.getTime() - fecha2.getTime();
       this.seconds = (this.float2int(difference/1000)*-1);
+
+      // console.log(this.seconds % 20)
+      // console.log(this.seconds);
+
 
       this.daily_percentage = (100*this.seconds/(this.convertgoal*60))
 
