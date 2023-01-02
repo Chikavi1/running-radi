@@ -255,7 +255,10 @@ export class Tab1Page {
   addCoordenates(lat,lng){
     let coodinates = [lat, lng];
     // console.log(coodinates);
-    this.polyline.addLatLng(coodinates);
+
+    this.pLineGroup.addLayer(L.polyline(coodinates, {color: 'red'}))
+
+    // this.polyline.addLatLng(coodinates);
   }
 
   lngLatArrayToLatLng(lngLatArray) {
@@ -471,8 +474,8 @@ Leaflet.tileLayer(tile, {
           this.pLineGroup.addLayer( L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8}))
           this.pLineGroup.addTo(this.mapa)
 
-    // this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8})
-    // .addTo(this.mapa);
+    this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8})
+    .addTo(this.mapa);
 
   }).catch((error) => {
     console.log('Error getting location', error);
