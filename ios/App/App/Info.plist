@@ -67,6 +67,9 @@
 </array>
 <key>NSUserTrackingUsageDescription</key>
 <string>[Why you use NSUserTracking. ex: This identifier will be used to deliver personalized ads to you.]</string>
-
+<key>UIBackgroundModes</key>
+   <array>
+        <string>remote-notification</string>
+  </array>
 </dict>
 </plist>
