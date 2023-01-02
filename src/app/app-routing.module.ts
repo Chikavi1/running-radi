@@ -132,6 +132,14 @@ const routes: Routes = [
   {
     path: 'set-goal',
     loadChildren: () => import('./pages/set-goal/set-goal.module').then( m => m.SetGoalPageModule)
+  },
+  {
+    path: 'create-pet',
+    loadChildren: () => import('./pages/create-pet/create-pet.module').then( m => m.CreatePetPageModule)
+  },
+  {
+    path: 'breeds',
+    loadChildren: () => import('./pages/breeds/breeds.module').then( m => m.BreedsPageModule)
   }
 
 

@@ -36,4 +36,8 @@ export class MyPetsPage implements OnInit {
     this.navCtrl.back();
   }
 
+  addPet(){
+    this.navCtrl.navigateForward('/create-pet');
+   }
+
 }

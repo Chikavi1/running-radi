@@ -27,6 +27,14 @@ export class DataService {
    }
 
 
+   breeds(data){
+    return this.http.post(this.MODE + 'breeds', JSON.parse(JSON.stringify(data)), this.options);
+  }
+
+  createPet(data): any {
+    return this.http.post(this.MODE + 'pets/store', JSON.parse(JSON.stringify(data)), this.options);
+  }
+
    getActivity(id){
     return this.http.get(this.MODE + 'activity/' + id);
    }

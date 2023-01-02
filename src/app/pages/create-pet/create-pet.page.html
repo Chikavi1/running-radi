@@ -1,0 +1,466 @@
+<ion-content>
+  <ion-row>
+    <ion-col [size]="device=='tablet'?6:12" [offset]="device=='tablet'?3:0">
+
+  <ion-row style="margin-top: 2em;">
+    <ion-col size="4">
+      <circle-progress
+      [percent]="valor*100"
+      [radius]="45"
+      [outerStrokeWidth]="8"
+      [innerStrokeWidth]="8"
+      [outerStrokeColor]="'#78C000'"
+      [innerStrokeColor]="'#C7E596'"
+      [animation]="true"
+      [animationDuration]="300"
+    ></circle-progress>
+
+  </ion-col>
+    <ion-col size="8">
+      <div *ngIf="step != 5">
+        <h4 *ngIf="step == 0"> {{ 'createpet.uploadimage' | translate }}</h4>
+        <h4 *ngIf="step == 1"> {{ 'createpet.generaldata' | translate }}</h4>
+        <h4 *ngIf="step == 2"> {{ 'createpet.specificdata' | translate }} </h4>
+        <!-- <h4 *ngIf="step == 3"> {{ 'createpet.characteristic' | translate }} </h4> -->
+        <p> {{ 'createpet.step' | translate }} {{step+1}} {{ 'createpet.totalsteps' | translate }} 5</p>
+      </div>
+      <div *ngIf="step == 4">
+        <h4 class="bold"> {{ 'createpet.youfinished' | translate }}</h4>
+        <p>{{ 'createpet.seeprofile' | translate }}</p>
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <div *ngIf="step == 0">
+<div *ngIf="!photo">
+
+  <ion-button fill="clear"  expand="block"  (click)="getPicture()">
+    <ion-icon name="camera" slot="start"></ion-icon>
+    <ion-label>{{ 'createpet.uploadimage' | translate }}</ion-label>
+  </ion-button>
+  <h2 style="text-align: center;color:#8b8b91;font-weight: bold;"> {{ 'createpet.uploadmessage' | translate }}</h2>
+  <p style="color:#8b8b91;margin:0em 1.3em;font-size:1.2em;text-align: center;">{{ 'createpet.cropimage' | translate }}</p>
+</div>
+
+      <ion-button *ngIf="photo" expand="block" fill="clear" (click)="getPicture()">
+        <ion-icon  name="camera" slot="start"></ion-icon>
+        <ion-label>{{ 'createpet.againupload' | translate }}</ion-label>
+      </ion-button>
+            <ion-card *ngIf="photo">
+            <ion-card-content>
+              <img [src]="photo">
+            </ion-card-content>
+          </ion-card>
+</div>
+
+<div *ngIf="step == 1">
+  <div style="margin:1em;">
+
+    <ion-label style="margin-left: 1.5em;" color="primary">{{ 'createpet.name' | translate }}</ion-label>
+    <ion-row justify-content-center align-items-center  style="margin:1em;">
+      <ion-col size="12">
+        <ion-input [(ngModel)]="name" class="new-input" placeholder="{{ 'createpet.placeholderpetsname' | translate }}" maxlength="20" type="text" ></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-label style="margin-left: 1.5em;" color="primary">{{ 'createpet.description' | translate }}</ion-label>
+      <div style="margin: 1em;">
+        <ion-textarea  maxlength="599" rows="6" cols="20"  [(ngModel)]="description" class=" new-input" placeholder="{{ 'createpet.placeholderdescription' | translate }}" type="text" value=""></ion-textarea>
+      </div>
+
+    <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.birthday' | translate }}</ion-label>
+    <ion-row  style="margin:1em;">
+      <ion-col size="12" [ngClass]="{'ml-4' : device == 'tablet' }">
+        <ion-datetime presentation="date" style="width: 100% !important;"  (ionChange)="birthdayChange()" [min]="yearLimitIonDateTime" [max]="today" [(ngModel)]="birthday"  displayFormat="DD/MM/YYYY" doneText="Aceptar" cancelText="Cancelar" value="19-02-1990" ></ion-datetime>
+      </ion-col>
+    </ion-row>
+
+
+  </div>
+</div>
+
+<div *ngIf="step == 2">
+
+
+  <h2 style="margin:0em 1em;">{{ 'createpet.selectgenere' | translate }}</h2>
+    <ion-row>
+      <ion-col >
+        <ion-card  [ngClass]="{'selected' : gender == '2' }" (click)="setGender('2')" >
+          <div>
+            <img style="padding:1em;width: 70px;height: 70px;display: block;margin:auto;" src="../../../assets/svgs/female.svg" alt="female svg">
+          </div>
+          <p style="text-align: center;color:#ff73c6;font-weight: bold;">
+            {{ 'pets.female' | translate }}
+          </p>
+           </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card [ngClass]="{'selected' : gender == '1' }" (click)="setGender('1')" >
+        <div>
+          <img style="padding:1em;width: 70px;height: 70px;display: block;margin:auto;"  src="../../../assets/svgs/male.svg" alt="male svg">
+        </div>
+        <p style="text-align: center;color:#75c1ff;font-weight: bold;">
+          {{ 'pets.male' | translate }}
+        </p> </ion-card>
+      </ion-col>
+
+    </ion-row>
+
+    <h2 style="margin:0em 1em;">{{ 'createpet.selectspecie' | translate }}</h2>
+    <ion-row>
+      <ion-col >
+        <ion-card  [ngClass]="{'selected' : specie == '1' }" (click)="setSpecie('1')" >
+          <div>
+            <img style="padding:1em;width: 70px;height: 70px;display: block;margin:auto;" src="../../../assets/svgs/cat.svg" alt="cat svg">
+          </div>
+          <p style="text-align: center;color:#ff73c6;font-weight: bold;">
+            {{ 'pets.cat' | translate }}
+          </p>
+           </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card [ngClass]="{'selected' : specie == '2' }" (click)="setSpecie('2')" >
+        <div>
+          <img style="padding:1em;width: 70px;height: 70px;display: block;margin:auto;" src="../../../assets/svgs/dog.svg" alt="dog svg">
+        </div>
+          <p style="text-align: center;color:#75c1ff;font-weight: bold;">
+          {{ 'pets.dog' | translate }}
+        </p> </ion-card>
+      </ion-col>
+
+    </ion-row>
+
+      <ion-list>
+        <ion-item lines="none">
+          <ion-label>{{ 'createpet.sterelizedpet' | translate }}</ion-label>
+          <ion-toggle [(ngModel)]="esterilized"></ion-toggle>
+        </ion-item>
+      </ion-list>
+
+      <div *ngIf="esterilized" style="margin: 1em;">
+        <p>{{ 'createpet.rememberdate' | translate }}</p>
+        <div [ngClass]="{'ml-4' : device == 'tablet' }" >
+
+          <ion-datetime presentation="date"  [min]="birthday" [max]="today" cancelText="{{ 'createinjection.canceltext' | translate }}" doneText="{{ 'createinjection.donetext' | translate }}" class="new-input" [(ngModel)]="sterelized_date"  displayFormat="DD/MMM/YYYY"  locale="es-MX"></ion-datetime>
+        </div>
+      </div>
+
+<div *ngIf="specie == '1'">
+
+
+  <div *ngIf="breddId == 0">
+
+    <ion-button fill="clear" expand="full" style="margin:2em 0em;" (click)="modalBreed()">
+      {{ 'createpet.selectbreedcat' | translate }}
+    </ion-button>
+
+    </div>
+
+    <div *ngIf="breddId != 0">
+      <ion-item lines="none">
+        <ion-thumbnail slot="start">
+          <img alt="iamge pet" [src]="breedImage" />
+        </ion-thumbnail>
+        <ion-label>{{breedName}}</ion-label>
+        <ion-icon (click)="modalBreed()" name="pencil-outline" slot="end"></ion-icon>
+      </ion-item>
+    </div>
+
+    <ion-label style="margin-left: 1.5em;margin-top:2em" >Selecciona el peso de tu mascota</ion-label>
+
+  <ion-radio-group [(ngModel)]="weight" mode="ios" style="margin:1em 0em;">
+
+    <ion-item>
+      <ion-label>1 KG</ion-label>
+      <ion-radio slot="start" color="tertiary" value="1"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>2 KG</ion-label>
+      <ion-radio slot="start" color="tertiary" value="2"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>3 KG</ion-label>
+      <ion-radio slot="start" color="dark" value="3"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>4 KG</ion-label>
+      <ion-radio slot="start" color="dark" value="4"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>5 KG</ion-label>
+      <ion-radio slot="start" color="dark" value="5"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>+6 KG</ion-label>
+      <ion-radio slot="start" color="dark" value="6"></ion-radio>
+    </ion-item>
+
+  </ion-radio-group>
+</div>
+
+<div *ngIf="specie == '2'">
+  <div *ngIf="breddId == 0">
+    <ion-button fill="clear" expand="full" style="margin:2em 0em;" (click)="modalBreed()">
+      {{ 'createpet.selectbreeddog' | translate }}
+    </ion-button>
+  </div>
+
+  <div *ngIf="breddId != 0">
+    <ion-item lines="none">
+      <ion-thumbnail slot="start">
+        <img alt="iamge pet" [src]="breedImage" />
+      </ion-thumbnail>
+      <ion-label>{{breedName}}</ion-label>
+      <ion-icon (click)="modalBreed()" name="pencil-outline" slot="end"></ion-icon>
+    </ion-item>
+  </div>
+
+
+  <ion-item-divider mode="md" style="margin-bottom: 2em;">
+  </ion-item-divider>
+
+  <ion-label style="margin-left: 1.5em;margin-top:2em" color="primary">{{ 'createpet.colornecklace' | translate }}</ion-label>
+  <ion-slides [options]="slide" mode="ios">
+    <ion-slide class="full-width">
+      <ion-card [ngClass]="{'selected' : colornecklace == 1 }" (click)="setcolorn(1)" >
+        <ion-card-header>
+          <ion-card-subtitle>{{ 'createpet.warning' | translate }}</ion-card-subtitle>
+          <ion-card-title>{{ 'createpet.red' | translate }}</ion-card-title>
+          <img style="width: 20%;" src="../../../assets/necklace-red.png" alt="">
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card [ngClass]="{'selected' : colornecklace == 2 }" (click)="setcolorn(2)" >
+        <ion-card-header>
+          <ion-card-subtitle>{{ 'createpet.nervious' | translate }}</ion-card-subtitle>
+          <ion-card-title>{{ 'createpet.yellow' | translate }}</ion-card-title>
+          <img style="width: 20%;" src="../../../assets/necklace-yellow.png" alt="">
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card [ngClass]="{'selected' : colornecklace == 3}" (click)="setcolorn(3)">
+        <ion-card-header>
+          <ion-card-subtitle>{{ 'createpet.friendly' | translate }}</ion-card-subtitle>
+          <ion-card-title>{{ 'createpet.green' | translate }}</ion-card-title>
+          <img style="width: 20%;" src="../../../assets/necklace-green.png" alt="">
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card [ngClass]="{'selected' : colornecklace == 4 }" (click)="setcolorn(4)">
+        <ion-card-header>
+          <ion-card-subtitle>{{ 'createpet.notfriendly' | translate }}</ion-card-subtitle>
+          <ion-card-title>{{ 'createpet.orange' | translate }}</ion-card-title>
+          <img style="width: 20%;" src="../../../assets/necklace-orange.png" alt="">
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card [ngClass]="{'selected' : colornecklace == 5 }" (click)="setcolorn(5)">
+        <ion-card-header>
+          <ion-card-subtitle>{{ 'createpet.notfeedme' | translate }}</ion-card-subtitle>
+          <ion-card-title>{{ 'createpet.purple' | translate }}</ion-card-title>
+          <img style="width: 20%;" src="../../../assets/necklace-purple.png" alt="">
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card [ngClass]="{'selected' : colornecklace == 6 }" (click)="setcolorn(6)">
+        <ion-card-header>
+          <ion-card-subtitle>{{ 'createpet.trained' | translate }}</ion-card-subtitle>
+          <ion-card-title>{{ 'createpet.blue' | translate }}</ion-card-title>
+          <img style="width: 20%;" src="../../../assets/necklace-blue.png" alt="">
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card [ngClass]="{'selected' : colornecklace == 7 }" (click)="setcolorn(7)">
+        <ion-card-header>
+          <ion-card-subtitle>{{ 'createpet.disability' | translate }}</ion-card-subtitle>
+          <ion-card-title>{{ 'createpet.white' | translate }}</ion-card-title>
+          <img style="width: 20%;" src="../../../assets/necklace-white.png" alt="">
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-radio-group [(ngModel)]="size" mode="ios" style="margin:1em 0em;">
+    <ion-list-header>
+      <ion-label color="primary">{{ 'createpet.selectsize' | translate }}</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>{{ 'pets.mini' | translate }}</ion-label>
+      <ion-radio (click)="setWeight(2.5)"  slot="start" color="tertiary" value="mn"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'pets.small' | translate }}</ion-label>
+      <ion-radio (click)="setWeight(10)" slot="start" color="tertiary" value="sm"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>{{ 'pets.medium' | translate }}</ion-label>
+      <ion-radio (click)="setWeight(20)" slot="start" color="dark" value="md"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>{{ 'pets.big' | translate }}</ion-label>
+      <ion-radio (click)="setWeight(30)" slot="start" color="dark" value="lg"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>{{ 'pets.extra-big' | translate }}</ion-label>
+      <ion-radio (click)="setWeight(50)" slot="start" color="dark" value="xl"></ion-radio>
+    </ion-item>
+
+  </ion-radio-group>
+</div>
+
+</div>
+
+
+<div *ngIf="step === 3">
+  <div style="margin:1em;" >
+    <img [src]="photo">
+    <img [src]="croppedImage" *ngIf="croppedImage" style="margin:0;border-radius:1em;">
+
+    <ion-row>
+      <ion-col size="10">
+        <h3 style="font-weight: bold;font-size:1.5em; text-transform: capitalize;
+        ">{{name}}</h3>
+        <p>{{breedName}}</p>
+        <p style="font-weight: bold;font-size:.9em;">
+        <ion-chip color="success" *ngIf="esterilized">
+          <ion-label>{{ 'pets.sterilized' | translate }}</ion-label>
+        </ion-chip></p>
+      </ion-col>
+
+      <ion-col size="2">
+            <img style="width: 100%;" src={{necklaceSrc}} alt="">
+      </ion-col>
+    </ion-row>
+
+
+
+
+
+
+
+
+
+
+    <p style="margin-left: 1.5em;">{{ description }}</p>
+    <ion-grid style="padding: .5em;">
+      <ion-row >
+        <ion-col>
+          <div style="height:12em;background-color: #6495ED;padding:1em;color:white;border-radius: 1em;">
+            <ion-icon  style="zoom:2.0;" name="calendar-outline"></ion-icon>
+            <h4>{{ 'pets.age' | translate }}</h4>
+            <h3 class="bold">
+
+              <span *ngIf="dateFormat === 'days'">
+                <span *ngIf="age === 1">{{ age }} {{ 'createpet.day' | translate }}</span>
+                <span *ngIf="age != 1">{{ 'createpet.newborn' | translate }}</span>
+              </span>
+              <span *ngIf="dateFormat === 'months'">
+                <span *ngIf="age === 1">{{ age }} {{ 'createpet.month' | translate }}</span>
+                <span *ngIf="age != 1">{{ age }} {{ 'createpet.months' | translate }}</span>
+              </span>
+              <span *ngIf="dateFormat === 'years'">
+                <span *ngIf="age === 1">{{ age }} {{ 'createpet.year' | translate }}</span>
+                <span *ngIf="age != 1">{{ age }} {{ 'createpet.years' | translate }}</span>
+              </span>
+            </h3>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div style="height:12em;background-color: #9E700B;padding:1em;color:white;border-radius: 1em;">
+            <ion-icon  style="zoom:2.0;" name="paw"></ion-icon>
+            <div *ngIf="specie == '2'">
+
+              <h3> {{ 'pets.size' | translate }}</h3>
+              <h2 class="bold" *ngIf="size === 'mn'">{{ 'pets.mini' | translate }}</h2>
+              <h2 class="bold" *ngIf="size === 'sm'">{{ 'pets.small' | translate }}</h2>
+              <h2 class="bold" *ngIf="size === 'md'">{{ 'pets.medium' | translate }}</h2>
+              <h2 class="bold" *ngIf="size === 'lg'">{{ 'pets.big' | translate }}</h2>
+              <h2 class="bold" *ngIf="size === 'xl'">{{ 'pets.extra-big' | translate }}</h2>
+            </div>
+            <div *ngIf="specie == '1'">
+              <h3> {{ 'visits.weight' | translate }}</h3>
+              <h2 class="bold">{{ weight }} KG </h2>
+
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <div style="background-color: #1B499E;padding:1em;color:white;border-radius: 1em;">
+            <ion-icon  style="zoom:2.0;" name="male-female-outline"></ion-icon>
+            <h4> {{ 'pets.gender' | translate }}</h4>
+            <h3 class="bold" *ngIf="gender == '1'">{{ 'pets.male' | translate }}</h3>
+            <h3 class="bold" *ngIf="gender == '2'">{{ 'pets.female' | translate }}</h3>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div style="background-color: #EBB53F;padding:1em;color:white;border-radius: 1em;">
+            <ion-icon  style="zoom:2.0;" name="color-palette-outline"></ion-icon>
+            <h4>{{ 'pets.specie' | translate }}</h4>
+            <h3 class="bold" *ngIf="specie == '1'">{{ 'pets.cat' | translate }}</h3>
+            <h3 class="bold" *ngIf="specie == '2'">{{ 'pets.dog' | translate }}</h3>
+        </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-row>
+    </ion-row>
+  </div>
+</div>
+
+</ion-col>
+</ion-row>
+</ion-content>
+  <ion-footer>
+  <ion-row *ngIf="step == 0">
+    <ion-col>
+      <ion-button expand="full" fill="clear" color="danger" (click)="back()" >{{ 'createpet.back' | translate }}</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button (click)="siguiente()" color="tertiary" expand="full">{{ 'createpet.next' | translate }}</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="step == 1">
+    <ion-col>
+      <ion-button expand="full" fill="clear" color="danger" (click)="regresar()" >{{ 'createpet.back' | translate }}</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button (click)="siguiente()" [disabled]="name == '' || birthday == '' || description == '' " color="tertiary" expand="full">{{ 'createpet.next' | translate }}</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="step == 2">
+    <ion-col>
+      <ion-button expand="full" fill="clear" color="danger" (click)="regresar()" >{{ 'createpet.back' | translate }}</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button *ngIf="specie === '2'" (click)="siguiente()" [disabled]="gender == '' || size == '' || breddId == 0 " color="tertiary" expand="full">{{ 'createpet.next' | translate }}</ion-button>
+      <ion-button *ngIf="specie === '1'" (click)="siguiente()" [disabled]="gender == '' || weight == 0.0 || breddId == 0" color="tertiary" expand="full">{{ 'createpet.next' | translate }}</ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="step == 3">
+    <ion-col>
+      <ion-button expand="full" fill="clear" color="danger" (click)="regresar()" >{{ 'createpet.back' | translate }}</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button (click)="saveTodos()" [disabled]="senddata"  color="dark" expand="full">{{ 'createpet.finish' | translate }}</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-footer>

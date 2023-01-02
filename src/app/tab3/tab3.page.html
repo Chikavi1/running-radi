@@ -42,10 +42,11 @@
       </div>
 
       <div *ngIf="mostrar">
+
         <div *ngIf="user_id">
 
-              <div style="margin:2em;">
-                <ion-item lines="none" *ngIf="datos">
+              <div style="padding:1.2em;margin-top:2.5em;">
+                <!-- <ion-item lines="none" *ngIf="datos">
                       <ion-avatar (click)="goToPage('/edit-profile')" style="width:5em;height: 5em;" slot="start" lines="none">
                         <ion-img [src]="datos? datos?.photo:'../assets/bg-user.png'"></ion-img>
                       </ion-avatar>
@@ -53,10 +54,11 @@
                         <h2 class="capitalize">{{ datos.name }}</h2>
                         <p (click)="goToPage('/profile')">{{ 'menu.show_profile' | translate }} </p>
                       </ion-label>
-                    </ion-item>
+                    </ion-item> -->
+
               <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.pets' | translate }}</h2>
 
-              <ion-slides [options]="slide">
+              <!-- <ion-slides [options]="slide">
                 <ion-slide (click)="goToPage('/create-pet')">
                   <ion-card style="width:250px;height:250px;border-radius:1em; background-color: rgba(0,0,0,0.8);filter:brightness(0.8);">
                     <h1 style="color:white;margin-top:2em;">{{ 'menu.add' | translate }} <br> {{ 'menu.pet' | translate }}</h1>
@@ -64,8 +66,14 @@
                 </ion-slide>
 
 
-                
-              </ion-slides>
+
+
+              </ion-slides> -->
+
+              <ion-item lines="none" (click)="goToPage('/my-pets')">
+                <ion-icon slot="end" name="paw-outline"></ion-icon>
+                <ion-label>{{ 'menu.my_pets' | translate }}</ion-label>
+              </ion-item>
 
               <!-- <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.visit' | translate }}</h2>
               <ion-item lines="none" (click)="goToPage('/next-visits')">

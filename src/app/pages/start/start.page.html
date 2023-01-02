@@ -7,7 +7,7 @@
         <h5>¿cuál mascota?</h5>
         <ion-list style="margin: 2em 0em;" >
           <ion-item>
-            <ion-select (ionChange)="handleChange($event)" placeholder="Selecciona la mascota" [multiple]="true">
+            <ion-select style="width:100%;" (ionChange)="handleChange($event)" placeholder="Selecciona la mascota" [multiple]="true">
               <ion-select-option [value]="mascota.id" *ngFor="let mascota of mascotas">{{mascota.name}}</ion-select-option>
             </ion-select>
           </ion-item>

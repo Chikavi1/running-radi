@@ -1,0 +1,32 @@
+<ion-content>
+
+  <div *ngIf="loading">
+    <h2 style="margin: 4em 0em;text-align: center;">Cargando razas...</h2>
+  </div>
+
+    <div *ngIf="!loading">
+      <h1 style="margin: 2em;">Razas</h1>
+      <ion-searchbar placeholder="Raza" animated (ionChange)="search($event)"></ion-searchbar>
+      <ion-row>
+        <ion-col>
+          <ion-card *ngFor="let breed of searchBreeds">
+            <ion-row (click)="select(breed.id,breed.name,breed.image)">
+              <ion-col size="6" style="padding-left: 1em;">
+                <p style="text-transform: capitalize;">{{ breed.fur }}</p>
+               <h3 style="font-weight: bold;">{{breed.name}}</h3>
+               <p style="color:green">Seleccionar <ion-icon name="arrow-forward-outline"></ion-icon> </p>
+              </ion-col>
+              <ion-col size="6">
+                <img  style="height: auto;filter: grayscale(1);" [src]="breed.image" alt="">
+              </ion-col>
+            </ion-row>
+
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </div>
+
+  </ion-content>
+  <ion-footer>
+    <ion-button (click)="close()" expand="full" fill="clear">Cerrar</ion-button>
+  </ion-footer>

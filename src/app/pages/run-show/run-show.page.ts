@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import * as Leaflet from 'leaflet';
 import { DataService } from 'src/app/services/data.service';
@@ -28,11 +28,26 @@ premium = true;
 
     activity:any=[];
 
-  constructor(private sanitization: DomSanitizer,private navCtrl:NavController,private api: DataService,private activatedRoute: ActivatedRoute) {
+  constructor(
+    private sanitization: DomSanitizer,
+    private navCtrl:NavController,
+    private api: DataService,
+    private route: ActivatedRoute
+    ) {
+
+     this.route.params.subscribe((params: Params) => {
+      this.api.getActivity(params['id']).subscribe(data => {
+        console.log(data);
+        this.activity = data[0];
+      })
+   });
+
+
 
 
 
    }
+
   lat = 20.620616;
   lng = -103.305521;
 

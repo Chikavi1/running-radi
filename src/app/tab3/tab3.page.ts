@@ -21,7 +21,9 @@ export class Tab3Page {
   mascotas:any = [];
   mostrar = false;
   user_id;
+
   datos:any = [];
+
   device;
   slide;
   isMobile;
@@ -54,23 +56,23 @@ export class Tab3Page {
      }, 1100);
      this.user_id = localStorage.getItem('user_id');
 
-     if(this.user_id){
-      this.apiget();
+    //  if(this.user_id){
+    //   this.apiget();
 
-     }
+    //  }
    }
 
-   apiget(){
+  //  apiget(){
 
-    this.api.getUser(this.user_id).subscribe( data => {
-      this.datos = data[0];
-      if(!localStorage.getItem('email')){
-        localStorage.setItem('email',data[0].email)
-      }
-    });
+  //   this.api.getUser(this.user_id).subscribe( data => {
+  //     this.datos = data[0];
+  //     if(!localStorage.getItem('email')){
+  //       localStorage.setItem('email',data[0].email)
+  //     }
+  //   });
 
-   
-   }
+
+  //  }
 
    login(){
     this.presentModal(LoginPage);
@@ -89,7 +91,7 @@ export class Tab3Page {
     modal.onDidDismiss().then((data) => {
      if(data['data']){
         this.user_id = localStorage.getItem('user_id');
-        this.apiget();
+        // this.apiget();
         this.mostrar = false;
       setTimeout(() => {
         this.mostrar = true;

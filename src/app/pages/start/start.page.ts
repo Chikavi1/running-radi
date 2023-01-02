@@ -25,14 +25,13 @@ user_id;
 
   getPets(){
     if(this.user_id){
+      this.api.getPets(this.user_id).subscribe( datos => {
+        this.mascotas = datos;
+        localStorage.setItem('pets',JSON.stringify(this.mascotas));
+      });
       Network.addListener('networkStatusChange', status => {
         if(status.connected == false){
-          this.api.getPets(this.user_id).subscribe( datos => {
-            this.mascotas = datos;
-            localStorage.setItem('pets',JSON.stringify(this.mascotas));
-          });
-        }else{
-          this.mascotas = localStorage.getItem('pets');
+          this.mascotas = JSON.parse(localStorage.getItem('pets'));
         }
       });
 

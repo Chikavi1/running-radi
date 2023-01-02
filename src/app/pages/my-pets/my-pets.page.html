@@ -5,25 +5,35 @@
     </ion-fab-button>
   </ion-fab>
   <div class="text-center" *ngIf="mascotas.length != 0">
-    <h1 style="padding:1em;margin-top:4em;">Mis Mascotas</h1>
+    <h1 style="padding:1em;margin-top:4em;">{{ 'pets.mypets' | translate }}</h1>
 
     <ion-card (click)="goToPets(mascota.id)" *ngFor="let mascota of mascotas">
       <ion-row>
       <ion-col>
           <img [src]="mascota.photo" alt="pet image">
       </ion-col>
-      <ion-col>
-        <h2>{{mascota.name}}</h2>
-        <p>{{mascota.size}}</p>
-        <p>Ver más</p>
+      <ion-col style="text-align:left !important;">
+        <h2 class="capital">{{mascota.name}}</h2>
+        <p class="bold" *ngIf="mascota.size === 'mn'">{{ 'pets.mini' | translate }}</p>
+        <p class="bold" *ngIf="mascota.size === 'sm'">{{ 'pets.small' | translate }}</p>
+        <p class="bold" *ngIf="mascota.size === 'md'">{{ 'pets.medium' | translate }}</p>
+        <p class="bold" *ngIf="mascota.size === 'lg'">{{ 'pets.big' | translate }}</p>
+        <p class="bold" *ngIf="mascota.size === 'xl'">{{ 'pets.extra-big' | translate }}</p>
+        <p>{{ 'pets.seemore' | translate }}</p>
       </ion-col>
     </ion-row>
   </ion-card>
 </div>
 
 <div class="text-center p-1" style="margin-top: 4em;"  *ngIf="mascotas.length == 0">
-  <h2>Por el momento no tienes mascotas.</h2>
-  <ion-button fill="clear">Agregar mascota</ion-button>
+  <h2>{{ 'pets.nopets' | translate }}</h2>
+  <ion-button fill="clear" (click)="addPet()">{{ 'pets.addpets' | translate }}</ion-button>
 </div>
+
+<ion-fab (click)="addPet()" slot="fixed" color="success" vertical="bottom" horizontal="end" >
+  <ion-fab-button>
+    <ion-icon   name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 
 </ion-content>

@@ -50,7 +50,7 @@ export class Tab2Page {
 
     // console.log('time',this.time)
 
-    this.getActivities();
+    // this.getActivities();
 
 
     // this.api.getBlogs().subscribe(data => {
