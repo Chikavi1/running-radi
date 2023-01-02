@@ -13,21 +13,44 @@ export class Tab2Page {
   lostPets:any = [];
   activity:any =  [];
   petFriendly:any = [];
-  act;
+  acts:any = {};
   daily_percentage = 0;
 
   convertgoal;
+
+  time;
+
+  date1;
+  interval;
+  seconds;
+
+  float2int (value) {
+    return value | 0;
+}
+
   constructor(
     private navCtrl:NavController,
     private modalController:ModalController,
     private api: DataService){
-      // this.daily_percentage = 15;
-    this.act = JSON.stringify(localStorage.getItem('activities'));
-    
-    this.convertgoal =  (parseInt(localStorage.getItem('goal'))/60);
-    console.log(this.convertgoal)
+    this.acts = JSON.parse(localStorage.getItem('activities'));
+      console.log(this.acts);
 
-    // this.getActivities();
+    this.convertgoal =  (parseInt(localStorage.getItem('goal'))/60);
+
+
+    this.date1 = new Date();
+    this.interval = window.setInterval(() => {
+      var fecha2 = new Date()
+      var difference = this.date1.getTime() - fecha2.getTime();
+      this.seconds = (this.float2int(difference/1000)*-1);
+
+      this.daily_percentage = (100*this.seconds/(this.convertgoal*60))
+
+    }, 1000);
+
+    // console.log('time',this.time)
+
+    this.getActivities();
 
 
     // this.api.getBlogs().subscribe(data => {

@@ -66,6 +66,10 @@ export class Tab1Page {
   mapa;
 
 
+  date1;
+  marker;
+  pet_selected;
+
   last_location:any;
   id:any;
 
@@ -219,7 +223,6 @@ export class Tab1Page {
     return await modal.present();
   }
 
-  pet_selected;
   async presentModalStart(component) {
     const modal = await this.modalController.create({
       component: component,
@@ -278,14 +281,13 @@ export class Tab1Page {
     return value | 0;
 }
 
-date1;
+
 
 start(){
 
   this.presentModalStart(StartPage);
 
 }
-marker;
 verenMapa(lat,lng){
   if(this.isPets){
     var homeICon = L.icon(

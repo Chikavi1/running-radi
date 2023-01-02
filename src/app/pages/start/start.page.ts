@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DataService } from '../../services/data.service';
 import { LoginPage } from '../login/login.page';
+import { Network } from '@capacitor/network';
+
 
 @Component({
   selector: 'app-start',
@@ -23,9 +25,17 @@ user_id;
 
   getPets(){
     if(this.user_id){
-      this.api.getPets(this.user_id).subscribe( datos => {
-        this.mascotas = datos;
+      Network.addListener('networkStatusChange', status => {
+        if(status.connected == false){
+          this.api.getPets(this.user_id).subscribe( datos => {
+            this.mascotas = datos;
+            localStorage.setItem('pets',JSON.stringify(this.mascotas));
+          });
+        }else{
+          this.mascotas = localStorage.getItem('pets');
+        }
       });
+
     }
   }
 

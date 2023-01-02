@@ -9,7 +9,7 @@
     <h1>Actividad</h1>
 
   <ion-card style="padding: 1em;">
-    <h1>Hoy</h1> 
+    <h1>Hoy</h1>
     <ion-row>
       <ion-col size="10" offset="1">
         <circle-progress
@@ -19,7 +19,7 @@
         [innerStrokeWidth]="8"
         [outerStrokeColor]="'#78C000'"
         [innerStrokeColor]="'#C7E596'"
-        [animation]="true"
+        [animation]="false"
         [showSubtitle]=false
         [animationDuration]="300">
 
@@ -49,8 +49,11 @@
 
     <h2>Ultimos registros</h2>
 
-    {{ act }}
+    <!-- <div *ngFor="let act of acts">
 
+      {{ act.user_id }}
+      {{ act.created }}
+    </div> -->
     <div *ngIf="activity.length == 0" class="text-center">
       <ion-card style="padding: 1em;">
         <h4>No tienes ninguna actividad.</h4>
