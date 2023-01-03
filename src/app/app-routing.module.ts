@@ -140,6 +140,14 @@ const routes: Routes = [
   {
     path: 'breeds',
     loadChildren: () => import('./pages/breeds/breeds.module').then( m => m.BreedsPageModule)
+  },
+  {
+    path: 'near-people',
+    loadChildren: () => import('./pages/near-people/near-people.module').then( m => m.NearPeoplePageModule)
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
   }
 
 

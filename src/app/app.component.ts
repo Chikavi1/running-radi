@@ -14,6 +14,7 @@ export class AppComponent {
     private translateService: TranslateService,
     private router:Router) {
       localStorage.setItem('device','phone');
+      // this.router.navigateByUrl('/near-people')
     window.screen.orientation.lock('portrait');
     let language = localStorage.getItem('language')?localStorage.getItem('language'):'en';
     this.translateService.setDefaultLang(language);

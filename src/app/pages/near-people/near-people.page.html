@@ -1,0 +1,24 @@
+<ion-content>
+<div style="padding: 1em;">
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <h1 style="margin-top: 4em;">Personas cerca de ti</h1>
+  <div *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1,1]">
+
+    <ion-row (click)="goToPage('/user')" >
+      <ion-col size="3">
+      <img style="border-radius: 50%;" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80" alt="image user">
+    </ion-col>
+    <ion-col size="8">
+      <p style="font-weight: bold;">Luis Rojas</p>
+      <p style="font-size: .75em;">Tlaquepaque,Jal</p>
+      <p style="color: green;font-size: .75em;">Premium</p>
+    </ion-col>
+  </ion-row>
+  </div>
+</div>
+
+</ion-content>

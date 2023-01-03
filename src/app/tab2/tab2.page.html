@@ -1,7 +1,15 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense" style="margin-top: 4em;">
     <ion-toolbar>
-      <ion-title size="large">Descubre</ion-title>
+    <ion-row>
+      <ion-col size="10">
+        <ion-title size="large">Descubre</ion-title>
+      </ion-col>
+      <ion-col size="2" (click)="goToPage('/near-people')">
+        <h3><ion-icon name="people"></ion-icon></h3>
+      </ion-col>
+    </ion-row>
+
     </ion-toolbar>
   </ion-header>
 
