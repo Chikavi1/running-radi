@@ -14,7 +14,7 @@ import { FinishPage } from '../pages/finish/finish.page';
 // import { Network } from '@awesome-cordova-plugins/network/ngx';
 
 import { Network } from '@capacitor/network';
-import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 declare var L: any;
 
@@ -25,7 +25,7 @@ declare var L: any;
 })
 export class Tab1Page {
 
-  constructor(private localNotifications: LocalNotifications,private modalController:ModalController,private alertController:AlertController,private toastController:ToastController){
+  constructor(private modalController:ModalController,private alertController:AlertController,private toastController:ToastController){
 
 
 
@@ -260,9 +260,9 @@ export class Tab1Page {
     let coodinates = [lat, lng];
     // console.log(coodinates);
 
-    this.pLineGroup.addLayer(L.polyline(coodinates, {color: 'red'}))
+    // this.pLineGroup.addLayer(L.polyline(coodinates, {color: 'red'}))
 
-    // this.polyline.addLatLng(coodinates);
+    this.polyline.addLatLng(coodinates);
   }
 
   lngLatArrayToLatLng(lngLatArray) {
@@ -319,6 +319,24 @@ verenMapa(lat,lng){
 });
 }
 
+async noti(sec){
+
+  await LocalNotifications.schedule({
+    notifications: [
+      {
+        id:1,
+        title: 'Llevas '+sec+' segundos',
+        body: 'cac',
+        extra: {
+          data: 'pass'
+        },
+        iconColor: "#17202F"
+
+      }
+    ]
+  });
+}
+
 runGeolocation(){
   this.isStart = true;
 
@@ -333,11 +351,7 @@ runGeolocation(){
 
 
       if(this.seconds % 60 == 0){
-        this.localNotifications.schedule({
-          text: 'Llevas '+this.seconds+' segundos',
-          data: { secret: 1 },
-          foreground: true
-        });
+        this.noti(this.seconds);
       }
 
     }, 1000);
@@ -491,8 +505,8 @@ Leaflet.tileLayer(tile, {
           center: [this.lat, this.lng]
           }).addTo(this.mapa);
 
-          this.pLineGroup.addLayer( L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8}))
-          this.pLineGroup.addTo(this.mapa)
+          // this.pLineGroup.addLayer( L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8}))
+          // this.pLineGroup.addTo(this.mapa)
 
     this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8})
     .addTo(this.mapa);
