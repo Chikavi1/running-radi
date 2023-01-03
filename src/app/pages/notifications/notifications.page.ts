@@ -57,7 +57,7 @@ export class NotificationsPage {
     let month = new Date().getMonth();
     let day = new Date().getDate();
 
-    let time1 = new Date(year, month, day, 18, 14, 0);
+    let time1 = new Date(year, month, day, 18, 17, 0);
   //   let time2 = new Date(year, month, day, 11,  0, 0);
 
   //   this.localNotifications.schedule([
