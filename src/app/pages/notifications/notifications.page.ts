@@ -39,25 +39,25 @@ export class NotificationsPage {
                 this.id_user = localStorage.getItem('user_id');
                 this.device = localStorage.getItem('device');
 
-                this.api.getNotifications(localStorage.getItem('user_id')).subscribe(data => {
-                  this.data = JSON.parse(data[0].notifications);
-                  console.log(data);
-                  this.reminder_push   = this.data.reminder_push;
-                  this.reminder_email  = this.data.reminder_email;
-                  this.reminder_sms    = this.data.reminder_sms;
-                  this.ad_push         = this.data.ad_push;
-                  this.ad_email        = this.data.ad_email;
-                  this.ad_sms          = this.data.ad_sms;
-                });
+                // this.api.getNotifications(localStorage.getItem('user_id')).subscribe(data => {
+                //   this.data = JSON.parse(data[0].notifications);
+                //   console.log(data);
+                //   this.reminder_push   = this.data.reminder_push;
+                //   this.reminder_email  = this.data.reminder_email;
+                //   this.reminder_sms    = this.data.reminder_sms;
+                //   this.ad_push         = this.data.ad_push;
+                //   this.ad_email        = this.data.ad_email;
+                //   this.ad_sms          = this.data.ad_sms;
+                // });
   }
 
 
-  // createReminder(){
-  //   let year = new Date().getFullYear();
-  //   let month = new Date().getMonth();
-  //   let day = new Date().getDate();
+ async createReminder(){
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth();
+    let day = new Date().getDate();
 
-  //   let time1 = new Date(year, month, day, 18, 0, 0);
+    let time1 = new Date(year, month, day, 18, 14, 0);
   //   let time2 = new Date(year, month, day, 11,  0, 0);
 
   //   this.localNotifications.schedule([
@@ -85,9 +85,32 @@ export class NotificationsPage {
   //     }
   //   ]);
 
-  //   this.presentToast('Reminder create','success');
 
-  // }
+  await LocalNotifications.schedule({
+    notifications: [
+      {
+        id: 10,
+        title: 'Recordatorio para ir a pasear con tu mascota',
+        body: 'Recuerda ir a pasear tu mascota',
+        extra: {
+          data: 'pass'
+        },
+        iconColor: "#17202F",
+        schedule: {
+          at: new Date(time1),
+          every: 'minute',
+          count: 1,
+          repeats: true
+        }
+
+      }
+    ]
+  });
+
+  this.presentToast('Reminder create','success');
+
+
+  }
 
   async ngOnInit(){
     await LocalNotifications.requestPermissions();
