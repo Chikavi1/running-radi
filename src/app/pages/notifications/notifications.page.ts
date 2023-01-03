@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
-import { ELocalNotificationTriggerUnit, LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
+
+import { LocalNotifications } from '@capacitor/local-notifications';
+// import { ELocalNotificationTriggerUnit, LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 
 @Component({
   selector: 'app-notifications',
@@ -30,7 +32,7 @@ export class NotificationsPage {
 
   constructor(
               private navCtrl:NavController,
-              private localNotifications:LocalNotifications,
+              // private localNotifications:LocalNotifications,
               private api:DataService,
               private toastController: ToastController,
               private alertCtrl: AlertController){
@@ -50,55 +52,65 @@ export class NotificationsPage {
   }
 
 
-  createReminder(){
-    let year = new Date().getFullYear();
-    let month = new Date().getMonth();
-    let day = new Date().getDate();
+  // createReminder(){
+  //   let year = new Date().getFullYear();
+  //   let month = new Date().getMonth();
+  //   let day = new Date().getDate();
 
-    let time1 = new Date(year, month, day, 18, 0, 0);
-    let time2 = new Date(year, month, day, 11,  0, 0);
+  //   let time1 = new Date(year, month, day, 18, 0, 0);
+  //   let time2 = new Date(year, month, day, 11,  0, 0);
 
-    this.localNotifications.schedule([
-      {
-        id: 10,
-        title: 'Recordatorio para salir a pasear',
-        text: 'Buena hora para salir',
-        trigger: {
-          firstAt: new Date(time1),
-          every: ELocalNotificationTriggerUnit.DAY,
-        },
-        foreground: true,
-        data: {"id": 1, "name": "Mr. A"}
-      },
-      {
-        id: 11,
-        title: 'Recordatorio paseo matutino',
-        text: 'Buena hora para salir',
-        trigger: {
-          firstAt: new Date(time2),
-          every: ELocalNotificationTriggerUnit.DAY,
-        },
-        data: {"id": 2, "name": "Mr. B"},
-        foreground: true
-      }
-    ]);
+  //   this.localNotifications.schedule([
+  //     {
+  //       id: 10,
+  //       title: 'Recordatorio para salir a pasear',
+  //       text: 'Buena hora para salir',
+  //       trigger: {
+  //         firstAt: new Date(time1),
+  //         every: ELocalNotificationTriggerUnit.DAY,
+  //       },
+  //       foreground: true,
+  //       data: {"id": 1, "name": "Mr. A"}
+  //     },
+  //     {
+  //       id: 11,
+  //       title: 'Recordatorio paseo matutino',
+  //       text: 'Buena hora para salir',
+  //       trigger: {
+  //         firstAt: new Date(time2),
+  //         every: ELocalNotificationTriggerUnit.DAY,
+  //       },
+  //       data: {"id": 2, "name": "Mr. B"},
+  //       foreground: true
+  //     }
+  //   ]);
 
-    this.presentToast('Reminder create','success');
+  //   this.presentToast('Reminder create','success');
 
+  // }
+
+  async ngOnInit(){
+    await LocalNotifications.requestPermissions();
   }
 
-  alert(){
-    this.localNotifications.schedule({
-      text: 'Alerta x ',
-      data: { secret: 1 },
-      foreground: true
+  async alert(){
+
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          id:1,
+          title: 'title',
+          body: 'cac',
+          extra: {
+            data: 'pass'
+          },
+          iconColor: "#17202F"
+
+        }
+      ]
     });
-    this.localNotifications.schedule({
-      text: 'Delayed ILocalNotification',
-      trigger: {at: new Date(new Date().getTime() + 3600)},
-      led: 'FF0000',
-      sound: null
-   });
+
+
     this.presentToast('alerta x activada','success');
   }
 
