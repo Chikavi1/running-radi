@@ -40,22 +40,8 @@ export class Tab2Page {
     this.convertgoal =  (parseInt(localStorage.getItem('goal'))/60);
 
 
-    this.date1 = new Date();
 
 
-
-    this.interval = window.setInterval(() => {
-      var fecha2 = new Date()
-      var difference = this.date1.getTime() - fecha2.getTime();
-      this.seconds = (this.float2int(difference/1000)*-1);
-
-      // console.log(this.seconds % 20)
-      // console.log(this.seconds);
-
-
-      this.daily_percentage = (100*this.seconds/(this.convertgoal*60))
-
-    }, 1000);
 
     // console.log('time',this.time)
 
@@ -84,6 +70,21 @@ export class Tab2Page {
   }
 
   ionViewWillEnter(){
+
+
+    if(localStorage.getItem('date_start')){
+      this.date1 = new Date(localStorage.getItem('date_start'));
+      this.interval = window.setInterval(() => {
+        var fecha2 = new Date()
+        var difference = this.date1.getTime() - fecha2.getTime();
+        this.seconds = (this.float2int(difference/1000)*-1);
+        this.daily_percentage = (100*this.seconds/(this.convertgoal*60))
+      }, 1000);
+    }else{
+      window.clearInterval(this.interval);
+    }
+
+
     if(localStorage.getItem('newActivity')){
       this.getActivities();
       localStorage.removeItem('newActivity');

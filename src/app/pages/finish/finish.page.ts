@@ -22,10 +22,14 @@ export class FinishPage implements OnInit {
   pet_id;
 
   json_points;
+  welcome;
 
   constructor(
     private modalCtrl:ModalController,
     private api:DataService) {
+      const date = new Date().getHours()
+      this.welcome = date < 12 ? 'Good Morning' : date < 18 ? 'Good Afternoon' : 'Good Night'
+
     this.initialize();
     this.today = new Date();
    }
@@ -125,6 +129,9 @@ export class FinishPage implements OnInit {
 
       await AdMob.prepareRewardVideoAd(options);
       await AdMob.showRewardVideoAd();
+
+      localStorage.removeItem('date_start');
+
     }
   }
 

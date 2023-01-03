@@ -11,10 +11,11 @@ import { PlacePage } from '../pages/place/place.page';
 import { StartPage } from '../pages/start/start.page';
 import { FinishPage } from '../pages/finish/finish.page';
 
-// import { Network } from '@awesome-cordova-plugins/network/ngx';
 
 import { Network } from '@capacitor/network';
 import { LocalNotifications } from '@capacitor/local-notifications';
+
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
 
 declare var L: any;
 
@@ -25,8 +26,29 @@ declare var L: any;
 })
 export class Tab1Page {
 
-  constructor(private modalController:ModalController,private alertController:AlertController,private toastController:ToastController){
+  constructor(
+    private modalController:ModalController,
+    private alertController:AlertController,
+    private nativeGeocoder: NativeGeocoder,
+    private toastController:ToastController){
 
+      if(localStorage.getItem('date_start')){
+        this.presentAlertWithout();
+        // alert('tienes una paseada sin terminar')
+      }
+
+
+      let options: NativeGeocoderOptions = {
+        useLocale: true,
+        maxResults: 5
+    };
+
+    Geolocation.getCurrentPosition().then((resp) => {
+      this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude, options)
+      .then((result: NativeGeocoderResult[]) => alert(JSON.stringify(result[0])))
+      .catch((error: any) => console.log(error));
+
+    });
 
 
 
@@ -191,7 +213,8 @@ export class Tab1Page {
       this.coords = [];
       this.distance = 0;
       this.time = '';
-      this.pLineGroup.removeFrom(this.mapa)
+      this.pLineGroup.removeFrom(this.mapa);
+      localStorage.removeItem('date_start');
 
 
       //
@@ -289,6 +312,7 @@ start(){
   this.presentModalStart(StartPage);
 
 }
+
 verenMapa(lat,lng){
   if(this.isPets){
     var homeICon = L.icon(
@@ -348,7 +372,7 @@ runGeolocation(){
       this.seconds = (this.float2int(difference/1000)*-1);
       this.time = this.getTimeFormatted();
 
-
+      localStorage.setItem('date_start',this.date1);
 
       if(this.seconds % 60 == 0){
         this.noti(this.seconds);
@@ -567,6 +591,33 @@ async presentToast() {
   });
 
   await toast.present();
+}
+
+async presentAlertWithout() {
+  const alert = await this.alertController.create({
+    header: 'Tienes una paseada sin terminar,deseas eliminar!',
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => {
+
+        },
+      },
+      {
+        text: 'Eliminar',
+        role: 'confirm',
+        handler: () => {
+
+          localStorage.removeItem('date_start')
+        },
+      },
+    ],
+  });
+
+  await alert.present();
+
+  const { role } = await alert.onDidDismiss();
 }
 
 
