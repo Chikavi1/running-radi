@@ -52,7 +52,7 @@
   <key>NSPhotoLibraryAddUsageDescription</key>
   <string>Necesitamos permisos para subir las fotos de tu mascota</string>
   <key>NSPhotoLibraryUsageDescription</key>
-  <string>Radi requiere acceso a libreria para subir las fotos de tu mascota</string>
+  <string>Radi Running requiere acceso a libreria para subir las fotos de tu mascota</string>
   <key>UIBackgroundModes</key>
   <array>
     <string>location</string>
