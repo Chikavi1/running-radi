@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ActionSheetController, AlertController, ModalController, NavController, ToastController } from '@ionic/angular';
+import * as moment from 'moment';
 import { DataService } from 'src/app/services/data.service';
 import { AcknowledgePage } from '../acknowledge/acknowledge.page';
 import { PhotoRoundedModalPage } from '../photo-rounded-modal/photo-rounded-modal.page';
@@ -33,6 +34,8 @@ export class ProfilePage implements OnInit {
    validatemessage;
    cancel;
    expira;
+
+   city;
 
   constructor(
     private api: DataService,
@@ -72,12 +75,14 @@ ionViewDidEnter(){
 getUser(){
   this.api.getUser(localStorage.getItem('user_id')).subscribe( data => {
     this.datos = data[0];
-    console.log(this.datos);
+    // console.log(this.datos);
     this.name           = data[0].name;
      this.photo         = data[0].photo;
+     localStorage.setItem('photo',this.photo);
      this.description   = data[0].description;
      this.subscription  = data[0].subscription;
-    //  this.birthday       = moment(data[0].birthday).format('DD/MM/yyyy');
+     this.city          = data[0].city;
+     this.birthday       = data[0].birthday;
     this.address        = data[0].address;
     this.cellphone      = data[0].cellphone;
     this.identification = data[0].identification;

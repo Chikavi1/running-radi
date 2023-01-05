@@ -12,7 +12,7 @@
     </ion-row>
     <h2>Luis Rojas</h2>
     <ngx-qrcode   style="zoom:2.15" [value]="createdCode"></ngx-qrcode>
-    <ion-button fill="clear">Escanear el código de alguien</ion-button>
+    <ion-button fill="clear" (click)="scan()">Escanear el código de alguien</ion-button>
     <!-- <p>Tu código QR es personalizado, compartelo con tus clientes para que puedan ver el perfil de tu establecimiento.</p> -->
   </div>
 

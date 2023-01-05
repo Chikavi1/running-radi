@@ -130,6 +130,21 @@
         <h4>{{ datos.createdAt | date:'dd/MM/yy' }}</h4>
       </div>
       <div class="form-group">
+        <span>Ciudad</span>
+        <h4>{{datos.city}}</h4>
+      </div>
+      <div class="form-group">
+        <span>Nacimiento</span>
+        <h4>{{datos.birthday  | date:'dd/MM/yy'}}</h4>
+      </div>
+      <div class="form-group">
+        <span>Genero</span>
+        <h4 *ngIf="datos.gender == 1">Masculino</h4>
+        <h4 *ngIf="datos.gender == 2">Femenino</h4>
+
+      </div>
+
+      <div class="form-group">
         <span>{{ 'editprofile.country' | translate }}</span>
         <h4>{{datos.country}}</h4>
       </div>

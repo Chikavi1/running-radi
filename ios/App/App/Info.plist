@@ -49,10 +49,26 @@
   <string>We need to track your location</string>
   <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
   <string>We need to track your location while your device is locked.</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>Necesitamos permisos para subir las fotos de tu mascota</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Radi requiere acceso a libreria para subir las fotos de tu mascota</string>
   <key>UIBackgroundModes</key>
   <array>
     <string>location</string>
   </array>
+   <key>UISupportedInterfaceOrientations</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+  </array>
+  <key>UISupportedInterfaceOrientations~ipad</key>
+  <array>
+    <string>UIInterfaceOrientationLandscapeRight</string>
+    <string>UIInterfaceOrientationLandscapeLeft</string>
+  </array>
+
+  <key>UIRequiresFullScreen</key>
+  <true/>
 
 <key>GADIsAdManagerApp</key>
 <true/>
