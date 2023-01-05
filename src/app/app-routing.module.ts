@@ -113,7 +113,8 @@ const routes: Routes = [
   {
     path: 'pet/:id',
     loadChildren: () => import('./pages/pet/pet.module').then( m => m.PetPageModule)
-  },  {
+  },
+  {
     path: 'qr-user',
     loadChildren: () => import('./pages/qr-user/qr-user.module').then( m => m.QrUserPageModule)
   },
@@ -146,9 +147,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/near-people/near-people.module').then( m => m.NearPeoplePageModule)
   },
   {
-    path: 'user',
+    path: 'user/:id',
     loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
+  },
+  {
+    path: 'groups',
+    loadChildren: () => import('./pages/groups/groups.module').then( m => m.GroupsPageModule)
+  },  {
+    path: 'privacy',
+    loadChildren: () => import('./pages/privacy/privacy.module').then( m => m.PrivacyPageModule)
   }
+
 
 
 ];

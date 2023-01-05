@@ -26,6 +26,19 @@ export class DataService {
     }
    }
 
+   getUserConfiguration(data){
+    return this.http.post(this.MODE + 'users/running', JSON.parse(JSON.stringify(data)), this.options);
+
+   }
+
+   userRunning(data){
+    return this.http.post(this.MODE + 'users/running', JSON.parse(JSON.stringify(data)), this.options);
+
+   }
+
+   usersNear(data){
+    return this.http.post(this.MODE + 'users/near', JSON.parse(JSON.stringify(data)), this.options);
+   }
 
    breeds(data){
     return this.http.post(this.MODE + 'breeds', JSON.parse(JSON.stringify(data)), this.options);
@@ -43,6 +56,9 @@ export class DataService {
     return this.http.post(this.MODE + 'activity', JSON.parse(JSON.stringify(data)), this.options);
    }
 
+   getActivitiesByMonth(data){
+    return this.http.post(this.MODE + 'activity_by_month', JSON.parse(JSON.stringify(data)), this.options);
+   }
 
    getActivities(user_id){
     return this.http.get(this.MODE + 'activities/' + user_id);

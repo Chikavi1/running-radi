@@ -50,7 +50,16 @@ export class Tab3Page {
 
    }
 
+   photo;
+   email;
+
+
    ionViewDidEnter(){
+
+    this.photo = localStorage.getItem('photo');
+    this.email = localStorage.getItem('email')
+
+
     setTimeout(() => {
       this.mostrar = true;
      }, 1100);

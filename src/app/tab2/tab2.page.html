@@ -8,6 +8,9 @@
       <ion-col size="2" (click)="goToPage('/near-people')">
         <h3><ion-icon name="people"></ion-icon></h3>
       </ion-col>
+      <!-- <ion-col size="2" (click)="goToPage('/groups')">
+        <h3><ion-icon name="people"></ion-icon></h3>
+      </ion-col> -->
     </ion-row>
 
     </ion-toolbar>
@@ -47,13 +50,16 @@
   </ion-card>
 
     <ion-card style="padding:1em;">
-      <h2>Esta semana</h2>
+      <h2>Este mes</h2>
 
-      <span>KM recorridos total</span>
-      <p>2.5 km</p>
-      <span>Camino total recorrido</span>
-      <p>1:46 Min</p>
+      <span>Kilometros total</span>
+      <p>{{total_km}} km</p>
+      <span>Tiempo total</span>
+      <p>{{total_time}}  Min</p>
     </ion-card>
+
+    <img style="padding: -2em;" (click)="goToPage('subscription')"  src="../../assets/radi premium.png" alt="">
+
 
     <h2>Ultimos registros</h2>
 
@@ -62,7 +68,8 @@
       {{ act.user_id }}
       {{ act.created }}
     </div> -->
-    <div *ngIf="activity.length == 0" class="text-center">
+
+    <div *ngIf="activities.length == 0" class="text-center">
       <ion-card style="padding: 1em;">
         <h4>No tienes ninguna actividad.</h4>
         <p>Empieza a generar tu historial saliendo a pasear con tu mascota.</p>
@@ -70,22 +77,22 @@
       </ion-card>
     </div>
 
-    <ion-slides  [options]="slide"  *ngIf="activity.length != 0">
+    <ion-slides  [options]="slide"  *ngIf="activities.length != 0">
 
-      <ion-slide *ngFor="let item of activity" style="text-align: left;">
+      <ion-slide *ngFor="let item of activities" style="text-align: left;">
         <ion-card style="padding:2em;" (click)="goToRun(item.id)">
           <h3 style="font-weight: bold;">{{item.createdAt | date:'fullDate'}} </h3>
           <h5> {{item.distance}} KM  &#x2022; {{item.time}} Min</h5>
-          <p style="font-weight: bold;">
+          <!-- <p style="font-weight: bold;">
             <img style="vertical-align:middle;border-radius: 50%;width: 2em;height: 2em;object-fit: cover;" [src]="item.pet_photo" alt="image">
             {{item.pet_name}}
-          </p>
+          </p> -->
         </ion-card>
 
       </ion-slide>
     </ion-slides>
 
-    <h2>Challenges</h2>
+    <!-- <h2>Challenges</h2>
     <ion-slides  [options]="slide" >
       <ion-slide  style="text-align: left;">
         <ion-card style="background-color:#f5f9fc;padding:2em;width: 100%;">
@@ -115,7 +122,7 @@
           <ion-progress-bar value=".2"></ion-progress-bar>
         </ion-card>
       </ion-slide>
-    </ion-slides>
+    </ion-slides> -->
 
 
     <ion-item-divider mode="md"> </ion-item-divider>

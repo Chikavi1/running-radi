@@ -46,15 +46,15 @@
         <div *ngIf="user_id">
 
               <div style="padding:1.2em;margin-top:2.5em;">
-                <!-- <ion-item lines="none" *ngIf="datos">
+                <ion-item lines="none" *ngIf="photo">
                       <ion-avatar (click)="goToPage('/edit-profile')" style="width:5em;height: 5em;" slot="start" lines="none">
-                        <ion-img [src]="datos? datos?.photo:'../assets/bg-user.png'"></ion-img>
+                        <ion-img [src]="photo"></ion-img>
                       </ion-avatar>
                       <ion-label>
-                        <h2 class="capitalize">{{ datos.name }}</h2>
+                        <h2 >{{ email }}</h2>
                         <p (click)="goToPage('/profile')">{{ 'menu.show_profile' | translate }} </p>
                       </ion-label>
-                    </ion-item> -->
+                    </ion-item>
 
               <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.pets' | translate }}</h2>
 
@@ -94,6 +94,11 @@
               <ion-item lines="none" (click)="goToPage('/profile')">
                 <ion-icon slot="end" name="person-circle-outline"></ion-icon>
                 <ion-label>{{ 'menu.personal_information' | translate }}</ion-label>
+              </ion-item>
+
+              <ion-item lines="none" (click)="goToPage('/privacy')">
+                <ion-icon slot="end" name="shield-outline"></ion-icon>
+                <ion-label>Privacidad</ion-label>
               </ion-item>
 
 

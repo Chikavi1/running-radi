@@ -70,6 +70,8 @@ premium = true;
   polyline;
   mapa;
 
+
+
   initMap(){
 
       this.mapa = Leaflet.map('mapa-run',{ zoomControl: false}).setView([this.lat, this.lng], 10);
@@ -100,9 +102,9 @@ premium = true;
             center: [this.lat, this.lng]
             }).addTo(this.mapa);
 
-setTimeout(() => {
-  this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8}).addTo(this.mapa);
-},1700)
+      setTimeout(() => {
+        this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8}).addTo(this.mapa);
+      },1700)
 
 
   }

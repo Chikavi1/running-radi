@@ -39,7 +39,7 @@ export class ProfilePage implements OnInit {
 
     private alertController:AlertController) {
       // borrar
-     
+
     // this.api.getSubscriptions({'subscribe':1}).subscribe( data => {
     //   console.log(data);
     //   this.datos = data.data[0];
@@ -76,9 +76,10 @@ getUser(){
    });
 }
 
-   editProfile(){
-  
-  }
+editProfile(){
+  this.edit = !this.edit;
+}
+
 
    async presentAlert() {
     const alert = await this.alertController.create({

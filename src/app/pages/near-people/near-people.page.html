@@ -6,19 +6,46 @@
     </ion-fab-button>
   </ion-fab>
   <h1 style="margin-top: 4em;">Personas cerca de ti</h1>
-  <div *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1,1]">
 
-    <ion-row (click)="goToPage('/user')" >
-      <ion-col size="3">
-      <img style="border-radius: 50%;" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80" alt="image user">
-    </ion-col>
-    <ion-col size="8">
-      <p style="font-weight: bold;">Luis Rojas</p>
-      <p style="font-size: .75em;">Tlaquepaque,Jal</p>
-      <p style="color: green;font-size: .75em;">Premium</p>
-    </ion-col>
-  </ion-row>
+  <div *ngIf="show">
+
+    <div *ngIf="users.length != 0">
+      <div *ngFor="let user of users">
+        <ion-row (click)="goToPage('/user/'+user.id)" >
+          <ion-col size="3">
+          <img style="border-radius: 50%;" [src]="user.photo" alt="image user">
+        </ion-col>
+        <ion-col size="8">
+          <p style="font-weight: bold;">{{user.name}}</p>
+          <p style="font-size: .75em;" *ngIf="1 > user.distance "> Menos de 1 KM</p>
+          <p style="font-size: .75em;" *ngIf="user.distance > 1">A {{user.distance | number : '.2-2' }} KM</p>
+
+          <p style="color: green;font-size: .75em;" *ngIf="user.subscription">Premium</p>
+        </ion-col>
+      </ion-row>
+      </div>
+    </div>
+
+    <div *ngIf="users.length == 0">
+      <div class="text-center">
+          <h4>No hay usuarios cerca de tu ubicación</h4>
+          <p>Pero puedes compartir la app a tus amigos para que aparezcan más personas.</p>
+          <ion-button fill="clear" color="success" expand="full"> Compartir App</ion-button>
+      </div>
+    </div>
+
   </div>
+
+  <div *ngIf="!show">
+    <h4>No puedes ver usuarios cerca de tu ubicación</h4>
+    <p>Para poder ver usuarios cerca de tu ubicación cambia la configuracion a visible.</p>
+    <ion-button fill="clear" color="success" expand="full" (click)="changeVisible()">Cambiar a visible </ion-button>
+  </div>
+
+
+
+
+
 </div>
 
 </ion-content>

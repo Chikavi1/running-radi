@@ -3,6 +3,10 @@ import { AdMob,RewardAdOptions,RewardAdPluginEvents,AdMobRewardItem } from '@cap
 import { ModalController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { Network } from '@capacitor/network';
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { PhotoModalPage } from '../photo-modal/photo-modal.page';
+
 
 @Component({
   selector: 'app-finish',
@@ -22,20 +26,75 @@ export class FinishPage implements OnInit {
   pet_id;
 
   json_points;
+
   welcome;
+
+  lat_start;
+  lng_start;
+  city;
 
   constructor(
     private modalCtrl:ModalController,
-    private api:DataService) {
+    private nativeGeocoder: NativeGeocoder,
+    private api:DataService){
       const date = new Date().getHours()
-      this.welcome = date < 12 ? 'Good Morning' : date < 18 ? 'Good Afternoon' : 'Good Night'
+      this.welcome = date < 12 ? 'En la mañana' : date < 18 ? 'En la tarde' : 'En la noche'
 
     this.initialize();
     this.today = new Date();
    }
 
   ngOnInit() {
-    console.log(this.distance,this.time,this.pet_id)
+    console.log(this.distance,this.time,this.pet_id);
+
+
+    let options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 5
+    };
+
+      this.nativeGeocoder.reverseGeocode(this.lat_start, this.lng_start, options)
+      .then((result: NativeGeocoderResult[]) => {
+        this.city = result[0].locality;
+        // alert(JSON.stringify(result[0].locality))
+
+      })
+      .catch((error: any) => console.log(error));
+  }
+
+  uploadPhoto;
+  photo;
+
+  async getPicture(){
+    const image = await Camera.getPhoto({
+      quality: 100,
+      saveToGallery:true,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Camera,
+      promptLabelHeader: 'Foto',
+      promptLabelCancel: 'Cancelar',
+      promptLabelPhoto: 'Galeria',
+      promptLabelPicture: 'Tomar Foto'
+    });
+      this.modalImage(image.base64String);
+  }
+
+  async modalImage(image){
+    const modal = await this.modalCtrl.create({
+      component: PhotoModalPage,
+      componentProps:{
+        imageSend: image,
+      }
+    });
+    modal.onDidDismiss().then((data) => {
+      if(data['data']){
+        const image = data['data'];
+        this.uploadPhoto = image;
+        this.photo = `data:image/jpeg;base64,`+image;
+      }
+    });
+    return await modal.present();
   }
 
   async initialize(){

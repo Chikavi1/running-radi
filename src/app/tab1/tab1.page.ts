@@ -14,9 +14,6 @@ import { FinishPage } from '../pages/finish/finish.page';
 
 import { Network } from '@capacitor/network';
 import { LocalNotifications } from '@capacitor/local-notifications';
-
-import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
-
 declare var L: any;
 
 @Component({
@@ -29,54 +26,20 @@ export class Tab1Page {
   constructor(
     private modalController:ModalController,
     private alertController:AlertController,
-    private nativeGeocoder: NativeGeocoder,
+
     private toastController:ToastController){
 
       if(localStorage.getItem('date_start')){
         this.presentAlertWithout();
-        // alert('tienes una paseada sin terminar')
       }
-
-
-      let options: NativeGeocoderOptions = {
-        useLocale: true,
-        maxResults: 5
-    };
-
-    Geolocation.getCurrentPosition().then((resp) => {
-      this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude, options)
-      .then((result: NativeGeocoderResult[]) => alert(JSON.stringify(result[0])))
-      .catch((error: any) => console.log(error));
-
-    });
-
-
 
     this.items = this.pets;
     this.slide = {
-      slidesPerView: 1.1
-    }
-  }
-
-  ionViewWillEnter(){
-    Network.addListener('networkStatusChange', status => {
-      console.log('Network status changed', status);
-
-      if(status.connected == false){
-        // alert('no hay internet')
-        this.presentToast();
+        slidesPerView: 1.1
       }
-
-    });
-
-    const logCurrentNetworkStatus = async () => {
-      const status = await Network.getStatus();
-      console.log('Network status:', status);
-    };
+    }
 
 
-
-  }
 
   lat:any;
   lng:any;
@@ -192,120 +155,136 @@ export class Tab1Page {
   }
 
 
-  async presentModalComplete(component) {
-    const modal = await this.modalController.create({
-      component: component,
-      componentProps: {
-        distance: this.distance,
-        time: this.time,
-        pet_id: this.pet_selected, // cambia
-        json_points: this.coords
-      },
-      breakpoints: [0.0,1],
-      initialBreakpoint: 1,
-      backdropDismiss:true,
-      swipeToClose​:true,
-      cssClass: 'small-modal'
-    });
+    async presentModalComplete(component) {
+      const modal = await this.modalController.create({
+        component: component,
+        componentProps: {
+          distance: this.distance,
+          time: this.time,
+          pet_id: this.pet_selected, // cambia
+          lat_start: this.lat_start,
+          lng_start:this.lng_start,
+          json_points: this.coords
+        },
+        breakpoints: [0.0,1],
+        initialBreakpoint: 1,
+        backdropDismiss:true,
+        swipeToClose​:true,
+        cssClass: 'small-modal'
+      });
 
-    modal.onDidDismiss().then((data) => {
-     if(data['data']){
-      this.coords = [];
-      this.distance = 0;
-      this.time = '';
-      this.pLineGroup.removeFrom(this.mapa);
-      localStorage.removeItem('date_start');
+      modal.onDidDismiss().then((data) => {
+      if(data['data']){
+        this.coords = [];
+        this.distance = 0;
+        this.time = '';
+        this.removeLines();
+        localStorage.removeItem('date_start');
 
 
-      //
+        //
 
-     }
+      }
 
-    });
-    return await modal.present();
+      });
+      return await modal.present();
+    }
+
+    async presentModalShow(component) {
+      const modal = await this.modalController.create({
+        component: component,
+        componentProps:{
+          id: 1
+        },
+        breakpoints: [0.0,0.6, 1],
+        initialBreakpoint: 0.6,
+        backdropDismiss:true,
+        swipeToClose​:true,
+        cssClass: 'small-modal'
+      });
+
+      modal.onDidDismiss().then((data) => {
+      if(data['data']){
+
+      }
+
+      });
+      return await modal.present();
+    }
+
+    async presentModalStart(component) {
+      const modal = await this.modalController.create({
+        component: component,
+        breakpoints: [0.0,0.7, 0.90],
+        initialBreakpoint: 0.7,
+        backdropDismiss:true,
+        swipeToClose​:true,
+        cssClass: 'small-modal'
+      });
+
+      modal.onDidDismiss().then((data) => {
+      if(data['data']){
+        this.pet_selected = data['data'][0]
+        // hacer if si tiene premium validar
+        this.runGeolocation();
+      }
+
+      });
+      return await modal.present();
+    }
+
+    storeCoordinate(xVal, yVal, array) {
+
+      let ultimadistancia = parseFloat(this.getDistanceFromLatLonInKm(this.lat,this.lng,this.oldlat,this.oldlng));
+      this.distance += ultimadistancia;
+
+      array.push({x: xVal, y: yVal});
+      this.addCoordenates(xVal,yVal);
+
+    }
+
+    ionViewWillEnter(){
+      Network.addListener('networkStatusChange', status => {
+        console.log('Network status changed', status);
+
+        if(status.connected == false){
+          this.presentToast();
+        }
+
+      });
+
+    }
+
+    addCoordenates(lat,lng){
+      let coodinates = [lat, lng];
+      // this.pLineGroup.addLayer(L.polyline(coodinates, {color: 'red'}))
+      this.polyline.addLatLng(coodinates);
+    }
+
+    lngLatArrayToLatLng(lngLatArray) {
+      // console.log(lngLatArray);
+      return lngLatArray.map(this.lngLatToLatLng);
+    }
+
+    lngLatToLatLng(lngLat) {
+      return [lngLat[0], lngLat[1]];
+    }
+
+    createCoords(){
+    this.storeCoordinate(this.lat, this.lng, this.coords);
+    }
+
+    float2int (value) {
+      return value | 0;
   }
 
-  async presentModalShow(component) {
-    const modal = await this.modalController.create({
-      component: component,
-      componentProps:{
-        id: 1
-      },
-      breakpoints: [0.0,0.6, 1],
-      initialBreakpoint: 0.6,
-      backdropDismiss:true,
-      swipeToClose​:true,
-      cssClass: 'small-modal'
-    });
-
-    modal.onDidDismiss().then((data) => {
-     if(data['data']){
-
-     }
-
-    });
-    return await modal.present();
+  removeLines(){
+    this.mapa.eachLayer((layer) => {
+      if (  layer === this.polyline) {
+          this.mapa.removeLayer(layer);
+      }
+    })
   }
-
-  async presentModalStart(component) {
-    const modal = await this.modalController.create({
-      component: component,
-      breakpoints: [0.0,0.7, 0.90],
-      initialBreakpoint: 0.7,
-      backdropDismiss:true,
-      swipeToClose​:true,
-      cssClass: 'small-modal'
-    });
-
-    modal.onDidDismiss().then((data) => {
-     if(data['data']){
-      console.log(data['data']);
-      this.pet_selected = data['data'][0]
-      // hacer if si tiene premium validar
-      this.runGeolocation();
-     }
-
-    });
-    return await modal.present();
-  }
-
-  storeCoordinate(xVal, yVal, array) {
-
-    let ultimadistancia = parseFloat(this.getDistanceFromLatLonInKm(this.lat,this.lng,this.oldlat,this.oldlng));
-    this.distance += ultimadistancia;
-
-    array.push({x: xVal, y: yVal});
-    this.addCoordenates(xVal,yVal);
-
-  }
-
-  addCoordenates(lat,lng){
-    let coodinates = [lat, lng];
-    // console.log(coodinates);
-
-    // this.pLineGroup.addLayer(L.polyline(coodinates, {color: 'red'}))
-
-    this.polyline.addLatLng(coodinates);
-  }
-
-  lngLatArrayToLatLng(lngLatArray) {
-    // console.log(lngLatArray);
-    return lngLatArray.map(this.lngLatToLatLng);
-  }
-
-  lngLatToLatLng(lngLat) {
-    return [lngLat[0], lngLat[1]];
-  }
-
-  createCoords(){
-  this.storeCoordinate(this.lat, this.lng, this.coords);
-  }
-
-  float2int (value) {
-    return value | 0;
-}
-
-
 
 start(){
 
@@ -361,14 +340,23 @@ async noti(sec){
   });
 }
 
+lat_start;
+lng_start;
+
+
 runGeolocation(){
   this.isStart = true;
+
+  Geolocation.getCurrentPosition().then((resp) => {
+    this.lat_start = resp.coords.latitude;
+    this.lng_start =  resp.coords.longitude;
+
+  });
 
     this.date1 = new Date();
     this.interval = window.setInterval(() => {
       var fecha2 = new Date()
       var difference = this.date1.getTime() - fecha2.getTime();
-      // console.log((this.float2int(difference/1000)*-1));
       this.seconds = (this.float2int(difference/1000)*-1);
       this.time = this.getTimeFormatted();
 
@@ -377,20 +365,15 @@ runGeolocation(){
       if(this.seconds % 60 == 0){
         this.noti(this.seconds);
       }
-
     }, 1000);
 
 
 
   BackgroundGeolocation.addWatcher({
-        backgroundMessage: "Cancel to prevent battery drain.",
-
-        backgroundTitle: "Tracking You.",
-
+        backgroundMessage: "Cancelalo cuando puedas para no drenar tu bateria.",
+        backgroundTitle: "Estas paseando con tu mascota.",
         requestPermissions: true,
-
-        stale: false,
-
+        stale:false,
         distanceFilter: 15
     },(data)=>{
 

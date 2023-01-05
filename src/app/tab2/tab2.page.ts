@@ -12,7 +12,7 @@ import { DataService } from '../services/data.service';
 export class Tab2Page {
   blogs:any = [];
   lostPets:any = [];
-  activity:any =  [];
+  activities:any =  [];
   petFriendly:any = [];
   acts:any = {};
   daily_percentage = 0;
@@ -45,7 +45,7 @@ export class Tab2Page {
 
     // console.log('time',this.time)
 
-    // this.getActivities();
+    this.getActivities();
 
 
     // this.api.getBlogs().subscribe(data => {
@@ -61,12 +61,35 @@ export class Tab2Page {
     slidesPerView: 1.03
   }
 
+  total_km = 0;
+  time_seconds = 0;
+  total_time = '';
+
   getActivities(){
     if(localStorage.getItem('user_id')){
-      this.api.getActivities(localStorage.getItem('user_id')).subscribe(data => {
-        this.activity = data;
+      this.api.getActivitiesByMonth({id:localStorage.getItem('user_id')}).subscribe(data => {
+        this.activities = data;
+        this.activities.forEach(element => {
+          this.total_km += element.distance;
+          this.time_seconds += element.seconds;
+        });
+        this.total_time = this.fancyTimeFormat(this.time_seconds);
+        localStorage.setItem('month_distance',""+this.total_km);
       })
     }
+  }
+
+  fancyTimeFormat(duration){
+    var hrs = ~~(duration / 3600);
+    var mins = ~~((duration % 3600) / 60);
+    var secs = ~~duration % 60;
+    var ret = "";
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
   }
 
   ionViewWillEnter(){

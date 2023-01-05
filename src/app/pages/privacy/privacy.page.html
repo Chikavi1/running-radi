@@ -1,0 +1,64 @@
+
+<ion-content>
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div style="padding: 1em;">
+    <div style="padding:1em;">
+
+      <h2 style="margin-top: 4em;">Privacidad</h2>
+      <h2>Visibilidad de tu perfil</h2>
+      <p>Muestra tu perfil a usuarios cerca de tu ubicación para que puedas ir a correr con ellos</p>
+      <ion-item lines="none">
+        <ion-label>Mostar mi perfil</ion-label>
+        <ion-toggle (ionChange)="crazyEvent($event)" [(ngModel)]="show"></ion-toggle>
+      </ion-item>
+    </div>
+
+    <div *ngIf="show">
+      <ion-item-divider mode="md"> </ion-item-divider>
+
+      <div style="padding:1em;">
+
+        <h2>Actividades</h2>
+        <p>En caso de querer compartir tus ultimas actividades, mantenlo publico</p>
+        <ion-item lines="none">
+          <ion-label>Mostar actividades</ion-label>
+          <ion-toggle [(ngModel)]="activities"></ion-toggle>
+        </ion-item>
+      </div>
+
+      <ion-item-divider mode="md"></ion-item-divider>
+
+      <div style="padding:1em;">
+        <h2>Mascotas</h2>
+        <p>Comparte el perfil de tu mascota para que más personas los conozcan</p>
+        <ion-item lines="none">
+          <ion-label>Mostar mascotas</ion-label>
+          <ion-toggle   [(ngModel)]="pets"></ion-toggle>
+        </ion-item>
+      </div>
+
+      <ion-item-divider mode="md"></ion-item-divider>
+
+      <div style="padding:1em;">
+        <h2>Reconocimientos</h2>
+        <p>Comparte tus reconocimientos con las demas personas</p>
+        <ion-item lines="none">
+          <ion-label>Mostar reconocimientos</ion-label>
+          <ion-toggle [(ngModel)]="rewards"></ion-toggle>
+        </ion-item>
+      </div>
+
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="full" (click)="update()">
+    Actualizar
+  </ion-button>
+</ion-footer>
