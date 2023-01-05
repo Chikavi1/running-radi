@@ -156,6 +156,10 @@ const routes: Routes = [
   },  {
     path: 'privacy',
     loadChildren: () => import('./pages/privacy/privacy.module').then( m => m.PrivacyPageModule)
+  },
+  {
+    path: 'photo-rounded-modal',
+    loadChildren: () => import('./pages/photo-rounded-modal/photo-rounded-modal.module').then( m => m.PhotoRoundedModalPageModule)
   }
 
 

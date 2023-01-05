@@ -1,9 +1,19 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>qr-user</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <div class="text-center" style="margin-top: 6em;">
+    <ion-row>
+      <ion-col size="4" offset="4">
+        <img [src]="photo" alt="photo image" style="border-radius: 50%;">
+      </ion-col>
+    </ion-row>
+    <h2>Luis Rojas</h2>
+    <ngx-qrcode   style="zoom:2.15" [value]="createdCode"></ngx-qrcode>
+    <ion-button fill="clear">Escanear el código de alguien</ion-button>
+    <!-- <p>Tu código QR es personalizado, compartelo con tus clientes para que puedan ver el perfil de tu establecimiento.</p> -->
+  </div>
 
 </ion-content>

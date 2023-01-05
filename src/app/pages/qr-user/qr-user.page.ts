@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ScreenBrightness } from '@capacitor-community/screen-brightness';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-qr-user',
@@ -7,9 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QrUserPage implements OnInit {
 
-  constructor() { }
+  photo;
+  createdCode;
 
-  ngOnInit() {
+  constructor(private navCtrl:NavController){
+    this.createdCode = 'sadsa';
+    this.photo = localStorage.getItem('photo');
+
   }
+
+  async  ngOnInit() {
+    const brightness = 0.5;
+    await ScreenBrightness.setBrightness({ brightness });
+
+}
+
+beforePage(){
+  this.navCtrl.back();
+}
 
 }

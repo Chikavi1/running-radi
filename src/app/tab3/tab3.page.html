@@ -47,7 +47,7 @@
 
               <div style="padding:1.2em;margin-top:2.5em;">
                 <ion-item lines="none" *ngIf="photo">
-                      <ion-avatar (click)="goToPage('/edit-profile')" style="width:5em;height: 5em;" slot="start" lines="none">
+                      <ion-avatar (click)="goToPage('/profile')" style="width:5em;height: 5em;" slot="start" lines="none">
                         <ion-img [src]="photo"></ion-img>
                       </ion-avatar>
                       <ion-label>
@@ -101,13 +101,13 @@
                 <ion-label>Privacidad</ion-label>
               </ion-item>
 
+              <ion-item lines="none" (click)="goToPage('/qr-user')">
+                <ion-icon slot="end" name="qr-code-outline"></ion-icon>
+                <ion-label>Compartir mi código</ion-label>
+              </ion-item>
 
               <!-- traducir
 
-              <ion-item lines="none" (click)="goToPage('/rewards',{code:datos.code})">
-                <ion-icon slot="end" name="wallet-outline"></ion-icon>
-                <ion-label>{{ 'menu.points' | translate }}</ion-label>
-              </ion-item>
 
               <!-++- <ion-item lines="none" (click)="goToPage('/my-business',{code:datos.code})">
                 <ion-icon slot="end" name="business-outline"></ion-icon>

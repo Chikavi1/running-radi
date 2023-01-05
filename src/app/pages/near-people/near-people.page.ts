@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 
@@ -44,6 +45,15 @@ export class NearPeoplePage implements OnInit {
 
   beforePage(){
     this.navCtrl.back();
+  }
+
+  async share(){
+    await Share.share({
+      title: 'Radi Runners',
+      text: 'Descarga la app para ir de paseo con tu mascota',
+      url: 'https://radi.pet/',
+      dialogTitle: 'Descarga la app para ir de paseo con tu mascota'
+    });
   }
 
 }

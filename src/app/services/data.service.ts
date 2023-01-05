@@ -214,6 +214,10 @@ export class DataService {
     return this.http.get(this.MODE + 'deleteCard/' + customerId + '/' + cardId)
   }
 
+  uploadImageUser(data){
+    return this.http.post(this.MODE+'uploadImageUser', JSON.parse(JSON.stringify(data)),this.options);
+  }
+
 
   getPoints(id){
     return this.http.get(this.MODE+'get_points/'+id);

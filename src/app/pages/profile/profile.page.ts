@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { ActionSheetController, AlertController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { AcknowledgePage } from '../acknowledge/acknowledge.page';
+import { PhotoRoundedModalPage } from '../photo-rounded-modal/photo-rounded-modal.page';
 
 @Component({
   selector: 'app-profile',
@@ -30,13 +32,14 @@ export class ProfilePage implements OnInit {
    updateerror;
    validatemessage;
    cancel;
-  expira;
+   expira;
+
   constructor(
     private api: DataService,
     private navCtrl:NavController,
     private modalController:ModalController,
     private toastController: ToastController,
-
+    private actionSheetController: ActionSheetController,
     private alertController:AlertController) {
       // borrar
 
@@ -59,6 +62,12 @@ ionViewDidEnter(){
   this.getUser();
  }
 
+ changePhoto(){
+  if(this.edit){
+    this.editPhoto();
+   }
+ }
+
 
 getUser(){
   this.api.getUser(localStorage.getItem('user_id')).subscribe( data => {
@@ -79,6 +88,99 @@ getUser(){
 editProfile(){
   this.edit = !this.edit;
 }
+
+
+async editPhoto(){
+  let options = [];
+    options = [
+
+    {
+      text: 'Tomar Foto',
+      icon: 'camera',
+      handler: () => {
+        this.getPicture('camera');
+      }
+    },
+    {
+        text: 'Subir foto',
+        icon: 'image',
+        handler: () => {
+          this.getPicture('photos');
+        }
+
+    },
+    {
+      text: 'Cancelar',
+      icon: 'close',
+      role: 'cancel',
+      handler: () => {
+      }
+    }
+  ];
+
+  const actionSheet = await this.actionSheetController.create({
+    header: 'Selecciona una opción.',
+    mode: 'md',
+    buttons: options
+  });
+  await actionSheet.present();
+
+  const { role } = await actionSheet.onDidDismiss();
+
+  // this.presentModalSmall(SelectBinaryPage);
+}
+
+async getPicture(src){
+
+  let source = src=='camera'?CameraSource.Camera:CameraSource.Photos;
+
+  const image = await Camera.getPhoto({
+    quality: 100,
+    saveToGallery:true,
+    allowEditing: false,
+    resultType: CameraResultType.Base64,
+    source: source,
+    promptLabelHeader:'Foto',
+    promptLabelCancel:'Cancelar',
+    promptLabelPhoto: 'Galeria',
+    promptLabelPicture: 'Tomar Foto'
+  });
+    this.modalImage(image.base64String);
+}
+
+uploadPhoto = '';
+async modalImage(image){
+  const modal = await this.modalController.create({
+    component: PhotoRoundedModalPage,
+    componentProps:{
+      imageSend: image,
+    }
+  });
+  modal.onDidDismiss().then((data) => {
+    if(data['data']){
+      const image = data['data'];
+      this.uploadPhoto = image;
+      this.photo = `data:image/jpeg;base64,`+image;
+      this.uploadImage(this.uploadPhoto);
+    }
+  });
+  return await modal.present();
+}
+
+uploadImage(image){
+  let data = {
+    id: localStorage.getItem('user_id'),
+    photo: image
+  }
+  this.api.uploadImageUser(data).subscribe((data:any) => {
+    if(data.status == 200){
+      localStorage.setItem('photo',this.photo);
+      this.presentToast('Se ha actualizado exitosamente.','success');
+    }
+
+  });
+}
+
 
 
    async presentAlert() {
@@ -208,6 +310,7 @@ editProfile(){
       name:this.name,
       description: this.description,
      //  birthday:this.birthday,
+      photo: this.photo,
       gender:this.gender,
       address:this.address,
       cellphone:this.cellphone

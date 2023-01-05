@@ -1,4 +1,4 @@
-<!-- 
+<!--
 
 <ion-content>
   <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
@@ -36,7 +36,7 @@
 <p  *ngIf="datos.status == 'active'" >
   Vigente
 </p>
- <ion-button color="danger" expand="block" fill="clear" (click)="presentAlert()">Cancelar Subscripción</ion-button> 
+ <ion-button color="danger" expand="block" fill="clear" (click)="presentAlert()">Cancelar Subscripción</ion-button>
 </ion-card>
 
 
@@ -69,7 +69,8 @@
 
     <ion-row>
       <ion-col size="4" offset="4">
-        <img style="border-radius:50%" [src]="photo" alt="profile user">
+        <img style="border-radius:50%" [src]="photo" alt="profile user" (click)="changePhoto()">
+
       </ion-col>
     </ion-row>
 
