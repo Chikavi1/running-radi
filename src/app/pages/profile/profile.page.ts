@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
 import { ActionSheetController, AlertController, ModalController, NavController, ToastController } from '@ionic/angular';
 import * as moment from 'moment';
 import { DataService } from 'src/app/services/data.service';
@@ -17,7 +19,6 @@ export class ProfilePage implements OnInit {
   name           = '';
   birthday       = '';
   gender;
-  address        = '';
   photo           = '';
   cellphone      = '';
   identification = '';
@@ -41,23 +42,13 @@ export class ProfilePage implements OnInit {
     private api: DataService,
     private navCtrl:NavController,
     private modalController:ModalController,
+    private nativeGeocoder: NativeGeocoder,
     private toastController: ToastController,
     private actionSheetController: ActionSheetController,
     private alertController:AlertController) {
-      // borrar
-
-    // this.api.getSubscriptions({'subscribe':1}).subscribe( data => {
-    //   console.log(data);
-    //   this.datos = data.data[0];
-    //   this.expira = new Date(this.datos.current_period_end);
-    //   console.log(this.datos);
-    // });
-
-
-
-
 
    }
+
 device = 'phone';
 
 
@@ -71,6 +62,9 @@ ionViewDidEnter(){
    }
  }
 
+ dateExample = new Date().toISOString();
+
+
 
 getUser(){
   this.api.getUser(localStorage.getItem('user_id')).subscribe( data => {
@@ -83,7 +77,6 @@ getUser(){
      this.subscription  = data[0].subscription;
      this.city          = data[0].city;
      this.birthday       = data[0].birthday;
-    this.address        = data[0].address;
     this.cellphone      = data[0].cellphone;
     this.identification = data[0].identification;
     this.gender         = data[0].gender?data[0].gender.toString():null;
@@ -188,34 +181,7 @@ uploadImage(image){
 
 
 
-   async presentAlert() {
-    const alert = await this.alertController.create({
-      header: '¿estas seguro de que quieres eliminar la subscripción?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-          },
-        },
-        {
-          text: 'Si,Terminar',
-          role: 'confirm',
-          handler: () => {
 
-            this.api.cancelSubscription({id:this.datos.id}).subscribe(data =>{
-              this.datos = data;
-            })
-
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
-  }
 
   ngOnInit() {
   }
@@ -309,24 +275,88 @@ uploadImage(image){
     toast.present();
   }
 
+  currency;
+  country;
+
   actualizar(){
-    let datos = {
-      id: localStorage.getItem('user_id'),
-      name:this.name,
-      description: this.description,
-     //  birthday:this.birthday,
-      photo: this.photo,
-      gender:this.gender,
-      address:this.address,
-      cellphone:this.cellphone
+
+    const datos = {};
+
+    var caca = {
+      "caca":2,
+      "pp":21,
+      "asi":"asi"
+    };
+
+    if(this.datos.name != this.name){
+      datos['name'] = this.name
     }
 
-    this.api.updateUser(datos).subscribe(data => {
-        this.presentToast(this.updatesuccess,'success');
-    },err =>{
-      this.presentToast(this.updateerror,'danger')
-    });
-    this.beforePage();
+    if(this.datos.birthday != this.birthday){
+      datos['birthday'] = this.birthday
+    }
+
+    if(this.datos.gender != this.gender){
+      datos['gender'] = this.gender
+    }
+
+    if(this.datos.description != this.description){
+      datos['description'] = this.description
+    }
+
+    if(this.datos.cellphone != this.cellphone){
+      datos['cellphone'] = this.cellphone
+    }
+
+
+    if(!this.datos.city){
+      let options: NativeGeocoderOptions = {
+        useLocale: true,
+        maxResults: 5
+      };
+
+      Geolocation.getCurrentPosition().then((resp) => {
+        this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude, options)
+        .then((result: NativeGeocoderResult[]) => {
+          this.city = result[0].locality;
+          datos['city'] = result[0].locality;
+
+        })
+        .catch((error: any) => console.log(error));
+      });
+    }
+
+    if(!this.datos.currency || !this.datos.country){
+      this.api.getInfoIp().subscribe((data:any) => {
+        datos['currency'] = data.currency_code;
+        datos['country'] = data.country_name;
+        this.currency = data.currency_code;
+        this.country  = data.country_name;
+      })
+    }
+
+    // if(datos.length == 0){
+    //   alert('selecciona algo')
+    //   return;
+    // }
+
+    if((this.datos.name != this.name ) || (this.datos.birthday != this.birthday) || (this.datos.gender != this.gender)){
+      alert('¿estas seguro de que quieres actualizar?')
+    }
+
+    datos['id'] = localStorage.getItem('user_id');
+
+    console.log(datos)
+    console.log('-dsada')
+    console.log(caca);
+
+    // this.api.updateUser(datos).subscribe(data => {
+    //     console.log(data)
+    //     this.presentToast(this.updatesuccess,'success');
+    // },err =>{
+    //   this.presentToast(this.updateerror,'danger')
+    // });
+    // this.beforePage();
   }
 
 }

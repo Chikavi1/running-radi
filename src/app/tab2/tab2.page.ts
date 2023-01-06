@@ -25,6 +25,8 @@ export class Tab2Page {
   interval;
   seconds;
 
+  user_id;
+
   float2int (value) {
     return value | 0;
 }
@@ -34,16 +36,6 @@ export class Tab2Page {
     private modalController:ModalController,
 
     private api: DataService){
-    this.acts = JSON.parse(localStorage.getItem('activities'));
-      console.log(this.acts);
-
-    this.convertgoal =  (parseInt(localStorage.getItem('goal'))/60);
-
-
-
-
-
-    // console.log('time',this.time)
 
     this.getActivities();
 
@@ -64,6 +56,8 @@ export class Tab2Page {
   total_km = 0;
   time_seconds = 0;
   total_time = '';
+
+  premium;
 
   getActivities(){
     if(localStorage.getItem('user_id')){
@@ -93,6 +87,22 @@ export class Tab2Page {
   }
 
   ionViewWillEnter(){
+
+    if(localStorage.getItem('pe')){
+      if(new Date(localStorage.getItem('pe')) > new Date()){
+        this.premium = true;
+      }else{
+        this.premium = false;
+      }
+    }else{
+      this.premium = false;
+    }
+
+
+
+    this.user_id =  localStorage.getItem('user_id');
+    this.acts = JSON.parse(localStorage.getItem('activities'));
+    this.convertgoal =  (parseInt(localStorage.getItem('goal'))/60);
 
 
     if(localStorage.getItem('date_start')){

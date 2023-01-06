@@ -56,8 +56,6 @@ export class FinishPage implements OnInit {
       this.nativeGeocoder.reverseGeocode(this.lat_start, this.lng_start, options)
       .then((result: NativeGeocoderResult[]) => {
         this.city = result[0].locality;
-        // alert(JSON.stringify(result[0].locality))
-
       })
       .catch((error: any) => console.log(error));
   }

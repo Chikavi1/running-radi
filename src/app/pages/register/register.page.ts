@@ -31,7 +31,7 @@ export class RegisterPage {
   currency;
   country;
 
-
+  dateExample = new Date().toISOString();
 
   countries = [
     { code: "+52", name: "México" },
@@ -40,6 +40,9 @@ export class RegisterPage {
     { code: "+1",  name: "Canada" },
     { code: "+55", name: "Brazil" }
   ];
+
+
+
 
   constructor(
     private toastController: ToastController,
@@ -52,9 +55,8 @@ export class RegisterPage {
     {
 
       this.data.getInfoIp().subscribe((data:any) => {
-        this.currency = data.country_name,
-        this.country  = data.currency_code
-        console.log(this.currency,this.country);
+        this.currency = data.currency_code;
+        this.country  = data.country_name;
       })
 
       // this.oneSignal.getIds().then(identity => {

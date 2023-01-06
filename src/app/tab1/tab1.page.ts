@@ -14,6 +14,7 @@ import { FinishPage } from '../pages/finish/finish.page';
 
 import { Network } from '@capacitor/network';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { DataService } from '../services/data.service';
 declare var L: any;
 
 @Component({
@@ -26,8 +27,26 @@ export class Tab1Page {
   constructor(
     private modalController:ModalController,
     private alertController:AlertController,
-
+    private api: DataService,
     private toastController:ToastController){
+
+    if(localStorage.getItem('customer_id')){
+        if(!localStorage.getItem('pe')){
+          this.api.getSubscriptions({'id':localStorage.getItem('customer_id')}).subscribe( data => {
+            if(data.data){
+
+              if(data.data[0].status == 'active'){ // se guarda la fecha del premium
+                localStorage.setItem('pe',''+new Date(data.data[0].current_period_end*1000));
+              }else{
+                localStorage.setItem('pe','a');
+              }
+            }else{
+
+            }
+          });
+        }
+    }
+
 
       if(localStorage.getItem('date_start')){
         this.presentAlertWithout();

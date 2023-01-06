@@ -181,14 +181,10 @@ export class DataService {
     return this.http.get(this.MODE + 'place/'+id);
   }
 
-  getCustomer():any{
 
-  }
 
   getSubscriptions(data):any{
-
     return this.http.post(this.MODE + 'retrieveSubscriptions/', JSON.parse(JSON.stringify(data)), this.options);
-
   }
 
   cancelSubscription(data):any{

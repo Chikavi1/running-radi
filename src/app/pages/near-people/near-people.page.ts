@@ -27,6 +27,7 @@ export class NearPeoplePage implements OnInit {
       "longitude" : "-103.305511"
     }
     this.api.usersNear(data).subscribe(data => {
+      console.log(data);
       this.users = data;
     });
   }
@@ -34,6 +35,8 @@ export class NearPeoplePage implements OnInit {
   changeVisible(){
     this.show = true;
     localStorage.setItem('show_near','true');
+    this.getUsers();
+
   }
 
   ngOnInit() {

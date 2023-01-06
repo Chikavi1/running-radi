@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { OneSignal } from '@awesome-cordova-plugins/onesignal/ngx';
 import { Browser } from '@capacitor/browser';
 import { ModalController, NavController, Platform } from '@ionic/angular';
@@ -27,13 +27,21 @@ export class Tab3Page {
   device;
   slide;
   isMobile;
+  premium;
   constructor(
     public navCtrl:NavController,
     private api: DataService,
     private modalCtrl:ModalController,
     private platform:Platform,
-    private oneSignal:OneSignal
+    private oneSignal:OneSignal,
+    private router:Router
     ){
+
+
+
+
+
+
       this.isMobile = this.platform.is('mobile');
       this.device = localStorage.getItem('device');
       this.slide = {
@@ -51,13 +59,43 @@ export class Tab3Page {
    }
 
    photo;
-   email;
+   name;
 
 
    ionViewDidEnter(){
 
+    if(localStorage.getItem('customer_id')){
+
+      if(!localStorage.getItem('pe')){
+
+        this.api.getSubscriptions({'id':localStorage.getItem('customer_id')}).subscribe( data => {
+          console.log(data);
+          if(data.data.length != 0){
+              if(data.data[0].status == 'active'){ // se guarda la fecha del premium
+                this.premium = true;
+                localStorage.setItem('pe',''+new Date(data.current_period_end*1000));
+              }else{
+                localStorage.setItem('pe','a');
+                this.premium = false;
+              }
+            }else{
+              localStorage.setItem('pe','a');
+              this.premium = false;
+            }
+        });
+
+        }else{
+          if(new Date(localStorage.getItem('pe')) > new Date()){
+            this.premium = true;
+          }else{
+            this.premium = false;
+          }
+      }
+
+      }
+
     this.photo = localStorage.getItem('photo');
-    this.email = localStorage.getItem('email')
+    this.name = localStorage.getItem('name')
 
 
     setTimeout(() => {
@@ -99,6 +137,8 @@ export class Tab3Page {
 
     modal.onDidDismiss().then((data) => {
      if(data['data']){
+      this.router.navigateByUrl('/tabs/tab2')
+
         this.user_id = localStorage.getItem('user_id');
         // this.apiget();
         this.mostrar = false;
@@ -131,6 +171,14 @@ export class Tab3Page {
     localStorage.removeItem('customer_id');
     localStorage.removeItem('pet_default_id');
     localStorage.removeItem('email');
+
+    localStorage.removeItem('name');
+    localStorage.removeItem('month_distance');
+    localStorage.removeItem('photo');
+    localStorage.removeItem('pe');
+
+
+
 
     // only dev
     // localStorage.removeItem('intro')

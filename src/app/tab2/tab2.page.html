@@ -3,7 +3,9 @@
     <ion-toolbar>
     <ion-row>
       <ion-col size="10">
-        <ion-title size="large">Descubre</ion-title>
+        <ion-title size="large" *ngIf="premium">Premium</ion-title>
+        <ion-title size="large" *ngIf="!premium">Radi Runner</ion-title>
+
       </ion-col>
       <ion-col size="2" (click)="goToPage('/near-people')">
         <h3><ion-icon name="people"></ion-icon></h3>
@@ -37,28 +39,41 @@
         </circle-progress>
       </ion-col>
     </ion-row>
-  <ion-row>
 
-    <ion-col size="8">
-      <p>Meta de <b>{{convertgoal}} min</b></p>
-    </ion-col>
-    <ion-col size="3">
-      <p style="text-align: right;" (click)="openModal()">Cambiar</p>
-    </ion-col>
-  </ion-row>
+    <div *ngIf="convertgoal">
+      <ion-row>
+        <ion-col size="8">
+          <p>Meta de <b>{{convertgoal}} min</b></p>
+        </ion-col>
+        <ion-col size="3">
+          <p style="text-align: right;" (click)="openModal()">Cambiar</p>
+        </ion-col>
+      </ion-row>
+    </div>
+
+
+    <div *ngIf="!convertgoal">
+          <p style="text-align: center;color:orangered;">No tienes una meta</p>
+          <p style="text-align: center !important;" (click)="openModal()">Establecer</p>
+    </div>
 
   </ion-card>
 
     <ion-card style="padding:1em;">
       <h2>Este mes</h2>
 
+      <div *ngIf="user_id">
       <span>Kilometros total</span>
-      <p>{{total_km}} km</p>
-      <span>Tiempo total</span>
-      <p>{{total_time}}  Min</p>
+        <p>{{total_km}} km</p>
+        <span>Tiempo total</span>
+        <p>{{total_time}}  Min</p>
+      </div>
+      <div *ngIf="!user_id">
+        <h2>Necesitas ingresar para ver tus estadisticas</h2>
+      </div>
     </ion-card>
 
-    <img style="padding: -2em;" (click)="goToPage('subscription')"  src="../../assets/radi premium.png" alt="">
+    <img *ngIf="!premium" style="padding: -2em;" (click)="goToPage('subscription')"  src="../../assets/radi premium.png" alt="">
 
 
     <h2>Ultimos registros</h2>
@@ -69,28 +84,39 @@
       {{ act.created }}
     </div> -->
 
-    <div *ngIf="activities.length == 0" class="text-center">
-      <ion-card style="padding: 1em;">
-        <h4>No tienes ninguna actividad.</h4>
-        <p>Empieza a generar tu historial saliendo a pasear con tu mascota.</p>
-        <ion-button fill="clear" expand="block" (click)="goToPage('tabs/tab1')">Empezar a correr  </ion-button>
+    <div *ngIf="user_id">
+      <div *ngIf="activities.length == 0" class="text-center">
+        <ion-card style="padding: 1em;">
+          <h4>No tienes ninguna actividad.</h4>
+          <p>Empieza a generar tu historial saliendo a pasear con tu mascota.</p>
+          <ion-button fill="clear" expand="block" (click)="goToPage('tabs/tab1')">Empezar a correr  </ion-button>
+        </ion-card>
+      </div>
+
+      <ion-slides  [options]="slide"  *ngIf="activities.length != 0">
+
+        <ion-slide *ngFor="let item of activities" style="text-align: left;">
+          <ion-card style="padding:2em;" (click)="goToRun(item.id)">
+            <h3 style="font-weight: bold;">{{item.createdAt | date:'fullDate'}} </h3>
+            <h5> {{item.distance}} KM  &#x2022; {{item.time}} Min</h5>
+            <!-- <p style="font-weight: bold;">
+              <img style="vertical-align:middle;border-radius: 50%;width: 2em;height: 2em;object-fit: cover;" [src]="item.pet_photo" alt="image">
+              {{item.pet_name}}
+            </p> -->
+          </ion-card>
+
+        </ion-slide>
+      </ion-slides>
+    </div>
+
+    <div  *ngIf="!user_id">
+      <ion-card style="padding:2em;">
+        <h3 style="font-weight: bold;">Inicia sesión </h3>
+        <h5> Para poder mostrarte tus actividades debes iniciar sesión</h5>
       </ion-card>
     </div>
 
-    <ion-slides  [options]="slide"  *ngIf="activities.length != 0">
 
-      <ion-slide *ngFor="let item of activities" style="text-align: left;">
-        <ion-card style="padding:2em;" (click)="goToRun(item.id)">
-          <h3 style="font-weight: bold;">{{item.createdAt | date:'fullDate'}} </h3>
-          <h5> {{item.distance}} KM  &#x2022; {{item.time}} Min</h5>
-          <!-- <p style="font-weight: bold;">
-            <img style="vertical-align:middle;border-radius: 50%;width: 2em;height: 2em;object-fit: cover;" [src]="item.pet_photo" alt="image">
-            {{item.pet_name}}
-          </p> -->
-        </ion-card>
-
-      </ion-slide>
-    </ion-slides>
 
     <!-- <h2>Challenges</h2>
     <ion-slides  [options]="slide" >
@@ -192,6 +218,6 @@
 
 
 
-  <img (click)="goToPage('subscription')"  src="../../assets/radi premium.png" alt="">
+  <img *ngIf="!premium" (click)="goToPage('subscription')"  src="../../assets/radi premium.png" alt="">
 
 </ion-content>

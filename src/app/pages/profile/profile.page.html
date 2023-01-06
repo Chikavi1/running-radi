@@ -97,7 +97,10 @@
 
     <ion-card style="padding: 1em;">
       <h2>{{ 'editprofile.aboutme' | translate }}</h2>
-      <p *ngIf="!edit">{{description}}</p>
+      <div *ngIf="!edit">
+        <p *ngIf="description">{{ description }}</p>
+        <p *ngIf="!description" class="oranged"> * No haz agregado una descripción</p>
+      </div>
       <div *ngIf="edit">
         <ion-input maxlength="250" class="new-input"  [(ngModel)]="description"></ion-input>
         <p>{{description?description.length:0}}/250</p>
@@ -119,7 +122,6 @@
     </ion-card>
 
 
-
     <ion-card style="padding: 1em;">
       <div class="form-group">
         <span >{{ 'editprofile.email' | translate }}</span>
@@ -131,26 +133,32 @@
       </div>
       <div class="form-group">
         <span>Ciudad</span>
-        <h4>{{datos.city}}</h4>
+        <p *ngIf="!datos.city" class="oranged">* No tienes tu ciudad definida</p>
+        <h4 *ngIf="datos.city">{{datos.city}}</h4>
       </div>
       <div class="form-group">
         <span>Nacimiento</span>
-        <h4>{{datos.birthday  | date:'dd/MM/yy'}}</h4>
+        <p *ngIf="!datos.birthday" class="oranged">* No tienes tu fecha de nacimiento</p>
+        <h4 *ngIf="datos.birthday">{{datos.birthday  | date:'dd/MM/yy'}}</h4>
       </div>
       <div class="form-group">
         <span>Genero</span>
         <h4 *ngIf="datos.gender == 1">Masculino</h4>
         <h4 *ngIf="datos.gender == 2">Femenino</h4>
-
+        <h4 *ngIf="datos.gender == 3">Sin especificar</h4>
+        <p *ngIf="datos.gender == 0" class="oranged">*No tienes el genero especificado</p>
       </div>
-
       <div class="form-group">
         <span>{{ 'editprofile.country' | translate }}</span>
         <h4>{{datos.country}}</h4>
+        <p *ngIf="!datos.country" class="oranged">*No tienes tu pais definido </p>
+
       </div>
       <div class="form-group">
         <span>{{ 'editprofile.currency' | translate }}</span>
         <h4>{{datos.currency}}</h4>
+        <p *ngIf="!datos.currency" class="oranged">*No tienes tu moneda definida</p>
+
       </div>
 
       <hr>
@@ -202,43 +210,68 @@
   </div>
 
   <div style="padding-top: 1em;" *ngIf="edit" >
-    <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.name' | translate }}</ion-label>
-    <ion-row justify-content-center align-items-center  style="margin:1em;">
-      <ion-col size="12">
-        <ion-input  maxlength="30" class="new-input" placeholder="{{ 'editprofile.placeholdername' | translate }} " type="text" [(ngModel)]="name" ></ion-input>
+
+    <ion-card style="padding: 1em;">
+
+      <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.name' | translate }}</ion-label>
+      <ion-row justify-content-center align-items-center  style="margin:1em;">
+        <ion-col size="12">
+          <ion-input  maxlength="30" class="new-input" placeholder="{{ 'editprofile.placeholdername' | translate }} " type="text" [(ngModel)]="name" ></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.gender' | translate }}</ion-label>
+      <ion-row>
+        <ion-col size="12" >
+          <ion-select value="1" [(ngModel)]="gender"  interface="action-sheet" placeholder="{{'editprofile.placeholdergender' | translate }}"
+          okText="{{ 'createinjection.donetext' | translate }}" cancelText="{{ 'createinjection.canceltext' | translate }}"  placeholder="{{ 'editprofile.gender' | translate }}" class="new-input" style="margin:0em 1em;">
+          <ion-select-option value="1">{{ 'editprofile.male' | translate }}</ion-select-option>
+          <ion-select-option value="2">{{ 'editprofile.female' | translate }}</ion-select-option>
+          <ion-select-option value="3">{{ 'editprofile.other' | translate }}</ion-select-option>
+        </ion-select>
       </ion-col>
     </ion-row>
 
-    <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.gender' | translate }}</ion-label>
-    <ion-row>
-      <ion-col size="12" >
-        <ion-select value="1" [(ngModel)]="gender"  interface="action-sheet" placeholder="{{'editprofile.placeholdergender' | translate }}"
-        okText="{{ 'createinjection.donetext' | translate }}" cancelText="{{ 'createinjection.canceltext' | translate }}"  placeholder="{{ 'editprofile.gender' | translate }}" class="new-input" style="margin:0em 1em;">
-        <ion-select-option value="1">{{ 'editprofile.male' | translate }}</ion-select-option>
-        <ion-select-option value="2">{{ 'editprofile.female' | translate }}</ion-select-option>
-        <ion-select-option value="3">{{ 'editprofile.other' | translate }}</ion-select-option>
-      </ion-select>
-    </ion-col>
-  </ion-row>
+    <ion-label style="margin-left: 1.5em;" color="primary">Nacimiento</ion-label>
+
+      <div id="open-modal2">
+        <ion-row justify-content-center align-items-center  style="margin:1em;">
+          <ion-col size="12">
+            <ion-input class="new-input" placelhoder="Selecciona una fecha" >{{birthday | date:'fullDate' }}</ion-input>
+          </ion-col>
+        </ion-row>
+      </div>
+      <ion-modal trigger="open-modal2" [cssClass]="'bottom-end'">
+        <ng-template>
+          <ion-datetime
+            presentation="date"
+            [(ngModel)]="birthday"
+            size="cover"
+            [showDefaultButtons]="true"
+          ></ion-datetime>
+        </ng-template>
+      </ion-modal>
+
+      <p class="oranged">* Esta información solo se puede cambiar una vez.</p>
+
+      <ion-item-divider mode="md" style="margin:1em 0em;"> </ion-item-divider>
 
 
-  <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.cellphone' | translate }}</ion-label>
-  <ion-row justify-content-center align-items-center  style="margin:1em;">
-    <ion-col size="12">
-      <ion-input type="tel" (keypress)="numberOnlyValidation($event)" pattern="^(0\W*7\W*(?:\d\W*){9})$" [(ngModel)]="cellphone" maxlength="10"  class="new-input" placeholder="{{'editprofile.placeholdercellphone' | translate }}" type="text"></ion-input>
-    </ion-col>
-  </ion-row>
+    <ion-label style="margin-left: 1.5em;margin-top: 4em;" color="primary">{{ 'editprofile.cellphone' | translate }}</ion-label>
+    <ion-row justify-content-center align-items-center  style="margin:1em;">
+      <ion-col size="12">
+        <ion-input type="tel" (keypress)="numberOnlyValidation($event)" pattern="^(0\W*7\W*(?:\d\W*){9})$" [(ngModel)]="cellphone" maxlength="10"  class="new-input" placeholder="{{'editprofile.placeholdercellphone' | translate }}" type="text"></ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+  </div>
+</ion-col>
+</ion-row>
+</ion-content>
 
+<ion-footer *ngIf="edit">
   <ion-button style="margin: 1em;" expand="full" (click)="actualizar()">
     {{ 'editprofile.update' | translate }}
   </ion-button>
 
-
-  </div>
-
-
-</ion-col>
-</ion-row>
-
-</ion-content>
-
+</ion-footer>

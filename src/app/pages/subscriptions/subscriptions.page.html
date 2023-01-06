@@ -1,9 +1,49 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>subscriptions</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <h2 style="margin-top: 5em;padding-left: 1em;">Subscripciones</h2>
+
+  <div *ngIf="!subscription">
+    <ion-card style="padding: 1em;">
+      <h2 class="text-center">No cuentas con una subscripción.</h2>
+      <p>Disfruta de la app sin anuncios, y todos los Beneficios de ser premium, ademas con tu subscripción ayudas a mejorar las vidas de las mascotas.</p>
+      <ion-button expand="full" color="success" fill="clear" (click)="goToPage('/subscription')">Conseguir Radi Pets Premium</ion-button>
+    </ion-card>
+  </div>
+
+  <div *ngIf="subscription">
+    <div style="padding: 1.8em;">
+      <h2 class="text-center text-green" *ngIf="datos.status == 'active'">Subscripion Vigente</h2>
+      <h2 class="text-center text-green" *ngIf="datos.status != 'active'">Subscripion No vigente</h2>
+      <p class="text-center"><ion-icon style="color:green;font-size:1.7em;" name="checkmark-circle-outline"></ion-icon></p>
+      <p>Gracias por ser parte de radi</p>
+      <p *ngIf="datos.cancel_at_period_end" class="bold">Se cancelera el {{expira*1000 | date:'fullDate':'es'}}</p>
+      <p *ngIf="!datos.cancel_at_period_end" class="bold" >Se renueva el  {{expira*1000 | date:'fullDate':'es'}}</p>
+      <ion-item-divider mode="md"> </ion-item-divider>
+      <h2>Decide como apoyar</h2>
+      <p>Cuando eres premium puedes decidir a que causa se destinara el dinero que das en la Subscripcion</p>
+
+      <ion-card style="padding: 1em;"  [ngClass]="{'selected' : destination == 'shelters' }" (click)="select('shelters')">
+        <h2>Albergues</h2>
+        <p>Apoya a los Albergues</p>
+      </ion-card>
+
+      <ion-card style="padding: 1em;"  [ngClass]="{'selected' : destination == 'sterelized' }" (click)="select('sterelized')">
+        <h2>Esterilizaciones</h2>
+        <p>Apoya con campañas de esterilizaciones</p>
+      </ion-card>
+
+      <ion-card style="padding: 1em;"  [ngClass]="{'selected' : destination == 'food' }" (click)="select('food')">
+        <h2>Croquetas</h2>
+        <p>Apoya con campañas de croquetas a albergues y casas puente</p>
+
+      </ion-card>
+      <ion-item-divider mode="md"> </ion-item-divider>
+      <ion-button expand="full" color="danger" fill="clear" (click)="presentAlert()">Cancelar Subscripcion</ion-button>
+    </div>
+  </div>
 
 </ion-content>

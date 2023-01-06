@@ -63,7 +63,19 @@ export class LoginPage {
       if(data.token){
         var decoded:any = jwt_decode(data.token);
         localStorage.setItem('user_id',decoded.id);
+        localStorage.setItem('name',decoded.name);
+        localStorage.setItem('photo',decoded.photo);
         localStorage.setItem('customer_id',decoded.customer);
+
+        this.dataService.getSubscriptions({'id':decoded.customer}).subscribe( data => {
+          if(data.data[0].status == 'active'){ // se guarda la fecha del premium
+            localStorage.setItem('pe',''+new Date(data.data[0].current_period_end*1000));
+          }else{
+            localStorage.setItem('pe','');
+          }
+        })
+
+
         this.onesignal.setExternalUserId(hashids.encode(decoded.id));
         this.exit(true);
       }else{
