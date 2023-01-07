@@ -209,16 +209,24 @@ datas:any = [];
     //   this.showRewardVideo();
     // }
 
-
-  if(this.offline){
-    alert('estas offiline');
-    // localStorage.setItem('activities',JSON.stringify());
-    // this.modalCtrl.dismiss();
-  }else{
-
-    alert('estas online');
-      // this.showRewardVideo();
+    let activityData = {
+      "user_id": localStorage.getItem('user_id'),
+      "distance": this.distance,
+      "time": this.time,
+      "json_points": this.json_points,
+      "seconds": 0,
+      "city": this.city,
+      "pets":[this.response]
     }
+
+    if(this.offline){
+      alert('estas offiline');
+      localStorage.setItem('activities',JSON.stringify(activityData));
+      this.modalCtrl.dismiss();
+      }else{
+        this.showRewardVideo();
+      }
+
 }
 
 

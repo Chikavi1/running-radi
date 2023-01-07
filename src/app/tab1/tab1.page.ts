@@ -200,7 +200,6 @@ export class Tab1Page {
         this.distance = 0;
         this.time = '';
 
-        this.removeLines();
         localStorage.removeItem('date_start');
 
 
@@ -475,7 +474,7 @@ terminate(){
   window.clearInterval(this.interval); // Clear the interval
   this.seconds = 0; // Sets seconds to zero
   this.isStart = false;
-
+  this.removeLines();
   this.presentModalComplete(FinishPage);
 }
 
