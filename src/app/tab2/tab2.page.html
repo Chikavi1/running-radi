@@ -45,7 +45,7 @@
         <ion-col size="8">
           <p>Meta de <b>{{convertgoal}} min</b></p>
         </ion-col>
-        <ion-col size="3">
+        <ion-col size="4">
           <p style="text-align: right;" (click)="openModal()">Cambiar</p>
         </ion-col>
       </ion-row>
@@ -64,7 +64,7 @@
 
       <div *ngIf="user_id">
       <span>Kilometros total</span>
-        <p>{{total_km}} km</p>
+        <p>{{total_km  | number : '.2-2' }} km</p>
         <span>Tiempo total</span>
         <p>{{total_time}}  Min</p>
       </div>

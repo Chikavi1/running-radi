@@ -13,28 +13,53 @@ import { Network } from '@capacitor/network';
 export class StartPage implements OnInit {
 mascotas:any = [];
 user_id;
-  constructor(private modalCtrl:ModalController,private api: DataService) {
+
+premium;
+pets_selected;
+
+offline = false;
+
+  constructor(private modalCtrl:ModalController,private api: DataService){
+
+    if(localStorage.getItem('pe')){
+      if(new Date(localStorage.getItem('pe')) > new Date()){
+        this.premium = true;
+      }else{
+        this.premium = false;
+      }
+    }else{
+      this.premium = false;
+    }
+
+
+
+
     this.user_id = localStorage.getItem('user_id');
     this.getPets()
    }
 
+
   step = 1;
-  pet_selected;
   ngOnInit() {
   }
 
   getPets(){
-    if(this.user_id){
-      this.api.getPets(this.user_id).subscribe( datos => {
-        this.mascotas = datos;
-        localStorage.setItem('pets',JSON.stringify(this.mascotas));
-      });
-      Network.addListener('networkStatusChange', status => {
-        if(status.connected == false){
-          this.mascotas = JSON.parse(localStorage.getItem('pets'));
-        }
-      });
 
+
+    Network.addListener('networkStatusChange', status => {
+      this.offline = !status.connected;
+    });
+
+
+    if(this.offline){
+      this.mascotas = JSON.parse(localStorage.getItem('pets'));
+    }else{
+        if(this.user_id){
+        this.api.getPets(this.user_id).subscribe( datos => {
+          this.mascotas = datos;
+          localStorage.setItem('pets',JSON.stringify(this.mascotas));
+        });
+      }
     }
   }
 
@@ -43,12 +68,9 @@ user_id;
   }
 
   close(success){
-    this.modalCtrl.dismiss(this.pet_selected);
+    this.modalCtrl.dismiss(this.pets_selected);
   }
 
-  handleChange(ev) {
-    this.pet_selected = ev.target.value;
-  }
 
   login(){
     this.presentModal(LoginPage);

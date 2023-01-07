@@ -4,8 +4,8 @@
 
       <img src="../../../assets/img/white-logo.png" alt="logo" style="margin-top:1.9em;width: 3.5em;height:3.5em;z-index: 10000;">
       <h1 style="font-weight: bold;">¡Felicidades, has terminado!</h1>
-      <p>
-       Corrida en {{welcome}} en {{ city }}
+      <p class="capital">
+       Paseo en {{welcome}} en {{ city }}
          <br>
         {{ today | date:'fullDate' }}
       </p>
@@ -16,7 +16,8 @@
   </div>
   <ion-card *ngIf="offline" style="padding:1em;">
     <h2 style="color:orangered;"><ion-icon name="alert-circle-outline"></ion-icon> Estas desconectado</h2>
-    <p>Tu proceso se guardará en tu telefono por unos dias, cuando tengas conexion a internet lo podras subir de nuevo en el apartado de actividades pendientes</p>
+    <p *ngIf="!premium">Tu proceso se guardará en tu telefono por una semana, cuando tengas conexion a internet lo podras subir de nuevo en el apartado de actividades pendientes, en caso de no guardarlo se eliminara</p>
+    <p *ngIf="premium" >Tu proceso se guardará en tu telefono y se subira cuando tengas conexion estable a internet.</p>
   </ion-card>
 
   <ion-card style="padding: 1em;">
@@ -32,64 +33,61 @@
         Tiempo
       </ion-col>
       <ion-col size="6">
-        {{time}} min
+        {{time}} Min
       </ion-col>
     </ion-row>
   </ion-card>
 
-  <ion-row *ngIf="!photo">
-    <ion-col size="6" offset="3">
 
-      <ion-button expand="full" (click)="getPicture()" color="primary">
-        <ion-icon name="camera-outline" slot="start"></ion-icon>
-        Foto del recuerdo</ion-button>
-      </ion-col>
-    </ion-row>
 
-    <div *ngIf="photo">
-
-      <h2 class="text-center">Mi Recuerdo</h2>
-      <ion-card >
-        <img [src]="photo" alt="memories">
-      </ion-card>
-      <ion-row >
-        <ion-col size="6" offset="3">
-          <ion-button expand="full" (click)="getPicture()" color="primary">
-            <ion-icon name="camera-outline" slot="start"></ion-icon>
-            Volver a tomar</ion-button>
-          </ion-col>
-        </ion-row>
-
-    </div>
-
-  <ion-slides [options]="slide" >
-    <ion-slide *ngFor="let item of [1,1]">
+  <ion-slides [options]="slide" pager="true" style="padding-bottom: 3em;">
+    <ion-slide *ngFor="let pet of pets; let i = index">
       <ion-card  style="padding: 1em;width: 100%;">
-        <h4>Comportamiento de Radi</h4>
-          <ion-chip [ngClass]="{'selected' : behavior == 1 }"  (click)="setBehavior(1)">😞</ion-chip>
-          <ion-chip [ngClass]="{'selected' : behavior == 2 }"  (click)="setBehavior(2)">😡</ion-chip>
-          <ion-chip [ngClass]="{'selected' : behavior == 3 }"  (click)="setBehavior(3)">😐</ion-chip>
-          <ion-chip [ngClass]="{'selected' : behavior == 4 }"  (click)="setBehavior(4)">😊</ion-chip>
-
+        <h4>Comportamiento de {{pet.name}}</h4>
+          <ion-chip [ngClass]="{'selected' : response[i].behavior == 1 }"  (click)="setBehavior(i,1)">😞</ion-chip>
+          <ion-chip [ngClass]="{'selected' : response[i].behavior == 2 }"  (click)="setBehavior(i,2)">😡</ion-chip>
+          <ion-chip [ngClass]="{'selected' : response[i].behavior == 3 }"  (click)="setBehavior(i,3)">😐</ion-chip>
+          <ion-chip [ngClass]="{'selected' : response[i].behavior == 4 }"  (click)="setBehavior(i,4)">😊</ion-chip>
         <p>¿Hizo del baño?</p>
         <ion-row>
           <ion-col>
-            <ion-chip [ngClass]="{'selected' : pooped == 1 }"  (click)="setPooped(1)">Si</ion-chip>
-            <ion-chip [ngClass]="{'selected' : pooped == 2 }"  (click)="setPooped(2)">No</ion-chip>
+            <ion-chip [ngClass]="{'selected' : response[i].popped == 1 }"  (click)="setPooped(i,1)">Si</ion-chip>
+            <ion-chip [ngClass]="{'selected' : response[i].popped  == 0 }"  (click)="setPooped(i,0)">No</ion-chip>
           </ion-col>
         </ion-row>
         <p>¿Tomo agua?</p>
         <ion-row>
           <ion-col>
-            <ion-chip [ngClass]="{'selected' : water == 1 }"  (click)="setWater(1)">Si</ion-chip>
-            <ion-chip [ngClass]="{'selected' : water == 2 }"  (click)="setWater(2)">No</ion-chip>
+            <ion-chip [ngClass]="{'selected' :  response[i].water == 1 }"  (click)="setWater(i,1)">Si</ion-chip>
+            <ion-chip [ngClass]="{'selected' :  response[i].water == 0 }"  (click)="setWater(i,0)">No</ion-chip>
           </ion-col>
         </ion-row>
+        <ion-row *ngIf="!response[i].photo">
+          <ion-col size="12" >
 
+            <ion-button expand="full" fill="clear" (click)="getPicture(i)" color="primary">
+              <ion-icon fill="clear" name="camera-outline" slot="start"></ion-icon>
+              Foto del recuerdo</ion-button>
+            </ion-col>
+          </ion-row>
+        <div *ngIf="response[i].photo">
+          <h2 class="text-center">Mi Recuerdo</h2>
+          <ion-card >
+            <img [src]="response[i].showPhoto" alt="memories">
+          </ion-card>
+              <ion-button expand="full" fill="clear" (click)="getPicture(i)" color="primary">
+                <ion-icon name="camera-outline" slot="start"></ion-icon>
+                Volver a tomar
+              </ion-button>
+        </div>
       </ion-card>
     </ion-slide>
+
+
   </ion-slides>
 </ion-content>
 <ion-footer>
-  <ion-button color="success" expand="full" (click)="showRewardVideo()">Siguiente</ion-button>
+  <ion-button color="success" *ngIf="!offline" expand="full" (click)="finish()">Siguiente</ion-button>
+  <ion-button color="warning" *ngIf="offline" expand="full" (click)="finish()">Siguiente</ion-button>
+
 </ion-footer>

@@ -13,39 +13,105 @@ import { PhotoModalPage } from '../photo-modal/photo-modal.page';
   templateUrl: './finish.page.html',
   styleUrls: ['./finish.page.scss'],
 })
+
+
+
 export class FinishPage implements OnInit {
   slide;
 
-  behavior;
-  pooped;
-  water;
+
 
   today;
-  distance;
-  time;
-  pet_id;
-
+  distance = 0;
+  time = '0:00';
+  seconds = 0;
   json_points;
-
   welcome;
 
   lat_start;
   lng_start;
-  city;
+  city = 'a';
+
+  premium;
+
+datas:any = [];
+
+  pet_selected:any = [];
+
+  response:any = [];
+
 
   constructor(
     private modalCtrl:ModalController,
     private nativeGeocoder: NativeGeocoder,
     private api:DataService){
       const date = new Date().getHours()
-      this.welcome = date < 12 ? 'En la mañana' : date < 18 ? 'En la tarde' : 'En la noche'
+      this.welcome = date < 12 ? 'en la mañana' : date < 18 ? 'en la tarde' : 'en la noche'
 
-    this.initialize();
-    this.today = new Date();
+      this.initialize();
+      this.today = new Date();
+
+      this.slide = {
+        slidesPerView:  1.1,
+        spaceBetween:1,
+        coverflowEffect: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        }
+      }
+
+      if(localStorage.getItem('pe')){
+        if(new Date(localStorage.getItem('pe')) > new Date()){
+          this.premium = true;
+        }else{
+          this.premium = false;
+        }
+      }else{
+        this.premium = false;
+      }
+
+
    }
 
+   pets;
+
   ngOnInit() {
-    console.log(this.distance,this.time,this.pet_id);
+
+    if(this.pet_selected.length == undefined){
+      this.pets = [
+        {
+          "name": this.pet_selected.name,
+          "id":  this.pet_selected.id
+        }
+      ];
+
+
+        this.response.push({
+          id: this.pet_selected.id,
+          behavior: 0,
+          popped: 0,
+          water: 0,
+          photo:'',
+          showPhoto:''
+        })
+    }else{
+      this.pets = this.pet_selected;
+
+      this.pets.forEach(element => {
+        this.response.push({
+          id: element.id,
+          behavior: 0,
+          popped: 0,
+          water: 0,
+          photo:'',
+          showPhoto:''
+        })
+      });
+    }
+
 
 
     let options: NativeGeocoderOptions = {
@@ -60,10 +126,9 @@ export class FinishPage implements OnInit {
       .catch((error: any) => console.log(error));
   }
 
-  uploadPhoto;
-  photo;
 
-  async getPicture(){
+
+  async getPicture(i){
     const image = await Camera.getPhoto({
       quality: 100,
       saveToGallery:true,
@@ -75,10 +140,10 @@ export class FinishPage implements OnInit {
       promptLabelPhoto: 'Galeria',
       promptLabelPicture: 'Tomar Foto'
     });
-      this.modalImage(image.base64String);
+      this.modalImage(i,image.base64String);
   }
 
-  async modalImage(image){
+  async modalImage(i,image){
     const modal = await this.modalCtrl.create({
       component: PhotoModalPage,
       componentProps:{
@@ -88,8 +153,8 @@ export class FinishPage implements OnInit {
     modal.onDidDismiss().then((data) => {
       if(data['data']){
         const image = data['data'];
-        this.uploadPhoto = image;
-        this.photo = `data:image/jpeg;base64,`+image;
+        this.response[i].showPhoto =   `data:image/jpeg;base64,`+image;
+        this.response[i].photo =  image;
       }
     });
     return await modal.present();
@@ -97,7 +162,6 @@ export class FinishPage implements OnInit {
 
   async initialize(){
     const { status} = await AdMob.trackingAuthorizationStatus();
-    console.log(status);
 
     AdMob.initialize({
       requestTrackingAuthorization: true,
@@ -107,89 +171,106 @@ export class FinishPage implements OnInit {
 
   }
 
-  setPooped(s){
-    this.pooped = s;
+  setPooped(i,popped){
+    this.response[i].popped = popped;
   }
 
-  setWater(s){
-    this.water = s;
+  setWater(i,water){
+    this.response[i].water = water;
+
   }
 
-  setBehavior(s){
-    this.behavior = s;
+  setBehavior(i,behavior){
+    this.response[i].behavior = behavior;
   }
 
   offline;
+
   ionViewWillEnter(){
     Network.addListener('networkStatusChange', status => {
-      console.log('Network status changed', status);
-
-      if(status.connected == false){
-       this.offline = true;
-      }
+      console.log(status);
+      this.offline = !status.connected;
+      console.log(this.offline)
 
     });
-
     const logCurrentNetworkStatus = async () => {
       const status = await Network.getStatus();
-      console.log('Network status:', status);
+      console.log(status);
     };
-
-
-
   }
 
+
+  finish(){
+
+
+    // if(this.premium){
+    //   this.create();
+    // }else{
+    //   this.showRewardVideo();
+    // }
+
+
+  if(this.offline){
+    alert('estas offiline');
+    // localStorage.setItem('activities',JSON.stringify());
+    // this.modalCtrl.dismiss();
+  }else{
+
+    alert('estas online');
+      // this.showRewardVideo();
+    }
+}
+
+
+create(){
+  let activityData = {
+    "user_id": localStorage.getItem('user_id'),
+    "distance": this.distance,
+    "time": this.time,
+    "json_points": this.json_points,
+    "seconds": 0,
+    "city": this.city,
+  }
+
+this.api.createActivity(activityData).subscribe((activyResponse:any) => {
+  // console.log(activyResponse)
+  const actid = activyResponse.id;
+  this.response.forEach(pet => {
+      let petData = {
+       activity_id: actid,
+        pet_id: pet.id,
+        behavior: pet.behavior,
+        popped: pet.popped,
+        water: pet.water,
+        photo: pet.photo
+      }
+      this.api.createPetActivity(petData).subscribe((data:any) => {
+        // console.log(data);
+      });
+
+  });
+
+  this.modalCtrl.dismiss();
+  localStorage.removeItem('date_start');
+// toast
+
+});
+}
+
   async showRewardVideo(){
+    AdMob.addListener(RewardAdPluginEvents.Rewarded,(reward: AdMobRewardItem) => {
+      this.create();
 
-    let meta_data = {
-      "behavior": this.behavior,
-      "pooped" : this.pooped,
-      "water" : this.water
-    }
+    })
 
-    let data = {
-      "user_id": localStorage.getItem('user_id'),
-      "pet_id": this.pet_id,
-      "distance": this.distance,
-      "time": this.time,
-      "created": new Date(),
-      "json_points": JSON.stringify(this.json_points),
-      "meta_data": JSON.stringify(meta_data)
-    }
-
-    if(this.offline){
-      localStorage.setItem('activities',JSON.stringify(data));
-      this.modalCtrl.dismiss();
-
-      }else{
-
-
-
-        AdMob.addListener(
-          RewardAdPluginEvents.Rewarded,
-          (reward: AdMobRewardItem) => {
-
-            this.api.createActivity(data).subscribe((data:any) => {
-            localStorage.setItem('newActivity','true');
-            if(data.status == 200){
-              this.modalCtrl.dismiss();
-            }
-          })
-
-          console.log('REWARD: ',reward);
-        }
-        )
-        const options: RewardAdOptions = {
-        adId: '9906704246',
-        isTesting: true
-      };
+      const options: RewardAdOptions = {
+      adId: '9906704246',
+      isTesting: true
+    };
 
       await AdMob.prepareRewardVideoAd(options);
       await AdMob.showRewardVideoAd();
 
-      localStorage.removeItem('date_start');
-
-    }
   }
 
 

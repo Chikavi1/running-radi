@@ -58,10 +58,10 @@
 </ion-row>
 
 <p>Tú</p>
-<p>{{my_distance}} Km</p>
+<p>{{my_distance  | number : '.2-2'}} Km</p>
 <ion-progress-bar [value]="me_bar" color="success"></ion-progress-bar> <br>
 <p>{{short_name}}</p>
-<p>{{total_km}} Km</p>
+<p>{{total_km  | number : '.2-2'}} Km</p>
 <ion-progress-bar [value]="you_bar" color="primary"></ion-progress-bar>
 
 <p>* Comparación en los ultimos 30 dias</p>
@@ -70,7 +70,7 @@
   <h6>Tiempo Total</h6>
   <h2>{{ total_time }} </h2>
   <h6>Distancia Total</h6>
-  <h2>{{ total_km }} KM</h2>
+  <h2>{{ total_km  | number : '.2-2' }} KM</h2>
 </ion-card>
 
       <h2 style="font-weight: bold;margin:2em 0em;">Ultimas Actividades</h2>

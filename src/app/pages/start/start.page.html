@@ -1,24 +1,40 @@
 <ion-content >
   <div *ngIf="step == 1" style="margin-top: 3em;padding:2em;">
     <h1>Iniciar Caminata</h1>
-
+    <p *ngIf="offline">Estas sin internet</p>
     <div  *ngIf="user_id">
       <div *ngIf="mascotas.length != 0">
         <h5>¿cuál mascota?</h5>
-        <ion-list style="margin: 2em 0em;" >
-          <ion-item>
-            <ion-select style="width:100%;" (ionChange)="handleChange($event)" placeholder="Selecciona la mascota" [multiple]="true">
-              <ion-select-option [value]="mascota.id" *ngFor="let mascota of mascotas">{{mascota.name}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-list>
+        <div style="margin: 2em 0em;">
+          <ion-select
+            style="width:100%;"
+            [multiple]="true"
+            [(ngModel)]="pets_selected"
+            cancelText="Cancelar"
+            okText="Ok"
+          >
+            <ion-select-option
+              *ngFor="let mascota of mascotas"
+              [value]="mascota"
+              #name
+              >{{ mascota.name }}</ion-select-option
+            >
+          </ion-select>
 
-        <ion-button [disabled]="!pet_selected" *ngIf="step == 1" expand="full" (click)="next()" >
+          <!-- <button ion-button block (click)="insert()">Salvar</button> -->
+
+            <!-- <ion-select style="width:100%;" (ionChange)="handleChange($event)" placeholder="Selecciona la mascota"
+            [multiple]="true"> //se cambia
+              <ion-select-option [value]="mascota.id" *ngFor="let mascota of mascotas" class="capitalize" >{{mascota.name}}</ion-select-option>
+            </ion-select> -->
+        </div>
+
+        <ion-button [disabled]="!pets_selected" *ngIf="step == 1" expand="full" (click)="next()" >
           Siguiente
         </ion-button>
       </div>
 
-      <div class="text-center p-1" style="margin-top: 4em;"  *ngIf="mascotas.length == 0">
+      <div class="text-center p-1" style="margin-top: 4em;"  *ngIf="mascotas.length == 0 && !offline">
         <h2>Por el momento no tienes mascotas.</h2>
         <ion-button fill="clear">Agregar mascota</ion-button>
       </div>
@@ -38,11 +54,9 @@
     </ion-card>
     <ion-card>
       <ul>💩 Bolsas para las heces.</ul>
-
     </ion-card>
     <ion-card>
       <ul>🐕‍🦺 Ir con collar y placa.</ul>
-
     </ion-card>
     <ion-button *ngIf="step == 2" fill="clear" expand="full" color="success" (click)="close(true)">
       Si, lo Tengo

@@ -85,7 +85,11 @@ export class RegisterPage {
         ],
         cellphone_country:[
 
-        ]
+        ],
+        gender:[
+          { type: 'required', message: 'El genero es requerido.' },
+        ],
+
       };
     }
 
@@ -133,6 +137,7 @@ export class RegisterPage {
 
   registrationForm = this.formBuilder.group({
     name: ['',[ Validators.required, Validators.minLength(3)]],
+    gender: ['',[ Validators.required]],
     password: ['',[ Validators.required, Validators.minLength(6)]],
     email: ['',[ Validators.required,
       Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$')
@@ -160,6 +165,9 @@ export class RegisterPage {
   }
   get password() {
     return this.registrationForm.get('password');
+  }
+  get gender() {
+    return this.registrationForm.get('gender');
   }
 
   get cellphone_country() {
@@ -190,6 +198,8 @@ export class RegisterPage {
 
   public submit(){
     this.presentLoading();
+    console.log(this.registrationForm.value)
+    return;
     let navigationExtras: NavigationExtras = {
       state: {
         type:'verification',
@@ -215,6 +225,8 @@ export class RegisterPage {
         })
       });
   }
+
+
   async presentToast(message,color) {
     const toast = await this.toastController.create({
       message,

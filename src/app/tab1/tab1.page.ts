@@ -73,7 +73,7 @@ export class Tab1Page {
 
   date1;
   marker;
-  pet_selected;
+  pet_selected:any = [];
 
   last_location:any;
   id:any;
@@ -175,12 +175,14 @@ export class Tab1Page {
 
 
     async presentModalComplete(component) {
+      console.log(this.pet_selected);
       const modal = await this.modalController.create({
         component: component,
         componentProps: {
           distance: this.distance,
           time: this.time,
-          pet_id: this.pet_selected, // cambia
+          seconds:this.seconds,
+          pet_selected: this.pet_selected,
           lat_start: this.lat_start,
           lng_start:this.lng_start,
           json_points: this.coords
@@ -197,6 +199,7 @@ export class Tab1Page {
         this.coords = [];
         this.distance = 0;
         this.time = '';
+
         this.removeLines();
         localStorage.removeItem('date_start');
 
@@ -243,7 +246,7 @@ export class Tab1Page {
 
       modal.onDidDismiss().then((data) => {
       if(data['data']){
-        this.pet_selected = data['data'][0]
+        this.pet_selected = data['data']
         // hacer if si tiene premium validar
         this.runGeolocation();
       }
@@ -262,11 +265,15 @@ export class Tab1Page {
 
     }
 
+    offline;
+
     ionViewWillEnter(){
       Network.addListener('networkStatusChange', status => {
-        console.log('Network status changed', status);
 
-        if(status.connected == false){
+        this.offline = !status.connected;
+        console.log(this.offline);
+
+        if(this.offline){
           this.presentToast();
         }
 
@@ -348,7 +355,7 @@ async noti(sec){
       {
         id:1,
         title: 'Llevas '+sec+' segundos',
-        body: 'cac',
+        body: 'Paseo de hoy',
         extra: {
           data: 'pass'
         },
@@ -370,7 +377,14 @@ runGeolocation(){
     this.lat_start = resp.coords.latitude;
     this.lng_start =  resp.coords.longitude;
 
-  });
+     var pointsForJson = [
+          [this.lat_start, this.lng_start],
+        ];
+
+    this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8})
+      .addTo(this.mapa);
+    });
+
 
     this.date1 = new Date();
     this.interval = window.setInterval(() => {
@@ -472,10 +486,11 @@ ionViewDidEnter(){
 ionViewWillLeave(){
   if(this.isStart){
     console.log('seconds',this.seconds);
+  }else{
+    localStorage.removeItem('date_start');
   }
 }
 
-pLineGroup = L.layerGroup()
 
 
 initMap(){
@@ -496,9 +511,7 @@ initMap(){
           iconSize:     [31, 31], // size of the icon
         });
 
-        var pointsForJson = [
-          [this.lat, this.lng],
-        ];
+
 
         var userIcon = L.icon(
           {
@@ -531,11 +544,8 @@ Leaflet.tileLayer(tile, {
           center: [this.lat, this.lng]
           }).addTo(this.mapa);
 
-          // this.pLineGroup.addLayer( L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8}))
-          // this.pLineGroup.addTo(this.mapa)
 
-    this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8})
-    .addTo(this.mapa);
+
 
   }).catch((error) => {
     console.log('Error getting location', error);

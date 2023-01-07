@@ -18,8 +18,6 @@ export class PhotoModalPage implements OnInit {
 
   ngOnInit() {
     this.imageSend = "data:image/jpeg;base64,"+this.imageSend;
-    console.log(this.imageSend);
-
   }
 
   imageCropped(event: ImageCroppedEvent){
@@ -31,7 +29,6 @@ export class PhotoModalPage implements OnInit {
   }
 
   crop(){
-    console.log(this.backimage);
     this.modalCtrl.dismiss(this.backimage);
   }
 

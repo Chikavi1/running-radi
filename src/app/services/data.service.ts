@@ -56,6 +56,12 @@ export class DataService {
     return this.http.post(this.MODE + 'activity', JSON.parse(JSON.stringify(data)), this.options);
    }
 
+   createPetActivity(data){
+    return this.http.post(this.MODE + 'petActivity', JSON.parse(JSON.stringify(data)), this.options);
+   }
+
+
+
    getActivitiesByMonth(data){
     return this.http.post(this.MODE + 'activity_by_month', JSON.parse(JSON.stringify(data)), this.options);
    }
@@ -128,6 +134,7 @@ export class DataService {
       name: data.name,
       password: data.password,
       email: data.email,
+      gender: data.gender,
       cellphone: data.cellphone_country+''+data.cellphone,
       customer: customer_id,
       currency: currency,
