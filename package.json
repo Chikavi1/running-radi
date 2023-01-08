@@ -45,6 +45,7 @@
     "@capacitor/network": "^4.1.0",
     "@capacitor/share": "^4.1.0",
     "@capacitor/status-bar": "4.1.1",
+    "@ionic-native/social-sharing": "^5.36.0",
     "@ionic/angular": "^6.1.9",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",

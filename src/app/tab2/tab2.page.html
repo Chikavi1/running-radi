@@ -1,5 +1,8 @@
 <ion-content>
-  <canvas id="myCanvas" width="500"  height="320"></canvas>
- <ion-button (click)="shareviaWhatsapp()" >Compartir</ion-button>
-  <!-- {{image}} -->
+  <div *ngIf="step == 1">
+    <canvas id="myCanvas" width="500"  height="320"></canvas>
+    <ion-button (click)="shareImage()">sigue</ion-button>
+  </div>
+
+
 </ion-content>
