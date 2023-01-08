@@ -3,7 +3,10 @@ import { ModalController, NavController } from '@ionic/angular';
 import * as moment from 'moment';
 import { SetGoalPage } from '../pages/set-goal/set-goal.page';
 import { DataService } from '../services/data.service';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+
+import { Share } from '@capacitor/share';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -34,7 +37,6 @@ export class Tab2Page {
   constructor(
     private navCtrl:NavController,
     private modalController:ModalController,
-    private socialSharing: SocialSharing, 
     private api: DataService){
 
     // this.getActivities();
@@ -92,13 +94,37 @@ today;
 image:string;
 
 shareviaWhatsapp(){
-  this.socialSharing.shareViaWhatsApp('hoy corri 2km',this.image,null)
-    .then((success) =>{
-        alert("Success");
-     })
-      .catch(()=>{
-        alert("Could not share information");
+  // this.socialSharing.shareViaWhatsApp('hoy corri 2km',this.image,null)
+  //   .then((success) =>{
+  //       alert("Success");
+  //    })
+  //     .catch(()=>{
+  //       alert("Could not share information");
+  //     });
+
+  let path = 'secrets/image.png'
+
+  return Filesystem.writeFile({
+    path: path,
+    data: this.url,
+    directory: Directory.Cache
+  })
+    .then(() => {
+      return Filesystem.getUri({
+        directory: Directory.Cache,
+        path: path
       });
+    })
+    .then((uriResult) => {
+      return Share.share({
+        title: 'imageradi',
+        text: 'imageradi',
+        url: uriResult.uri,
+      });
+    });
+
+
+
   }
 
   ionViewWillEnter(){
@@ -129,15 +155,15 @@ imageObj.src = 'https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixl
 
 
 setTimeout(function(){
-  this.url = canvas.toDataURL("image/jpeg").split(';base64,')[1];
-  this.image = this.url;
+  this.url = canvas.toDataURL("image/jpeg");
+  console.log(this.url);
   // console.log(this.image);
-  fetch(canvas.toDataURL("image/jpeg"))
-  .then((res) => res.blob())
-  .then((blob) => {
-    this.image = blob;
-    console.log(blob);
-  });
+  // fetch(canvas.toDataURL("image/jpeg"))
+  // .then((res) => res.blob())
+  // .then((blob) => {
+  //   this.image = blob;
+  //   console.log(blob);
+  // });
 },1000);
 
 
