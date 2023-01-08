@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
-import * as moment from 'moment';
 import { SetGoalPage } from '../pages/set-goal/set-goal.page';
 import { DataService } from '../services/data.service';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { SharingRunPage } from '../pages/sharing-run/sharing-run.page';
 
-// import { Share } from '@capacitor/share';
-// import { Directory, Filesystem } from '@capacitor/filesystem';
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -36,7 +34,6 @@ export class Tab2Page {
 
   constructor(
     private navCtrl:NavController,
-    private socialSharing:SocialSharing,
     private modalController:ModalController,
     private api: DataService){
 
@@ -89,87 +86,7 @@ export class Tab2Page {
     return ret;
   }
 
-url;
-today;
-bg = 'https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8ZG9nc3xlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60'
-
-shareviaWhatsapp(){
-
-
-
-  // return Filesystem.writeFile({
-  //   path: 'imageradi',
-  //   data: this.image,
-  //   directory: Directory.Cache
-  // })
-  //   .then(() => {
-  //     return Filesystem.getUri({
-  //       directory: Directory.Cache,
-  //       path: 'imageradi'
-  //     });
-  //   })
-  //   .then((uriResult) => {
-  //     return Share.share({
-  //       title: 'imageradi',
-  //       text: 'imageradi',
-  //       url: uriResult.uri,
-  //     });
-  //   });
-
-
-
-  }
-
-  shareImage(){
-    this.url = localStorage.getItem('image');
-    console.log(this.url);
-    this.socialSharing.shareViaWhatsApp('hoy corri 2km',localStorage.getItem('image'),null)
-    .then((success) =>{
-        alert("Success");
-     })
-      .catch(()=>{
-        alert("Could not share information");
-      });
-  }
-
-
-  step = 1;
-
   ionViewWillEnter(){
-    this.today = moment().utc().format('MM/DD/Y');
-    var canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
-    var context = canvas.getContext('2d');
-    var imageObj = new Image();
-    imageObj.crossOrigin = "anonymous";  // This enables CORS
-    var today  = this.today;
-    var km = 6.00;
-    var min = '12:20';
-
-imageObj.onload = function () {
-    context.drawImage(imageObj, 0,0);
-    context.fillStyle = 'white';
-    context.font = "30px sans-serif";
-    context.fillText("Radi", 20, 50);
-    context.font = "15px sans-serif";
-    context.fillText(" Running", 20, 70);
-    context.font = "15px Arial";
-    context.fillText(today, 20, 275);
-    context.font = "bold 26px Arial";
-    context.fillText(km+" km "+min+" min", 20, 300);
-
-};
-
-imageObj.src = this.bg;
-
-
-  setTimeout(async function(){
-    this.url = canvas.toDataURL("image/jpeg");
-    this.image = await this.url;
-    localStorage.setItem('image',this.image);
-  },100);
-
-
-
 
     if(localStorage.getItem('pe')){
       if(new Date(localStorage.getItem('pe')) > new Date()){
@@ -222,6 +139,9 @@ imageObj.src = this.bg;
   openModal(){
     this.presentModalShow(SetGoalPage);
   }
+
+
+
 
   async presentModalShow(component) {
     const modal = await this.modalController.create({

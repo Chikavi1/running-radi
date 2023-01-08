@@ -1,0 +1,65 @@
+import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+
+@Component({
+  selector: 'app-sharing-run',
+  templateUrl: './sharing-run.page.html',
+  styleUrls: ['./sharing-run.page.scss'],
+})
+export class SharingRunPage implements OnInit {
+
+  constructor(private socialSharing:SocialSharing) { }
+
+today;
+bg;
+distance;
+time;
+
+url;
+
+  ngOnInit() {
+    this.today = moment().utc().format('MM/DD/Y');
+    var canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
+    var context = canvas.getContext('2d');
+    var imageObj = new Image();
+    imageObj.crossOrigin = "anonymous";  // This enables CORS
+    var today  = this.today;
+    var km =  this.distance;
+    var min = this.time;
+
+imageObj.onload = function () {
+  context.drawImage(imageObj,0,0,imageObj.width,imageObj.height,0,0,canvas.width,canvas.height);
+    context.fillStyle = 'white';
+    context.font = " 30px sans-serif";
+    context.fillText("Radi", 20, 50);
+    context.font = "bold 15px sans-serif";
+    context.fillText(" Running", 20, 70);
+    context.font = "15px Arial";
+    context.fillText(today, 20, 275);
+    context.font = "bold 26px Arial";
+    context.fillText(km+" km "+min+" min", 20, 300);
+
+};
+
+imageObj.src = this.bg;
+
+setTimeout(async function(){
+  this.url = canvas.toDataURL("image/jpeg");
+  this.image = await this.url;
+  localStorage.setItem('image',this.image);
+},100);
+}
+
+
+shareImage(){
+  this.url = localStorage.getItem('image');
+  this.socialSharing.shareViaWhatsApp('hoy corri 2km',localStorage.getItem('image'),null)
+  .then((success) =>{
+
+   })
+    .catch(()=>{
+    });
+}
+
+}

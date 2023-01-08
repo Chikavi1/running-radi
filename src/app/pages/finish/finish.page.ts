@@ -6,6 +6,7 @@ import { Network } from '@capacitor/network';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { PhotoModalPage } from '../photo-modal/photo-modal.page';
+import { SharingRunPage } from '../sharing-run/sharing-run.page';
 
 
 @Component({
@@ -44,6 +45,7 @@ datas:any = [];
   constructor(
     private modalCtrl:ModalController,
     private nativeGeocoder: NativeGeocoder,
+    private modalController:ModalController,
     private api:DataService){
       const date = new Date().getHours()
       this.welcome = date < 12 ? 'en la mañana' : date < 18 ? 'en la tarde' : 'en la noche'
@@ -131,6 +133,7 @@ datas:any = [];
   async getPicture(i){
     const image = await Camera.getPhoto({
       quality: 100,
+
       saveToGallery:true,
       allowEditing: false,
       resultType: CameraResultType.Base64,
@@ -188,14 +191,14 @@ datas:any = [];
 
   ionViewWillEnter(){
     Network.addListener('networkStatusChange', status => {
-      console.log(status);
+      // console.log(status);
       this.offline = !status.connected;
-      console.log(this.offline)
+      // console.log(this.offline)
 
     });
     const logCurrentNetworkStatus = async () => {
       const status = await Network.getStatus();
-      console.log(status);
+      // console.log(status);
     };
   }
 
@@ -228,6 +231,36 @@ datas:any = [];
       }
 
 }
+
+openModalSharing(bg){
+  this.presentShare(SharingRunPage,bg);
+}
+
+async presentShare(component,bg) {
+  const modal = await this.modalController.create({
+    component: component,
+    componentProps:{
+      id: 1,
+      bg: bg,
+      distance: 6.32,
+      time: '23:43'
+    },
+    breakpoints: [0.0,0.6],
+    initialBreakpoint: 0.5,
+    backdropDismiss:true,
+    swipeToClose​:true,
+    cssClass: 'small-modal'
+  });
+
+  modal.onDidDismiss().then((data) => {
+   if(data['data']){
+
+   }
+
+  });
+  return await modal.present();
+}
+
 
 
 create(){

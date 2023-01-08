@@ -160,6 +160,10 @@ const routes: Routes = [
   {
     path: 'photo-rounded-modal',
     loadChildren: () => import('./pages/photo-rounded-modal/photo-rounded-modal.module').then( m => m.PhotoRoundedModalPageModule)
+  },
+  {
+    path: 'sharing-run',
+    loadChildren: () => import('./pages/sharing-run/sharing-run.module').then( m => m.SharingRunPageModule)
   }
 
 
