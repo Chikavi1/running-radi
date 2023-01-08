@@ -88,10 +88,9 @@ export class Tab2Page {
     return ret;
   }
 
-url;
+url:string;
 
 today;
-image:string;
 
 shareviaWhatsapp(){
   // this.socialSharing.shareViaWhatsApp('hoy corri 2km',this.image,null)
