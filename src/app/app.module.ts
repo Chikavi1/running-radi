@@ -18,6 +18,7 @@ import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 // import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { NativeGeocoder } from '@awesome-cordova-plugins/native-geocoder/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -33,7 +34,7 @@ export function createTranslateLoader(http: HttpClient) {
     }
   }),    HttpClientModule,
     IonicModule.forRoot(), AppRoutingModule],
-  providers: [NativeGeocoder,BarcodeScanner,LocalNotifications,OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [SocialSharing,NativeGeocoder,BarcodeScanner,LocalNotifications,OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

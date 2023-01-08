@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
+import * as moment from 'moment';
 import { SetGoalPage } from '../pages/set-goal/set-goal.page';
 import { DataService } from '../services/data.service';
-
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -34,10 +34,10 @@ export class Tab2Page {
   constructor(
     private navCtrl:NavController,
     private modalController:ModalController,
-
+    private socialSharing: SocialSharing, 
     private api: DataService){
 
-    this.getActivities();
+    // this.getActivities();
 
 
     // this.api.getBlogs().subscribe(data => {
@@ -86,7 +86,60 @@ export class Tab2Page {
     return ret;
   }
 
+url;
+
+today;
+image:string;
+
+shareviaWhatsapp(){
+  this.socialSharing.shareViaWhatsApp('hoy corri 2km',this.image,null)
+    .then((success) =>{
+        alert("Success");
+     })
+      .catch(()=>{
+        alert("Could not share information");
+      });
+  }
+
   ionViewWillEnter(){
+    this.today = moment().utc().format('MM/DD/Y');
+    var canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
+    var context = canvas.getContext('2d');
+    var imageObj = new Image();
+    imageObj.crossOrigin = "anonymous";  // This enables CORS
+    var today  = this.today;
+    var km = 6.00;
+    var min = '12:20';
+
+imageObj.onload = function () {
+    context.drawImage(imageObj, 0,0);
+    context.fillStyle = 'white';
+    context.font = "30px sans-serif";
+    context.fillText("Radi", 20, 50);
+    context.font = "15px sans-serif";
+    context.fillText(" Running", 20, 70);
+    context.font = "15px Arial";
+    context.fillText(today, 20, 275);
+    context.font = "bold 26px Arial";
+    context.fillText(km+" km "+min+" min", 20, 300);
+
+};
+
+imageObj.src = 'https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8ZG9nc3xlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60';
+
+
+setTimeout(function(){
+  this.url = canvas.toDataURL("image/jpeg").split(';base64,')[1];
+  this.image = this.url;
+  // console.log(this.image);
+  fetch(canvas.toDataURL("image/jpeg"))
+  .then((res) => res.blob())
+  .then((blob) => {
+    this.image = blob;
+    console.log(blob);
+  });
+},1000);
+
 
     if(localStorage.getItem('pe')){
       if(new Date(localStorage.getItem('pe')) > new Date()){
