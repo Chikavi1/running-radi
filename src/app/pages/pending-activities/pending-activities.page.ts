@@ -21,20 +21,21 @@ export class PendingActivitiesPage implements OnInit {
   response:any = [];
 
   async showAd(i,item){
-    this.create(i,item);
-    // AdMob.addListener(RewardAdPluginEvents.Rewarded,(reward: AdMobRewardItem) => {
-    // })
+    AdMob.addListener(RewardAdPluginEvents.Rewarded,(reward: AdMobRewardItem) => {
+      this.create(i,item);
+    })
 
-    //   const options: RewardAdOptions = {
-    //   adId: '9906704246',
-    //   isTesting: true
-    // };
+      const options: RewardAdOptions = {
+      adId: '9906704246',
+      isTesting: true
+    };
 
-    //   await AdMob.prepareRewardVideoAd(options);
-    //   await AdMob.showRewardVideoAd();
+      await AdMob.prepareRewardVideoAd(options);
+      await AdMob.showRewardVideoAd();
   }
 
-  create(i,item){
+   create(i,item){
+
     let activityData = {
       "user_id": localStorage.getItem('user_id'),
       "distance": item.distance,
@@ -44,29 +45,26 @@ export class PendingActivitiesPage implements OnInit {
       "city": item.city,
     }
 
+    this.response = JSON.parse(item.pets);
 
+    this.api.createActivity(activityData).subscribe((activyResponse:any) => {
+      const actid = activyResponse.id;
+      this.response.forEach(pet => {
+          let petData = {
+          activity_id: actid,
+            pet_id: pet.id,
+            behavior: pet.behavior,
+            popped: pet.popped,
+            water: pet.water,
+            photo: pet.photo
+          }
+          this.api.createPetActivity(petData).subscribe((data:any) => {
+          });
 
-    this.remove(i);
-    console.log(activityData,this.response);
-
-    // this.api.createActivity(activityData).subscribe((activyResponse:any) => {
-    //   const actid = activyResponse.id;
-    //   this.response.forEach(pet => {
-    //       let petData = {
-    //       activity_id: actid,
-    //         pet_id: pet.id,
-    //         behavior: pet.behavior,
-    //         popped: pet.popped,
-    //         water: pet.water,
-    //         photo: pet.photo
-    //       }
-    //       this.api.createPetActivity(petData).subscribe((data:any) => {
-    //       });
-
-    //   });
-
+      });
+      this.remove(i);
       this.presentToast('Se ha subido exitosamente la actividad a tu perfil','success');
-    // });
+    });
   }
 
   ionViewWillLeave(){

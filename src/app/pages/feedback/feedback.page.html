@@ -1,9 +1,40 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>feedback</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
+<ion-content style="background:#f5f7fd;">
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
+  <ion-row>
+    <ion-col [size]="device =='tablet'?8:12" [offset]="device =='tablet'?2:0">
+  <div class="m-1" >
+    <h2 class="color-principal" style="font-size: 2em;margin-top:2em">{{ 'feedback.title' | translate }}</h2>
+    <div style="margin-top:2em;">
+      <h5>{{ 'feedback.subtitle' | translate }}</h5>
+      <ion-item >
+        <ion-label>{{ 'feedback.type' | translate }}</ion-label>
+        <ion-select [(ngModel)]="type"  value="notifications" interface="action-sheet" cancelText="{{ 'petsmenu.optioncancel' | translate }}">
+          <ion-select-option value="1">{{ 'feedback.suggestion' | translate }}</ion-select-option>
+          <ion-select-option value="2">{{ 'feedback.complaint' | translate }}</ion-select-option>
+          <ion-select-option value="3">{{ 'feedback.improve' | translate }}</ion-select-option>
+          <ion-select-option value="4">{{ 'feedback.reportabug' | translate }}</ion-select-option>
+          <ion-select-option value="0">{{ 'feedback.gratitude' | translate }}</ion-select-option>
+
+        </ion-select>
+      </ion-item>
+    </div>
+<div style="margin-top:2em;">
+
+  <ion-label >{{ 'feedback.title' | translate }}</ion-label>
+  <ion-textarea autocomplete="true"  [(ngModel)]="comment" rows="6" cols="20" class="text-area"  placeholder="{{ 'feedback.title' | translate }}"></ion-textarea>
+</div>
+
+  </div>
+</ion-col>
+</ion-row>
 </ion-content>
+
+<ion-footer>
+  <ion-button expand="block" [disabled]="comment === '' || type === '' " (click)="enviar()" color="dark">{{ 'feedback.title' | translate }}</ion-button>
+</ion-footer>

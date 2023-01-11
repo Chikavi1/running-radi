@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, OnInit,  } from '@angular/core';
+import {  ModalController } from '@ionic/angular';
 import { DataService } from '../../services/data.service';
 import { LoginPage } from '../login/login.page';
-import { Network } from '@capacitor/network';
 
 
 @Component({
@@ -11,11 +10,12 @@ import { Network } from '@capacitor/network';
   styleUrls: ['./start.page.scss'],
 })
 export class StartPage implements OnInit {
+
 mascotas:any = [];
 user_id;
 
 premium;
-pets_selected;
+pets_selected:any = [];
 
 offline = false;
 

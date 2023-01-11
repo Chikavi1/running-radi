@@ -8,7 +8,7 @@
         <div style="margin: 2em 0em;">
           <ion-select
             style="width:100%;"
-            class="capital"
+            class="capitalize"
             [multiple]="true"
             [(ngModel)]="pets_selected"
             cancelText="Cancelar"
@@ -18,13 +18,13 @@
               *ngFor="let mascota of mascotas"
               [value]="mascota"
               #name
-              class="capital"
+              class="capitalize"
               >{{ mascota.name }}</ion-select-option
             >
           </ion-select>
         </div>
 
-        <ion-button [disabled]="!pets_selected" *ngIf="step == 1" expand="full" (click)="next()" >
+        <ion-button [disabled]="pets_selected.length == 0" *ngIf="step == 1" expand="full" (click)="next()" >
           Siguiente
         </ion-button>
       </div>

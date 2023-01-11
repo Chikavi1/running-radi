@@ -214,6 +214,9 @@ export class DataService {
     return this.http.get(this.MODE + 'place/'+id);
   }
 
+  feedback(data):any{
+    return this.http.post(this.MODE + 'feedback/create', JSON.parse(JSON.stringify(data)), this.options);
+  }
 
 
   getSubscriptions(data):any{
