@@ -8,14 +8,14 @@
 
   <div style="padding: 1em;">
 
-  <div style="margin-left:.5em;">
-    <h1 style="margin-top: 3em;font-size: 2em;font-weight: bold;">{{user.name}}</h1>
+    <div style="margin-left:.5em;">
+      <h1 style="margin-top: 3em;font-size: 2em;font-weight: bold;">{{user.name}}</h1>
 
-    <ion-chip color="success" *ngIf="user.subscription">
-      <ion-icon name="checkmark-circle-outline"></ion-icon>
-      <ion-label>Premium</ion-label>
-    </ion-chip>
-  </div>
+      <ion-chip color="success" *ngIf="user.subscription">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <ion-label>Premium</ion-label>
+      </ion-chip>
+    </div>
 
     <ion-row>
       <ion-col size="6" style="margin-left: 1em;">
@@ -31,51 +31,69 @@
       </ion-col>
     </ion-row>
 
-    <ion-button color="success" style="margin-top:1em;" expand="full">Salir a pasear</ion-button>
+    <div *ngIf="user_id != user.id">
+        <ion-button color="success" style="margin-top:1em;" expand="full" (click)="follow()" *ngIf="follower == 0" ><ion-icon name="person-add-outline"></ion-icon>  Salir a pasear</ion-button>
+        <ion-button color="success" style="margin-top:1em;" expand="full" (click)="deleteRequest()" *ngIf="follower == 1"> Pendiente</ion-button>
+
+      <div *ngIf="follower == 2">
+        <ion-button color="success" style="margin-top:1em;" expand="full" (click)="unfollow()">
+          <ion-icon name="people"></ion-icon>
+           Amigos
+        </ion-button>
+      </div>
+    </div>
+
+    <div *ngIf="follower == 2">
+      <h5><ion-icon name="logo-whatsapp"> </ion-icon> Mandar mensaje</h5>
+      <h5><ion-icon name="logo-instagram"> </ion-icon> Ver Perfil</h5>
+      <h5><ion-icon name="logo-facebook"> </ion-icon> Ver Perfil</h5>
+    </div>
 
     <ion-item-divider mode="md"> </ion-item-divider>
+
     <div style="padding: 1em;">
 
       <h2>Acerca de mi</h2>
       <p *ngIf="!user.description" style="color: rgb(153, 153, 153);">No ha agregado una descripción a su perfil.</p>
       <p *ngIf="user.description">{{ user.description }}</p>
-      <ion-chip color="success" *ngIf="user.subscription">
+      <ion-chip color="success" *ngIf="user.donation_destination">
         <ion-icon name="heart"></ion-icon>
-        <ion-label>Apoya a albergues</ion-label>
+        <ion-label>{{user.donation_destination}}</ion-label>
       </ion-chip>
       <!-- <p>Soy programador y me encantan las mascotas, soy el Fundador de Radi pets la app que estas usando.  </p> -->
 
-      <h2 style="font-weight: bold;margin:2em 0em;">Diferencias</h2>
-<ion-row>
-  <ion-col size="4" offset="2">
-    <img style="border-radius: 50%;border: 3px solid green;" [src]="photo"  alt="">
-    <p style="text-align: center;font-weight: bold;">Tú</p>
-  </ion-col>
-  <ion-col  size="4">
-    <img style="border-radius: 50%;border: 3px solid blue;"  [src]="user.photo" alt="">
-    <p style="text-align: center;font-weight: bold;">{{short_name}}</p>
-  </ion-col>
-</ion-row>
+    <h2 style="font-weight: bold;margin:2em 0em;">Diferencias</h2>
+      <div class="my_distance">
+        <ion-row>
+          <ion-col size="4" offset="2">
+            <img style="border-radius: 50%;border: 3px solid green;" [src]="photo"  alt="">
+            <p style="text-align: center;font-weight: bold;">Tú</p>
+          </ion-col>
+          <ion-col  size="4">
+            <img style="border-radius: 50%;border: 3px solid blue;"  [src]="user.photo" alt="">
+            <p style="text-align: center;font-weight: bold;">{{short_name}}</p>
+          </ion-col>
+        </ion-row>
+        <p>Tú</p>
+        <p>{{my_distance  | number : '.2-2'}} Km</p>
+        <ion-progress-bar [value]="me_bar" color="success"></ion-progress-bar> <br>
+        <p>{{short_name}}</p>
+        <p>{{total_km  | number : '.2-2'}} Km</p>
+        <ion-progress-bar [value]="you_bar" color="primary"></ion-progress-bar>
 
-<p>Tú</p>
-<p>{{my_distance  | number : '.2-2'}} Km</p>
-<ion-progress-bar [value]="me_bar" color="success"></ion-progress-bar> <br>
-<p>{{short_name}}</p>
-<p>{{total_km  | number : '.2-2'}} Km</p>
-<ion-progress-bar [value]="you_bar" color="primary"></ion-progress-bar>
+        <p>* Comparación de Km en los ultimos 30 dias</p>
 
-<p>* Comparación en los ultimos 30 dias</p>
+        <ion-card style="padding: 1em;">
+          <h6>Tiempo Total</h6>
+          <h2>{{ total_time }} </h2>
+          <h6>Distancia Total</h6>
+          <h2>{{ total_km  | number : '.2-2' }} KM</h2>
+        </ion-card>
+      </div>
 
-<ion-card style="padding: 1em;">
-  <h6>Tiempo Total</h6>
-  <h2>{{ total_time }} </h2>
-  <h6>Distancia Total</h6>
-  <h2>{{ total_km  | number : '.2-2' }} KM</h2>
-</ion-card>
+    <h2 style="font-weight: bold;margin:2em 0em;">Últimas Actividades</h2>
 
-      <h2 style="font-weight: bold;margin:2em 0em;">Ultimas Actividades</h2>
-
-      <div *ngIf="!private">
+      <div *ngIf="show_activities">
         <div *ngIf="activities.length != 0">
           <div *ngFor="let activity of activities">
             <ion-row (click)="goToRun(activity.id)">
@@ -95,14 +113,31 @@
           <p class="text-center">No tiene actividades</p>
         </div>
       </div>
-      <div *ngIf="private">
+      <div *ngIf="!show_activities">
         <p class="text-center">El usuario tiene las actividades privadas.</p>
       </div>
 
-
       <h2 style="font-weight: bold;margin:2em 0em;">Reconocimientos</h2>
-        <p style="text-align: center;">Por el momento {{short_name}} no tiene Reconocimientos</p>
-    </div>
+
+        <div *ngIf="show_rewards">
+          <p style="text-align: center;">Por el momento {{short_name}} no tiene Reconocimientos</p>
+        </div>
+        <div *ngIf="!show_rewards">
+          <p class="text-center">El usuario tiene los reconocimientos privados.</p>
+        </div>
+
+        <h2 style="font-weight: bold;margin:2em 0em;">Mascotas</h2>
+
+        <div *ngIf="show_pets">
+          Ver mascotas
+        </div>
+
+        <div *ngIf="!show_pets">
+          <p class="text-center">El usuario tiene a sus mascotas como privadas.</p>
+
+        </div>
+
+      </div>
   </div>
 
 </ion-content>

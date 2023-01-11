@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Share } from '@capacitor/share';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
+import { Geolocation } from '@capacitor/geolocation';
+import { StartNearPage } from '../start-near/start-near.page';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-near-people',
@@ -12,24 +15,40 @@ export class NearPeoplePage implements OnInit {
 
   users:any = [];
   show = false;
-  constructor(private navCtrl:NavController,private api:DataService) {
-    this.show = localStorage.getItem('show_near')?true:false;
 
-    if(this.show){
-      this.getUsers();
-    }
+  profile_success=false;
+
+  lottieQr: AnimationOptions  = {
+    path: 'https://assets10.lottiefiles.com/packages/lf20_XRLjtE.json',
+    autoplay: true,
+    loop: true
+  };
+
+  constructor(private navCtrl:NavController,private api:DataService,private modalController:ModalController) {
 
   }
 
-  getUsers(){
-    let data = {
-      "latitude" : "20.620591",
-      "longitude" : "-103.305511"
+
+  ionViewWillEnter(){
+    this.show = localStorage.getItem('show_near')?true:false;
+    if(this.show && this.profile_success){
+      this.getUsers();
     }
-    this.api.usersNear(data).subscribe(data => {
-      console.log(data);
-      this.users = data;
+  }
+
+  getUsers(){
+    Geolocation.getCurrentPosition().then((resp) => {
+        let data = {
+          "latitude" :  resp.coords.latitude,
+          "longitude" : resp.coords.longitude
+        }
+
+        this.api.usersNear(data).subscribe(data => {
+          console.log(data);
+          this.users = data;
+        });
     });
+
   }
 
   changeVisible(){
@@ -57,6 +76,27 @@ export class NearPeoplePage implements OnInit {
       url: 'https://radi.pet/',
       dialogTitle: 'Descarga la app para ir de paseo con tu mascota'
     });
+  }
+
+  start(){
+    this.presentModal(StartNearPage)
+  }
+
+  async presentModal(component) {
+    const modal = await this.modalController.create({
+      component: component,
+      breakpoints: [0.0, 0.77],
+      initialBreakpoint: 0.77,
+      backdropDismiss:true,
+      swipeToClose​:true,
+      cssClass: 'small-modal'
+    });
+
+    modal.onDidDismiss().then(() => {
+
+
+    });
+    return await modal.present();
   }
 
 }

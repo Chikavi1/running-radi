@@ -113,7 +113,6 @@ ionViewWillEnter(){
 async addCard(){
   let options = [];
     options = [
-
     {
       text: this.firstOption,
       icon: 'card',

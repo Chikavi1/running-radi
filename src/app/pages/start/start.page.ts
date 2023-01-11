@@ -45,22 +45,22 @@ offline = false;
 
   getPets(){
 
-
-    Network.addListener('networkStatusChange', status => {
-      this.offline = !status.connected;
-    });
-
-
-    if(this.offline){
-      this.mascotas = JSON.parse(localStorage.getItem('pets'));
-    }else{
-        if(this.user_id){
+    if (navigator.onLine) {
+      if(this.user_id){
         this.api.getPets(this.user_id).subscribe( datos => {
           this.mascotas = datos;
           localStorage.setItem('pets',JSON.stringify(this.mascotas));
+        },err => {
+
+          console.log(err);
         });
       }
+    } else {
+      this.mascotas = JSON.parse(localStorage.getItem('pets'));
     }
+
+
+
   }
 
   next(){

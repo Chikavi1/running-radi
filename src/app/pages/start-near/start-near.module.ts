@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { NearPeoplePageRoutingModule } from './near-people-routing.module';
+import { StartNearPageRoutingModule } from './start-near-routing.module';
 
-import { NearPeoplePage } from './near-people.page';
+import { StartNearPage } from './start-near.page';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
 
@@ -20,8 +20,8 @@ export function playerFactory() {
     FormsModule,
     IonicModule,
     LottieModule.forRoot({ player: playerFactory }),
-    NearPeoplePageRoutingModule
+    StartNearPageRoutingModule
   ],
-  declarations: [NearPeoplePage]
+  declarations: [StartNearPage]
 })
-export class NearPeoplePageModule {}
+export class StartNearPageModule {}

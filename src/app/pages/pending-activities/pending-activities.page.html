@@ -1,0 +1,22 @@
+<ion-content>
+  <div style="padding: 1em;margin-top: 3em;">
+
+
+    <div *ngIf="activities.length == 0">
+      <h2 class="text-center">Ya no tienes actividades pendientes</h2>
+    </div>
+    <div *ngIf="activities.length != 0">
+      <h2 >Actividades pendientes</h2>
+
+      <ion-item lines="none" *ngFor="let item of activities;let i = index;">
+        <ion-label>
+          <h2>{{ item.date }}</h2>
+          {{ item.time }}
+        </ion-label>
+        <ion-button slot="end" fill="outline" (click)="showAd(i,item)">
+          Subir actividad
+        </ion-button>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>

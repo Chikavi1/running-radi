@@ -1,0 +1,23 @@
+
+<ion-content>
+  <ion-fab  vertical="top" horizontal="start"  slot="fixed" (click)="beforePage()">
+    <ion-fab-button mode="ios" size="small" translucent    color="motel"  style="  outline: none !important;    ">
+      <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <h2 class="text-center" style="margin-top: 4em;">Amigos</h2>
+
+  <ion-item lines="none" *ngFor="let item of [1,1,1,1,1,1,1,1,1]">
+    <ion-avatar slot="start">
+      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+    <ion-label>
+      Avatar Item
+    </ion-label>
+      <ion-button slot="end" fill="outline">
+        Aceptar
+      </ion-button>
+  </ion-item>
+
+</ion-content>

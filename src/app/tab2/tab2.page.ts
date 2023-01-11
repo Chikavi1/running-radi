@@ -4,6 +4,7 @@ import { SetGoalPage } from '../pages/set-goal/set-goal.page';
 import { DataService } from '../services/data.service';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { SharingRunPage } from '../pages/sharing-run/sharing-run.page';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-tab2',
@@ -14,7 +15,6 @@ export class Tab2Page {
   blogs:any = [];
   lostPets:any = [];
   activities:any =  [];
-  petFriendly:any = [];
   acts:any = {};
   daily_percentage = 0;
 
@@ -32,12 +32,27 @@ export class Tab2Page {
     return value | 0;
 }
 
+latitude;
+longitude;
+
   constructor(
     private navCtrl:NavController,
     private modalController:ModalController,
     private api: DataService){
 
-    // this.getActivities();
+    this.getActivities();
+
+    Geolocation.getCurrentPosition().then((resp) => {
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
+
+      // this.getPetsLost();
+      // this.getPetFriendly();
+
+
+
+    });
+
 
 
     // this.api.getBlogs().subscribe(data => {
@@ -58,6 +73,28 @@ export class Tab2Page {
   total_time = '';
 
   premium;
+
+
+  getPetsLost(){
+    this.api.getpetsnear(this.latitude,this.longitude,3).subscribe( data => {
+      this.lostPets = data;
+      console.log(this.lostPets);
+    });
+  }
+
+  places:any = [];
+
+  getPetFriendly(){
+
+    this.api.getPlaces(this.latitude,this.longitude).subscribe(data => {
+      this.places = data;
+      console.log(this.places);
+
+    });
+
+
+}
+
 
   getActivities(){
     if(localStorage.getItem('user_id')){

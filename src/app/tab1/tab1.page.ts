@@ -15,6 +15,7 @@ import { FinishPage } from '../pages/finish/finish.page';
 import { Network } from '@capacitor/network';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { DataService } from '../services/data.service';
+import { PendingActivitiesPage } from '../pages/pending-activities/pending-activities.page';
 declare var L: any;
 
 @Component({
@@ -29,6 +30,11 @@ export class Tab1Page {
     private alertController:AlertController,
     private api: DataService,
     private toastController:ToastController){
+
+      if(localStorage.getItem('date_start')){
+        this.presentAlertWithout();
+      }
+
 
     if(localStorage.getItem('customer_id')){
         if(!localStorage.getItem('pe')){
@@ -46,11 +52,6 @@ export class Tab1Page {
           });
         }
     }
-
-
-      if(localStorage.getItem('date_start')){
-        this.presentAlertWithout();
-      }
 
     this.items = this.pets;
     this.slide = {
@@ -159,6 +160,9 @@ export class Tab1Page {
     }
   ]
 
+
+
+
   getInfo(){
     this.isPets = !this.isPets;
     if(this.isPets){
@@ -173,6 +177,9 @@ export class Tab1Page {
     this.presentModalShow(PlacePage);
   }
 
+  openPendingActivities(){
+    this.presentActivitiesPending(PendingActivitiesPage);
+  }
 
     async presentModalComplete(component) {
       console.log(this.pet_selected);
@@ -200,11 +207,7 @@ export class Tab1Page {
         this.distance = 0;
         this.time = '';
 
-        localStorage.removeItem('date_start');
-
-
-        //
-
+        this.removeData();
       }
 
       });
@@ -233,6 +236,22 @@ export class Tab1Page {
       return await modal.present();
     }
 
+    async presentActivitiesPending(component) {
+      const modal = await this.modalController.create({
+        component: component,
+        breakpoints: [0.0,0.7, 0.90],
+        initialBreakpoint: 0.7,
+        backdropDismiss:true,
+        swipeToClose​:true,
+        cssClass: 'small-modal'
+      });
+
+      modal.onDidDismiss().then((data) => {
+        this.activities = JSON.parse(localStorage.getItem('activities'));
+      });
+      return await modal.present();
+    }
+
     async presentModalStart(component) {
       const modal = await this.modalController.create({
         component: component,
@@ -246,10 +265,10 @@ export class Tab1Page {
       modal.onDidDismiss().then((data) => {
       if(data['data']){
         this.pet_selected = data['data']
+        localStorage.setItem('pet_selected',JSON.stringify(this.pet_selected));
         // hacer if si tiene premium validar
         this.runGeolocation();
       }
-
       });
       return await modal.present();
     }
@@ -265,12 +284,15 @@ export class Tab1Page {
     }
 
     offline;
-
+    activities;
     ionViewWillEnter(){
-      Network.addListener('networkStatusChange', status => {
 
+
+      this.activities = JSON.parse(localStorage.getItem('activities'));
+
+
+      Network.addListener('networkStatusChange', status => {
         this.offline = !status.connected;
-        console.log(this.offline);
 
         if(this.offline){
           this.presentToast();
@@ -341,7 +363,7 @@ verenMapa(lat,lng){
 
 
 //  this.marker = Leaflet.marker([lat,lng,{draggable: true,icon: homeICon}]).addTo(this.mapa).bindPopup('Business ');
-  this.mapa.flyTo([lat, lng], 18, {
+  this.mapa.flyTo([lat, lng], 16, {
     animate: true,
     duration: 1.5
 });
@@ -349,17 +371,18 @@ verenMapa(lat,lng){
 
 async noti(sec){
 
+  let min = (sec/60);
+
   await LocalNotifications.schedule({
     notifications: [
       {
-        id:1,
-        title: 'Llevas '+sec+' segundos',
+        id: 1,
+        title: 'Llevas '+min+' minutos',
         body: 'Paseo de hoy',
         extra: {
           data: 'pass'
         },
         iconColor: "#17202F"
-
       }
     ]
   });
@@ -386,15 +409,20 @@ runGeolocation(){
 
 
     this.date1 = new Date();
+
+    localStorage.setItem('date_start',this.date1);
+
     this.interval = window.setInterval(() => {
       var fecha2 = new Date()
       var difference = this.date1.getTime() - fecha2.getTime();
       this.seconds = (this.float2int(difference/1000)*-1);
       this.time = this.getTimeFormatted();
 
-      localStorage.setItem('date_start',this.date1);
+      localStorage.setItem('seconds',''+this.seconds);
+      localStorage.setItem('kilometers',''+this.distance);
 
-      if(this.seconds % 60 == 0){
+
+      if(this.seconds % 300 == 0){
         this.noti(this.seconds);
       }
     }, 1000);
@@ -485,11 +513,8 @@ ionViewDidEnter(){
 ionViewWillLeave(){
   if(this.isStart){
     console.log('seconds',this.seconds);
-  }else{
-    localStorage.removeItem('date_start');
   }
 }
-
 
 
 initMap(){
@@ -596,7 +621,7 @@ getTimeFormatted() {
 
 async presentToast() {
   const toast = await this.toastController.create({
-    message: 'No internet,el mapa puede fallar',
+    message: 'No hay internet, el mapa puede fallar',
     duration: 1500,
     position: 'bottom'
   });
@@ -604,23 +629,42 @@ async presentToast() {
   await toast.present();
 }
 
+
+removeData(){
+
+  localStorage.removeItem('date_start');
+  localStorage.removeItem('kilometers');
+  localStorage.removeItem('seconds');
+  localStorage.removeItem('pet_selected');
+
+}
+
+
 async presentAlertWithout() {
+  this.seconds = parseInt(localStorage.getItem('seconds'));
+  this.time = this.getTimeFormatted();
+
   const alert = await this.alertController.create({
-    header: 'Tienes una paseada sin terminar,deseas eliminar!',
+    header: 'Tienes una paseada sin terminar de '+this.time +' min, ¿deseas guardarla?',
     buttons: [
       {
-        text: 'Cancel',
+        text: 'Empezar de nuevo',
         role: 'cancel',
         handler: () => {
-
+          this.removeData();
         },
       },
       {
-        text: 'Eliminar',
+        text: 'Terminar y guardar',
         role: 'confirm',
         handler: () => {
 
-          localStorage.removeItem('date_start')
+          this.distance = parseFloat(localStorage.getItem('kilometers'));
+          this.seconds  = parseInt(localStorage.getItem('seconds'));
+          this.pet_selected = JSON.parse(localStorage.getItem('pet_selected'));
+          this.time = this.getTimeFormatted();
+          console.log(this.distance,this.time,this.pet_selected);
+          this.terminate();
         },
       },
     ],

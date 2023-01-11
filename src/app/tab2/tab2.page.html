@@ -1,17 +1,12 @@
 <ion-content [fullscreen]="true">
 
-  <canvas id="myCanvas" style="width: 100%;"  height="400"></canvas>
-
-
-  <ion-header collapse="condense" style="margin-top: 4em;">
-    <ion-toolbar>
-    <ion-row>
+    <ion-row style="margin-top: 4em;">
       <ion-col size="10">
         <ion-title size="large" *ngIf="premium">Premium</ion-title>
         <ion-title size="large" *ngIf="!premium">Radi Runner</ion-title>
-
       </ion-col>
-      <ion-col size="2" (click)="goToPage('/near-people')">
+
+      <ion-col *ngIf="user_id" size="2" (click)="goToPage('/near-people')">
         <h3><ion-icon name="people"></ion-icon></h3>
       </ion-col>
       <!-- <ion-col size="2" (click)="goToPage('/groups')">
@@ -19,14 +14,11 @@
       </ion-col> -->
     </ion-row>
 
-    </ion-toolbar>
-  </ion-header>
-  
   <div style="padding: 2em;">
     <h1>Actividad</h1>
 
 
-  <ion-card style="padding: 1em;">
+  <!-- <ion-card style="padding: 1em;">
     <h1>Hoy</h1>
     <ion-row>
       <ion-col size="10" offset="1">
@@ -62,7 +54,7 @@
           <p style="text-align: center !important;" (click)="openModal()">Establecer</p>
     </div>
 
-  </ion-card>
+  </ion-card> -->
 
     <ion-card style="padding:1em;">
       <h2>Este mes</h2>
@@ -184,7 +176,7 @@
 
     <h2>Lugares Pet Friendly</h2>
 
-    <div *ngIf="petFriendly.length == 0" class="text-center">
+    <div *ngIf="places.length == 0" class="text-center">
       <ion-card style="padding: 1em;">
         <h2>No hay lugares pet friendly cerca de tu ubicacion</h2>
         <p>Pero no te preocupes, si conoces algun lugar puedes recomendarlo</p>
@@ -192,13 +184,13 @@
       </ion-card>
     </div>
 
-    <ion-slides  [options]="slidePets" *ngIf="petFriendly.length != 0">
-      <ion-slide  *ngFor="let item of petFriendly" style="text-align: left;" (click)="goToPage('place')">
+    <ion-slides  [options]="slidePets" *ngIf="places.length != 0">
+      <ion-slide  *ngFor="let place of places" style="text-align: left;" (click)="goToPage('place')">
        <ion-card style="text-align: left;margin-left: 1.5em;border-radius: 1em;width: 100%;">
-          <img  class="border-radius-img" src="https://i.ibb.co/F70nS9B/Whats-App-Image-2022-12-01-at-11-49-28-AM.jpg" style="width:100%;object-fit: cover;min-height: 18em;max-height: 18em;height: 18em;">
+          <img  class="border-radius-img" [src]="place.image" style="width:100%;object-fit: cover;min-height: 18em;max-height: 18em;height: 18em;">
           <div style="padding:1em;">
-            <p style="font-weight: 800;" class="capitalize">Petunia<br>
-              <span style="font-weight: 300;">2 Km</span> </p>
+            <p style="font-weight: 800;" class="capitalize">{{place.title}}<br>
+              <span style="font-weight: 300;">{{place.distance  | number : '.2-2' }} Km</span> </p>
           </div>
         </ion-card>
       </ion-slide>

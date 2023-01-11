@@ -14,15 +14,23 @@
       <p>Muestra tu perfil a usuarios cerca de tu ubicación para que puedas ir a correr con ellos</p>
       <ion-item lines="none">
         <ion-label>Mostar mi perfil</ion-label>
-        <ion-toggle (ionChange)="crazyEvent($event)" [(ngModel)]="show"></ion-toggle>
+        <ion-toggle (ionChange)="crazyEvent($event)" [(ngModel)]="visible"></ion-toggle>
       </ion-item>
     </div>
 
-    <div *ngIf="show">
+    <div *ngIf="visible">
       <ion-item-divider mode="md"> </ion-item-divider>
-
       <div style="padding:1em;">
+        <h2>Contacto</h2>
+        <p>Las personas que quieran contactarte necesitan ser tus amigos</p>
+        <ion-item lines="none">
+          <ion-label>Contacto sin ser amigos</ion-label>
+          <ion-toggle [(ngModel)]="social_media"></ion-toggle>
+        </ion-item>
+      </div>
 
+      <ion-item-divider mode="md"> </ion-item-divider>
+      <div style="padding:1em;">
         <h2>Actividades</h2>
         <p>En caso de querer compartir tus ultimas actividades, mantenlo publico</p>
         <ion-item lines="none">
@@ -37,7 +45,7 @@
         <h2>Mascotas</h2>
         <p>Comparte el perfil de tu mascota para que más personas los conozcan</p>
         <ion-item lines="none">
-          <ion-label>Mostar mascotas</ion-label>
+          <ion-label>Mostrar mascotas</ion-label>
           <ion-toggle   [(ngModel)]="pets"></ion-toggle>
         </ion-item>
       </div>

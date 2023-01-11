@@ -19,21 +19,30 @@ import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications
 // import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { NativeGeocoder } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+export function playerFactory() {
+  return player;
+}
+
 @NgModule({
   declarations: [AppComponent],
-  imports: [FormsModule,ReactiveFormsModule,BrowserModule, TranslateModule.forRoot({
+  imports: [LottieModule.forRoot({ player: playerFactory }),FormsModule,ReactiveFormsModule,BrowserModule, TranslateModule.forRoot({
     loader: {
       provide: TranslateLoader,
       useFactory: (createTranslateLoader),
       deps: [HttpClient]
     }
-  }),    HttpClientModule,
-    IonicModule.forRoot(), AppRoutingModule],
+  }),
+    HttpClientModule,
+    IonicModule.forRoot(),
+
+    AppRoutingModule],
   providers: [SocialSharing,NativeGeocoder,BarcodeScanner,LocalNotifications,OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

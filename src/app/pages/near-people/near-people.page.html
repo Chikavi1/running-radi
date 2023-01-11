@@ -5,47 +5,68 @@
       <ion-icon name="arrow-back-outline" style="color:#f8d100;"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <h1 style="margin-top: 4em;">Personas cerca de ti</h1>
 
-  <div *ngIf="show">
+  <div *ngIf="profile_success">
 
-    <div *ngIf="users.length != 0">
-      <div *ngFor="let user of users">
-        <ion-row (click)="goToPage('/user/'+user.id)" >
-          <ion-col size="3">
-          <img style="border-radius: 50%;" [src]="user.photo" alt="image user">
-        </ion-col>
-        <ion-col size="8">
-          <p style="font-weight: bold;">{{user.name}}</p>
-          <p style="font-size: .75em;" *ngIf="1 > user.distance "> Menos de 1 KM</p>
-          <p style="font-size: .75em;" *ngIf="user.distance > 1">A {{user.distance | number : '.2-2' }} KM</p>
+    <ion-row style="margin-top: 4em;">
+      <ion-col size="3" offset="9" >
+        <ion-icon (click)="goToPage('/privacy')" name="settings-outline" style="padding:.6em;"></ion-icon>
+        <ion-icon (click)="goToPage('/friends')" name="person-add-outline" style="padding:.6em;"></ion-icon>
+      </ion-col>
+    </ion-row>
 
-          <p style="color: green;font-size: .75em;" *ngIf="user.subscription">Premium</p>
-        </ion-col>
-      </ion-row>
+    <h1>Personas cerca de ti</h1>
+    <div *ngIf="show">
+
+      <div *ngIf="users.length != 0">
+        <div *ngFor="let user of users">
+          <ion-row (click)="goToPage('/user/'+user.id)" >
+            <ion-col size="3">
+            <img style="border-radius: 50%;" [src]="user.photo" alt="image user">
+          </ion-col>
+          <ion-col size="8">
+            <p style="font-weight: bold;">{{user.name}}</p>
+            <p style="font-size: .75em;" *ngIf="1 > user.distance"> Menos de 1 KM</p>
+            <p style="font-size: .75em;" *ngIf="user.distance > 1">A {{user.distance | number : '.2-2' }} KM</p>
+
+            <p style="color: green;font-size: .75em;" *ngIf="user.subscription">Premium</p>
+          </ion-col>
+        </ion-row>
+        </div>
       </div>
+
+      <div *ngIf="users.length == 0">
+        <div class="text-center">
+            <h4>No hay usuarios cerca de tu ubicación</h4>
+            <p>Pero puedes compartir la app a tus amigos para que aparezcan más personas.</p>
+            <ion-button fill="clear" color="success" expand="full" (click)="share()"> Compartir App</ion-button>
+        </div>
+      </div>
+
     </div>
 
-    <div *ngIf="users.length == 0">
-      <div class="text-center">
-          <h4>No hay usuarios cerca de tu ubicación</h4>
-          <p>Pero puedes compartir la app a tus amigos para que aparezcan más personas.</p>
-          <ion-button fill="clear" color="success" expand="full" (click)="share()"> Compartir App</ion-button>
-      </div>
+    <div *ngIf="!show">
+      <h4>No puedes ver usuarios cerca de tu ubicación</h4>
+      <p>Para poder ver usuarios cerca de tu ubicación cambia la configuracion a visible.</p>
+      <ion-button fill="clear" color="success" expand="full" (click)="changeVisible()">Cambiar a visible </ion-button>
     </div>
 
   </div>
 
-  <div *ngIf="!show">
-    <h4>No puedes ver usuarios cerca de tu ubicación</h4>
-    <p>Para poder ver usuarios cerca de tu ubicación cambia la configuracion a visible.</p>
-    <ion-button fill="clear" color="success" expand="full" (click)="changeVisible()">Cambiar a visible </ion-button>
+  <div *ngIf="!profile_success">
+      <div  style="background-color: transparent;width: 100%;height: 20em;">
+        <ng-lottie  [options]="lottieQr">
+        </ng-lottie>
+      </div>
+      <h2 style="margin-top: 1em;font-weight: bold;">¡Haz nuevos amigos con tu mascota!</h2>
+      <p>Con esta función podras conectar con personas con quien salir a pasear juntos con tu mascota.</p>
+      <p>Para que puedan conocerte debes agregar información sobre ti, recuerda no enviar información confidencial y cualquier actitud negativa dentro de la plataforma sera castigada.</p>
+      <small>Al iniciar aceptas los terminos y condiciones de Radi Pets</small>
+      <ion-button style="margin-top: 1em;" color="dark" (click)="start()">Iniciar</ion-button>
   </div>
-
-
-
-
 
 </div>
+
+
 
 </ion-content>

@@ -1,0 +1,126 @@
+<ion-content>
+  <div style="padding: 1em;">
+
+    <div  *ngIf="step == 1">
+      <h2 style="margin-top: 3em;">Ingresa tu contacto</h2>
+      <p>Rellena cualquiera de los siguientes formas de contacto, para que las personas puedan contactarte.</p>
+      <ion-item>
+        <ion-label><ion-icon name="logo-whatsapp"></ion-icon></ion-label>
+        <ion-input [(ngModel)]="whatsapp_number" placeholder="+52 12 34 56 78 90"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><ion-icon name="logo-facebook"></ion-icon> www.facebook.com/</ion-label>
+        <ion-input [(ngModel)]="facebook_url" placeholder="apodo"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label><ion-icon name="logo-instagram"></ion-icon> www.instagram.com/</ion-label>
+        <ion-input [(ngModel)]="instagram_url" placeholder="apodo"></ion-input>
+      </ion-item>
+      <ion-button style="margin-top: 1em;" (click)="next()" color="dark" [disabled]="!whatsapp_number && !facebook_url && !instagram_url">Siguiente</ion-button>
+    </div>
+    <div *ngIf="step == 2">
+      <h2  style="margin-top: 3em;">Verifica tus datos</h2>
+      <p>Haz click en el logo para verificar si los enlaces estan correctos, te mandara a la página. una vez que verifiques que esten bien puedes darle en continuar</p>
+      <ion-row>
+        <ion-col offset="1" *ngIf="whatsapp_number" (click)="verified('wa',whatsapp_number)">
+          <ion-icon name="logo-whatsapp" style="font-size: 1.6em;"></ion-icon>
+        </ion-col>
+        <ion-col *ngIf="facebook_url" (click)="verified('fb',facebook_url)">
+          <ion-icon name="logo-facebook"  style="font-size: 1.6em;"></ion-icon>
+        </ion-col>
+        <ion-col *ngIf="instagram_url" (click)="verified('ig',instagram_url)">
+          <ion-icon name="logo-instagram"  style="font-size: 1.6em;"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <p *ngIf="whatsapp_number">Whatsapp: {{ whatsapp_number }}</p>
+      <p *ngIf="facebook_url">Facebook: {{ facebook_url }}</p>
+      <p *ngIf="instagram_url">Instagram: {{ instagram_url }}</p>
+
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" (click)="back()"  color="warning" fill="clear">Regresar</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="full" color="dark" (click)="next()">Continuar</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div *ngIf="step == 3">
+      <h2  style="margin-top: 3em;">Privacidad</h2>
+
+      <ion-item lines="none">
+        <ion-label>Contacto sin ser amigos</ion-label>
+        <ion-toggle [(ngModel)]="social_media"></ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Mostar actividades a los demas</ion-label>
+        <ion-toggle [(ngModel)]="activities"></ion-toggle>
+      </ion-item>
+
+        <ion-item lines="none">
+          <ion-label>Mostrar tus mascotas</ion-label>
+          <ion-toggle   [(ngModel)]="pets"></ion-toggle>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label>Compartir tus reconocimientos</ion-label>
+          <ion-toggle [(ngModel)]="rewards"></ion-toggle>
+        </ion-item>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="full" (click)="back()" color="warning" fill="clear">Regresar</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="full" color="dark" (click)="next()">Continuar</ion-button>
+          </ion-col>
+        </ion-row>
+    </div>
+    <div *ngIf="step == 4">
+      <h3  style="margin-top: 3em;">Presentación  de {{ name}}</h3>
+
+      <ion-textarea [(ngModel)]="description" rows="8" class="new-input" placeholder="Description">
+      </ion-textarea>
+
+      <p>Edad</p>
+      <p *ngIf="birthday">23 años</p>
+      <p style="color:green;" *ngIf="!birthday" id="open-modal2">Agregar edad</p>
+      <ion-modal trigger="open-modal2" [cssClass]="'bottom-end'">
+        <ng-template>
+          <ion-datetime
+            presentation="date"
+            [(ngModel)]="birthday"
+            size="cover"
+            [showDefaultButtons]="true"
+          ></ion-datetime>
+        </ng-template>
+      </ion-modal>
+      <p>Ciudad</p>
+      <p  style="color:green;" *ngIf="!city">Agregar ciudad</p>
+      <p *ngIf="city">Tlaquepaque</p>
+
+      <ion-row style="margin-top: 2em;">
+        <ion-col *ngIf="whatsapp_number" (click)="verified('wa',whatsapp_number)">
+          <ion-icon name="logo-whatsapp" style="font-size: 1.6em;"></ion-icon>
+        </ion-col>
+        <ion-col *ngIf="facebook_url" (click)="verified('fb',facebook_url)">
+          <ion-icon name="logo-facebook"  style="font-size: 1.6em;"></ion-icon>
+        </ion-col>
+        <ion-col *ngIf="instagram_url" (click)="verified('ig',instagram_url)">
+          <ion-icon name="logo-instagram"  style="font-size: 1.6em;"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" (click)="back()"  color="warning" fill="clear">Regresar</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="full" [disabled]="!description" color="dark" >Finalizar</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
+</ion-content>

@@ -20,14 +20,36 @@ export class DataService {
 
   constructor(private http: HttpClient) {
     if(localStorage.getItem('sandbox')){
-      this.MODE = this.TEST_URL;
+      this.MODE = this.LOCAL_URL;
     }else{
       this.MODE = this.PRODUCTION_URL;
     }
    }
 
-   getUserConfiguration(data){
-    return this.http.post(this.MODE + 'users/running', JSON.parse(JSON.stringify(data)), this.options);
+   createFollow(data){
+    return this.http.post(this.MODE + 'follower/create', JSON.parse(JSON.stringify(data)), this.options);
+   }
+
+   deleteFollow(data){
+    return this.http.post(this.MODE + 'follower/delete', JSON.parse(JSON.stringify(data)), this.options);
+   }
+
+
+
+   updatePrivacy(data){
+    return this.http.put(this.MODE + 'api/update_user', JSON.parse(JSON.stringify(data)), this.options);
+   }
+
+   getpetsnear(lat, lng, status): any {
+    return this.http.get(this.MODE + 'near_pets/' + lat + '/' + lng + '/' + status);
+  }
+
+   getPlaces(lat,lng):any{
+    return this.http.get(this.MODE + 'places/'+lat+'/'+lng+'/1');
+  }
+
+     getUserPrivacy(data){
+    return this.http.post(this.MODE + 'api/user/privacy', JSON.parse(JSON.stringify(data)), this.options);
 
    }
 

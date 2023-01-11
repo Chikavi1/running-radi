@@ -7,14 +7,21 @@
 
   </div>
 
+
   <ion-slides [options]="slide" style="margin-top:-15em;padding-bottom:1em;position: absolute;z-index:1000;height: 240px;width: 100%;">
 
     <ion-slide >
       <ion-card  style="height: 200px;width: 100%;padding: 1em !important;text-align: left;"  >
-        <p style="font-size: 1.8em;"  *ngIf="offline" style="color:orangered"><ion-icon name="alert-circle-outline"></ion-icon>  Estas desconectado</p>
-        <div *ngIf="!isStart">
-          <p><ion-icon name="bulb-outline"></ion-icon> Mientras sales a pasear, ayuda a las personas a encontrar a su mascota o puedes mirar lugares pet friendly cerca de por donde andas.</p>
-        </div>
+        <p style="font-size: 1.8em;"  *ngIf="offline" style="color:orangered"><ion-icon name="alert-circle-outline"></ion-icon> Estas desconectado</p>
+
+          <div *ngIf="!isStart">
+            <div *ngIf="activities">
+              <p><ion-icon name="alert-circle-outline"></ion-icon>Tienes activades sin subir, subelas antes de que se eliminen.</p>
+              <ion-button  fill="outline" shape="round" color="danger" (click)="openPendingActivities()" expand="full">Subir actividades</ion-button>
+            </div>
+            <p *ngIf="!activities"><ion-icon name="bulb-outline"></ion-icon> Mientras sales a pasear, ayuda a las personas a encontrar a su mascota o puedes mirar lugares pet friendly cerca de por donde andas.</p>
+          </div>
+
         <ion-row style="text-align: center;margin-top: .7em;" *ngIf="isStart">
           <ion-col>
             <span>Time:</span>
@@ -32,7 +39,7 @@
             <ion-button expand="full" fill="clear"  (click)="presentAlert()"  *ngIf="isStart" color="warning">Terminar</ion-button>
           </ion-col>
           <ion-col size="3">
-            <ion-button  fill="outline"(click)="getInfo()" *ngIf="isPets" color="tertiary">
+            <ion-button  fill="outline" (click)="getInfo()" *ngIf="isPets" color="tertiary">
               <ion-icon name="restaurant-outline"></ion-icon>
             </ion-button>
             <ion-button fill="outline" (click)="getInfo()" *ngIf="!isPets"  color="tertiary">
@@ -83,6 +90,6 @@
     </ion-card>
 
   </ion-slide>
-</ion-slides>
+  </ion-slides>
 
 </ion-content>

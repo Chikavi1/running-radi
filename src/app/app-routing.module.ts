@@ -164,6 +164,18 @@ const routes: Routes = [
   {
     path: 'sharing-run',
     loadChildren: () => import('./pages/sharing-run/sharing-run.module').then( m => m.SharingRunPageModule)
+  },
+  {
+    path: 'friends',
+    loadChildren: () => import('./pages/friends/friends.module').then( m => m.FriendsPageModule)
+  },
+  {
+    path: 'start-near',
+    loadChildren: () => import('./pages/start-near/start-near.module').then( m => m.StartNearPageModule)
+  },
+  {
+    path: 'pending-activities',
+    loadChildren: () => import('./pages/pending-activities/pending-activities.module').then( m => m.PendingActivitiesPageModule)
   }
 
 

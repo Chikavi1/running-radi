@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdMob,RewardAdOptions,RewardAdPluginEvents,AdMobRewardItem } from '@capacitor-community/admob';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { Network } from '@capacitor/network';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
@@ -45,6 +45,7 @@ datas:any = [];
   constructor(
     private modalCtrl:ModalController,
     private nativeGeocoder: NativeGeocoder,
+    private toastController:ToastController,
     private modalController:ModalController,
     private api:DataService){
       const date = new Date().getHours()
@@ -191,46 +192,23 @@ datas:any = [];
 
   ionViewWillEnter(){
     Network.addListener('networkStatusChange', status => {
-      // console.log(status);
       this.offline = !status.connected;
-      // console.log(this.offline)
-
     });
     const logCurrentNetworkStatus = async () => {
       const status = await Network.getStatus();
-      // console.log(status);
     };
   }
 
 
-  finish(){
-
-
-    // if(this.premium){
-    //   this.create();
-    // }else{
-    //   this.showRewardVideo();
-    // }
-
-    let activityData = {
-      "user_id": localStorage.getItem('user_id'),
-      "distance": this.distance,
-      "time": this.time,
-      "json_points": this.json_points,
-      "seconds": 0,
-      "city": this.city,
-      "pets":[this.response]
-    }
-
-    if(this.offline){
-      alert('estas offiline');
-      localStorage.setItem('activities',JSON.stringify(activityData));
-      this.modalCtrl.dismiss();
-      }else{
-        this.showRewardVideo();
-      }
-
+async presentToast(message,color) {
+  const toast = await this.toastController.create({
+    message,
+    color,
+    duration: 2000
+  });
+  toast.present();
 }
+
 
 openModalSharing(bg){
   this.presentShare(SharingRunPage,bg);
@@ -263,6 +241,40 @@ async presentShare(component,bg) {
 
 
 
+finish(){
+
+    if(!navigator.onLine){
+      let activityData = {
+        "user_id": localStorage.getItem('user_id'),
+        "distance": this.distance,
+        "time": this.time,
+        "json_points": this.json_points,
+        "seconds": 0,
+        "city": this.city,
+        "pets":[this.response]
+      }
+      localStorage.setItem('activities',JSON.stringify(activityData));
+      this.modalCtrl.dismiss();
+
+      if(this.premium){
+        this.presentToast('Se guardara en local,cuando recuperes la conexión, se subira automaticamente','success');
+      }else{
+        this.presentToast('Se guardara en local,se borrara pronto, cuando tengas internet subelo','success');
+      }
+    }
+    else{
+      if(this.premium){
+        this.create();
+      }else{
+        this.showRewardVideo();
+      }
+    }
+    localStorage.removeItem('date_start');
+    localStorage.removeItem('kilometers');
+    localStorage.removeItem('seconds');
+    localStorage.removeItem('pet_selected');
+}
+
 create(){
   let activityData = {
     "user_id": localStorage.getItem('user_id'),
@@ -273,35 +285,34 @@ create(){
     "city": this.city,
   }
 
-this.api.createActivity(activityData).subscribe((activyResponse:any) => {
-  // console.log(activyResponse)
-  const actid = activyResponse.id;
-  this.response.forEach(pet => {
-      let petData = {
-       activity_id: actid,
-        pet_id: pet.id,
-        behavior: pet.behavior,
-        popped: pet.popped,
-        water: pet.water,
-        photo: pet.photo
-      }
-      this.api.createPetActivity(petData).subscribe((data:any) => {
-        // console.log(data);
-      });
+  this.api.createActivity(activityData).subscribe((activyResponse:any) => {
+    const actid = activyResponse.id;
+    this.response.forEach(pet => {
+        let petData = {
+        activity_id: actid,
+          pet_id: pet.id,
+          behavior: pet.behavior,
+          popped: pet.popped,
+          water: pet.water,
+          photo: pet.photo
+        }
+        this.api.createPetActivity(petData).subscribe((data:any) => {
+        });
+
+    });
+
+
+    this.modalCtrl.dismiss();
+
+    this.presentToast('Se ha subido exitosamente la actividad a tu perfil','success');
+
 
   });
-
-  this.modalCtrl.dismiss();
-  localStorage.removeItem('date_start');
-// toast
-
-});
 }
 
   async showRewardVideo(){
     AdMob.addListener(RewardAdPluginEvents.Rewarded,(reward: AdMobRewardItem) => {
       this.create();
-
     })
 
       const options: RewardAdOptions = {

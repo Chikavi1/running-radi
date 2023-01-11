@@ -37,9 +37,9 @@ premium = true;
 
      this.route.params.subscribe((params: Params) => {
       this.api.getActivity(params['id']).subscribe(data => {
-        console.log(data);
         this.activity = data[0];
       })
+
    });
 
 
@@ -74,20 +74,24 @@ premium = true;
 
   initMap(){
 
-      this.mapa = Leaflet.map('mapa-run',{ zoomControl: false}).setView([this.lat, this.lng], 10);
+    let array = []
+    let myfor = JSON.parse(this.activity.json_points)
 
-        this.mapa.flyTo([this.lat, this.lng], 16, {
+    myfor.forEach(element => {
+      array.push([element.x,element.y]);
+    });
+
+    console.log(myfor[0],myfor[myfor.length - 1]);
+
+
+      this.mapa = Leaflet.map('mapa-run',{ zoomControl: false}).setView([myfor[0].x, myfor[0].y], 11);
+
+        this.mapa.flyTo([this.lat, this.lng], 14, {
           animate: true,
           duration: 1.5
     });
 
 
-      let array = []
-      let myfor = JSON.parse(this.activity.json_points)
-
-      myfor.forEach(element => {
-        array.push([element.x,element.y]);
-      });
 
       let pointsForJson = array;
 

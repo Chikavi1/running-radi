@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 
 
@@ -18,19 +18,23 @@ export class QrUserPage implements OnInit {
   constructor(
     private navCtrl:NavController,
     private api:DataService,
+    private toastController:ToastController,
     private barcodeScanner: BarcodeScanner,
     ){
-    this.createdCode = 'sadsa';
+    this.createdCode = 'https://radi.pet/user/'+localStorage.getItem('user_id');
     this.photo = localStorage.getItem('photo');
 
   }
 
 scan(){
   this.barcodeScanner.scan().then(barcodeData => {
-    this.goToPage('user/2');
-    // this.api.getUser(barcodeData.text).subscribe(data => {
+    let recorte = barcodeData.text.split('https://radi.pet/user/')
+    if(recorte[1]){
+      this.goToPage('user/'+recorte[1]);
+    }else{
+      this.presentToast('Código QR no valido','danger');
+    }
 
-    // });
    }).catch(err => {
        console.log('Error', err);
    });
@@ -39,6 +43,15 @@ scan(){
 
 goToPage(page){
   this.navCtrl.navigateForward(page);
+}
+
+async presentToast(message,color) {
+  const toast = await this.toastController.create({
+    message,
+    color,
+    duration: 2000
+  });
+  toast.present();
 }
 
 
