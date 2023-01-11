@@ -4,12 +4,12 @@
     <div  *ngIf="step == 1">
       <h2 style="margin-top: 3em;">Ingresa tu contacto</h2>
       <p>Rellena cualquiera de los siguientes formas de contacto, para que las personas puedan contactarte.</p>
-      <ion-item>
+      <ion-item lines="none">
         <ion-label><ion-icon name="logo-whatsapp"></ion-icon></ion-label>
-        <ion-input [(ngModel)]="whatsapp_number" placeholder="+52 12 34 56 78 90"></ion-input>
+        <ion-input mode="ios" [(ngModel)]="whatsapp_number" placeholder="+52 12 34 56 78 90"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item lines="none">
         <ion-label><ion-icon name="logo-facebook"></ion-icon> www.facebook.com/</ion-label>
         <ion-input [(ngModel)]="facebook_url" placeholder="apodo"></ion-input>
       </ion-item>
@@ -99,7 +99,7 @@
       </ion-modal>
       <p>Ciudad</p>
       <p  style="color:green;" *ngIf="!city">Agregar ciudad</p>
-      <p *ngIf="city">Tlaquepaque</p>
+      <p *ngIf="city">{{city}}</p>
 
       <ion-row style="margin-top: 2em;">
         <ion-col *ngIf="whatsapp_number" (click)="verified('wa',whatsapp_number)">
@@ -113,12 +113,12 @@
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <ion-row style="margin-top: 2em;">
         <ion-col>
           <ion-button expand="full" (click)="back()"  color="warning" fill="clear">Regresar</ion-button>
         </ion-col>
         <ion-col>
-          <ion-button expand="full" [disabled]="!description" color="dark" >Finalizar</ion-button>
+          <ion-button expand="full" [disabled]="description.length == 0" color="dark"  (click)="finish()">Finalizar</ion-button>
         </ion-col>
       </ion-row>
     </div>

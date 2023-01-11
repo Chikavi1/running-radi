@@ -102,6 +102,10 @@ export class DataService {
       "password": password,
     });
   }
+  getUserByNearConfiguration(data){
+    return this.http.post(this.MODE + 'api/user/nearConfiguration', JSON.parse(JSON.stringify(data)), this.options);
+
+  }
 
   getInfoIp(){
     return this.http.get('https://json.geoiplookup.io/');

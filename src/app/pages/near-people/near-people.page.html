@@ -6,7 +6,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <div *ngIf="profile_success">
+  <div *ngIf="near_success">
 
     <ion-row style="margin-top: 4em;">
       <ion-col size="3" offset="9" >
@@ -53,7 +53,7 @@
 
   </div>
 
-  <div *ngIf="!profile_success">
+  <div *ngIf="!near_success">
       <div  style="background-color: transparent;width: 100%;height: 20em;">
         <ng-lottie  [options]="lottieQr">
         </ng-lottie>

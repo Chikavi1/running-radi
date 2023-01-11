@@ -339,7 +339,7 @@ start(){
 
 }
 
-verenMapa(lat,lng){
+verenMapa(name,lat,lng){
   if(this.isPets){
     var homeICon = L.icon(
       {
@@ -359,7 +359,7 @@ verenMapa(lat,lng){
   if(this.marker){
     this.mapa.removeLayer(this.marker);
   }
-  this.marker =  Leaflet.marker([lat,lng],{icon: homeICon}).addTo(this.mapa).bindPopup('Tu Ubicación');
+  this.marker =  Leaflet.marker([lat,lng],{icon: homeICon}).addTo(this.mapa).bindPopup(name);
 
 
 //  this.marker = Leaflet.marker([lat,lng,{draggable: true,icon: homeICon}]).addTo(this.mapa).bindPopup('Business ');
@@ -549,13 +549,13 @@ initMap(){
 // https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png
 
 let tile;
-  if(window.matchMedia('(prefers-color-scheme: dark)').matches){
-    // light mode
-    tile = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-  }else{
-    // dark mode
-    tile = 'https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga';
-  }
+  // if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+  //   // light mode
+  //   tile = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+  // }else{
+  //   // dark mode
+  // }
+  tile = 'https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga';
 
 Leaflet.tileLayer(tile, {
           zoom: 8,

@@ -130,7 +130,7 @@
   </div>
 
   </ion-content>
-  <ion-footer *ngIf="type === 1" class="bg-footer">
+  <ion-footer *ngIf="type === 1" >
     <ion-row>
       <ion-col>
         <ion-button expand="full" fill="clear" color="danger" [disabled]="!sendData" (click)="exit()"> {{ 'addcard.close' | translate }}</ion-button>

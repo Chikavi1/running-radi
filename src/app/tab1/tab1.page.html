@@ -16,8 +16,8 @@
 
           <div *ngIf="!isStart">
             <div *ngIf="activities">
-              <p><ion-icon name="alert-circle-outline"></ion-icon>Tienes activades sin subir, subelas antes de que se eliminen.</p>
-              <ion-button  fill="outline" shape="round" color="danger" (click)="openPendingActivities()" expand="full">Subir actividades</ion-button>
+              <p><ion-icon name="alert-circle-outline"></ion-icon> Tienes activades sin subir, subelas antes de que se eliminen.</p>
+              <ion-button  fill="outline" shape="round" color="danger" (click)="openPendingActivities()" expand="full"> Subir actividades</ion-button>
             </div>
             <p *ngIf="!activities"><ion-icon name="bulb-outline"></ion-icon> Mientras sales a pasear, ayuda a las personas a encontrar a su mascota o puedes mirar lugares pet friendly cerca de por donde andas.</p>
           </div>
@@ -69,7 +69,7 @@
             <ion-button  fill="clear" (click)="openModal()">Ver más</ion-button>
           </ion-col>
           <ion-col>
-            <ion-button  fill="clear" (click)="verenMapa(item.latitude,item.longitude)">Ver en mapa</ion-button>
+            <ion-button  fill="clear" (click)="verenMapa(item.title,item.latitude,item.longitude)">Ver en mapa</ion-button>
           </ion-col>
         </ion-row>
       </ion-card>

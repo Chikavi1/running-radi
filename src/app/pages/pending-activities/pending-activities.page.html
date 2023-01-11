@@ -10,11 +10,19 @@
 
       <ion-item lines="none" *ngFor="let item of activities;let i = index;">
         <ion-label>
-          <h2>{{ item.date }}</h2>
-          {{ item.time }}
+          <h2 class="bold">{{ item.date | date: 'dd/MM/yyyy' }}</h2>
+          <p>
+            {{ item.time }} min
+          </p>
+         <p>
+          {{ item.distance }} km
+         </p>
         </ion-label>
+        <ion-button slot="end" color="danger" fill="outline" (click)="remove(i)">
+          Descartar
+        </ion-button>
         <ion-button slot="end" fill="outline" (click)="showAd(i,item)">
-          Subir actividad
+          Subir
         </ion-button>
       </ion-item>
     </div>

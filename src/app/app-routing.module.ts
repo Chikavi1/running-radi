@@ -176,6 +176,10 @@ const routes: Routes = [
   {
     path: 'pending-activities',
     loadChildren: () => import('./pages/pending-activities/pending-activities.module').then( m => m.PendingActivitiesPageModule)
+  },
+  {
+    path: 'feedback',
+    loadChildren: () => import('./pages/feedback/feedback.module').then( m => m.FeedbackPageModule)
   }
 
 

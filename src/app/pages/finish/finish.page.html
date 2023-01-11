@@ -64,8 +64,7 @@
         </ion-row>
         <ion-row *ngIf="!response[i].photo">
           <ion-col size="12" >
-
-            <ion-button expand="full" fill="clear" (click)="getPicture(i)" color="primary">
+            <ion-button *ngIf="premium" expand="full" fill="clear" (click)="getPicture(i)" color="primary">
               <ion-icon fill="clear" name="camera-outline" slot="start"></ion-icon>
               Foto del recuerdo</ion-button>
             </ion-col>
@@ -73,13 +72,13 @@
         <div *ngIf="response[i].photo">
           <h2 class="text-center">Mi Recuerdo</h2>
           <ion-card >
-            <img [src]="response[i].showPhoto" alt="memories">
+            <img [src]="'data:image/jpeg;base64,'+response[i].photo" alt="memories">
           </ion-card>
               <ion-button expand="full" fill="clear" (click)="getPicture(i)" color="primary">
                 <ion-icon name="camera-outline" slot="start"></ion-icon>
                 Volver a tomar
               </ion-button>
-              <ion-button fill="outline" (click)="openModalSharing(response[i].showPhoto)">Compartir</ion-button>
+              <ion-button fill="outline" (click)="openModalSharing('data:image/jpeg;base64,'+response[i].photo)">Compartir</ion-button>
 
         </div>
       </ion-card>

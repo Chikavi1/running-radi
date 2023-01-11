@@ -7,6 +7,7 @@ import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@aw
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { PhotoModalPage } from '../photo-modal/photo-modal.page';
 import { SharingRunPage } from '../sharing-run/sharing-run.page';
+import * as moment from 'moment';
 
 
 @Component({
@@ -98,7 +99,6 @@ datas:any = [];
           popped: 0,
           water: 0,
           photo:'',
-          showPhoto:''
         })
     }else{
       this.pets = this.pet_selected;
@@ -110,7 +110,6 @@ datas:any = [];
           popped: 0,
           water: 0,
           photo:'',
-          showPhoto:''
         })
       });
     }
@@ -157,7 +156,6 @@ datas:any = [];
     modal.onDidDismiss().then((data) => {
       if(data['data']){
         const image = data['data'];
-        this.response[i].showPhoto =   `data:image/jpeg;base64,`+image;
         this.response[i].photo =  image;
       }
     });
@@ -244,23 +242,31 @@ async presentShare(component,bg) {
 finish(){
 
     if(!navigator.onLine){
-      let activityData = {
+
+      let array = localStorage.getItem('activities')?JSON.parse(localStorage.getItem('activities')):[];
+
+      let activityData:any = {
         "user_id": localStorage.getItem('user_id'),
+        "date": moment().toDate(),
         "distance": this.distance,
         "time": this.time,
         "json_points": this.json_points,
         "seconds": 0,
         "city": this.city,
-        "pets":[this.response]
+        "pets": this.response
       }
-      localStorage.setItem('activities',JSON.stringify(activityData));
-      this.modalCtrl.dismiss();
+
+      array.push(activityData);
+
+      localStorage.setItem('activities',JSON.stringify(array));
 
       if(this.premium){
-        this.presentToast('Se guardara en local,cuando recuperes la conexión, se subira automaticamente','success');
+        this.presentToast('Se guardara en local,cuando recuperes la conexión podras subirlos','success');
       }else{
         this.presentToast('Se guardara en local,se borrara pronto, cuando tengas internet subelo','success');
       }
+      this.modalCtrl.dismiss(true);
+
     }
     else{
       if(this.premium){
@@ -302,7 +308,7 @@ create(){
     });
 
 
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss(true);
 
     this.presentToast('Se ha subido exitosamente la actividad a tu perfil','success');
 

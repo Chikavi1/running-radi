@@ -44,10 +44,9 @@ export class PendingActivitiesPage implements OnInit {
       "city": item.city,
     }
 
-    this.activities.splice(i,1);
 
 
-    // this.response = JSON.parse(item.pets);
+    this.remove(i);
     console.log(activityData,this.response);
 
     // this.api.createActivity(activityData).subscribe((activyResponse:any) => {
@@ -71,7 +70,6 @@ export class PendingActivitiesPage implements OnInit {
   }
 
   ionViewWillLeave(){
-    alert('se va');
     if(this.activities.length == 0){
       localStorage.removeItem('activities')
     }
@@ -87,6 +85,10 @@ export class PendingActivitiesPage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  remove(i){
+    this.activities.splice(i,1);
   }
 
 }

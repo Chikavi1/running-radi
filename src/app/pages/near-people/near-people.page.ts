@@ -16,7 +16,7 @@ export class NearPeoplePage implements OnInit {
   users:any = [];
   show = false;
 
-  profile_success=false;
+  near_success = false;
 
   lottieQr: AnimationOptions  = {
     path: 'https://assets10.lottiefiles.com/packages/lf20_XRLjtE.json',
@@ -31,7 +31,8 @@ export class NearPeoplePage implements OnInit {
 
   ionViewWillEnter(){
     this.show = localStorage.getItem('show_near')?true:false;
-    if(this.show && this.profile_success){
+    this.near_success = localStorage.getItem('near_success')?true:false;
+    if(this.show && this.near_success){
       this.getUsers();
     }
   }
@@ -52,9 +53,13 @@ export class NearPeoplePage implements OnInit {
   }
 
   changeVisible(){
-    this.show = true;
-    localStorage.setItem('show_near','true');
-    this.getUsers();
+    this.api.updateUser({id:localStorage.getItem('user_id'),visible:true}).subscribe(data => {
+      if(data.status == 200){
+        this.show = true;
+        localStorage.setItem('show_near','true');
+        this.getUsers();
+      }
+    });
 
   }
 
@@ -92,8 +97,10 @@ export class NearPeoplePage implements OnInit {
       cssClass: 'small-modal'
     });
 
-    modal.onDidDismiss().then(() => {
-
+    modal.onDidDismiss().then((data) => {
+      if(data['data']){
+        this.near_success = true;
+      }
 
     });
     return await modal.present();

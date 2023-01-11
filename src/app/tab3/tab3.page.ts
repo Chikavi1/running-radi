@@ -165,23 +165,33 @@ export class Tab3Page {
     }
 
   logout(){
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('address_default_id');
-    localStorage.removeItem('method_payment');
-    localStorage.removeItem('customer_id');
-    localStorage.removeItem('pet_default_id');
-    localStorage.removeItem('email');
 
-    localStorage.removeItem('name');
-    localStorage.removeItem('month_distance');
-    localStorage.removeItem('photo');
-    localStorage.removeItem('pe');
+    if(localStorage.getItem('date_start')){
+      alert('tienes una actividad inconclusa.')
+    }
 
+    if(localStorage.getItem('activities')){
+      alert('tienes actividades sin subir, al salir se eliminaran.')
+    }
 
+    let sandbox = localStorage.getItem('sanbox')?true:false;
+    let device  = 'phone'
 
+    localStorage.clear();
+    localStorage.setItem('device',device);
+    localStorage.setItem('sandbox',''+sandbox);
 
-    // only dev
-    // localStorage.removeItem('intro')
+    // localStorage.removeItem('user_id');
+    // localStorage.removeItem('address_default_id');
+    // localStorage.removeItem('method_payment');
+    // localStorage.removeItem('customer_id');
+    // localStorage.removeItem('pet_default_id');
+    // localStorage.removeItem('email');
+
+    // localStorage.removeItem('name');
+    // localStorage.removeItem('month_distance');
+    // localStorage.removeItem('photo');
+    // localStorage.removeItem('pe');
     this.exit();
   }
 

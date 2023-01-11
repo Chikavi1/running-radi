@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { Browser } from '@capacitor/browser';
 import { Geolocation } from '@capacitor/geolocation';
+import { ModalController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -23,20 +24,28 @@ export class StartNearPage implements OnInit {
   social_media = false;
 
   name;
-  description;
+  description = '';
   city;
   birthday;
-  cellphone = '52312321321';
 
+  constructor(private api:DataService,
+    private modalCtrl:ModalController,
+    private nativeGeocoder: NativeGeocoder){
 
-  constructor(private api:DataService,private nativeGeocoder: NativeGeocoder
-    ){
-    // this.api.get
-    this.whatsapp_number = this.cellphone;
-    this.name = 'Luis Rojas';
-    this.description;
-    this.birthday;
-    this.city;
+    this.api.getUserByNearConfiguration({id:localStorage.getItem('user_id')}).subscribe(data => {
+      console.log(data);
+      this.whatsapp_number      = data[0].cellphone;
+      this.name                 = data[0].name;
+      this.description          = data[0].description;
+      this.birthday             = data[0].birthday;
+      this.city                 = data[0].city;
+
+      let datos = JSON.parse(data[0].public_configuration);
+      this.social_media    = datos.social_media;
+      this.activities = datos.activities;
+      this.pets       = datos.pets;
+      this.rewards    = datos.rewards;
+    });
 
 
     if(!this.city){
@@ -59,16 +68,13 @@ export class StartNearPage implements OnInit {
 
    }
 
-  ngOnInit() {
+  ngOnInit(){
+
   }
-
-
-
 
   async openUrl(url){
     await Browser.open({ url });
    }
-
 
   back(){
     this.step -= 1;
@@ -77,10 +83,6 @@ export class StartNearPage implements OnInit {
   next(){
     this.step += 1;
   }
-
-
-
-
 
   verified(type,link){
     if(type == 'fb'){
@@ -100,13 +102,37 @@ export class StartNearPage implements OnInit {
       "facebook": this.facebook_url,
       "whatsapp": this.whatsapp_number
     }
+
+    let privacy = {
+      "social_media":this.social_media,
+      "activities": this.activities,
+      "pets": this.pets,
+      "rewards": this.rewards,
+    }
+
+    let public_config = JSON.stringify(privacy);
+
+
     let data = {
+      "id": localStorage.getItem('user_id'),
       "social_media": JSON.stringify(social),
       "description": this.description,
       "city": this.city,
-      "birthday": this.birthday
+      "public_configuration": public_config,
+      "birthday": this.birthday,
+      "visible":1
     }
-    console.log(data);
+
+
+    this.api.updateUser(data).subscribe(data => {
+      if(data.status == 200){
+        localStorage.setItem('near_success',''+true);
+        localStorage.setItem('show_near',''+true);
+
+        this.modalCtrl.dismiss(true);
+      }
+    })
+
   }
 
 }
