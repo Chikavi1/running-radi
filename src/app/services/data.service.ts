@@ -20,7 +20,7 @@ export class DataService {
 
   constructor(private http: HttpClient) {
     if(localStorage.getItem('sandbox')){
-      this.MODE = this.TEST_URL;
+      this.MODE = this.LOCAL_URL;
     }else{
       this.MODE = this.PRODUCTION_URL;
     }

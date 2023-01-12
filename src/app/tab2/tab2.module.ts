@@ -7,12 +7,14 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
+    PipesModule,
     NgCircleProgressModule.forRoot({
             // set defaults here
             radius: 100,

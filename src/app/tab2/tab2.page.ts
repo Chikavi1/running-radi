@@ -49,11 +49,7 @@ longitude;
       // this.getPetsLost();
       // this.getPetFriendly();
 
-
-
     });
-
-
 
     // this.api.getBlogs().subscribe(data => {
     //   this.blogs = data;
@@ -73,6 +69,7 @@ longitude;
   total_time = '';
 
   premium;
+  measure= 'mi';
 
 
   getPetsLost(){

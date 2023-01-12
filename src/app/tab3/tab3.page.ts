@@ -138,7 +138,7 @@ export class Tab3Page {
 
     modal.onDidDismiss().then((data) => {
      if(data['data']){
-      this.router.navigateByUrl('/tabs/tab2')
+      this.router.navigateByUrl('/tabs/tab1')
 
         this.user_id = localStorage.getItem('user_id');
         // this.apiget();
@@ -189,7 +189,6 @@ export class Tab3Page {
       });
 
       modal.onDidDismiss().then((data) => {
-        console.log(data);
         if(data['data']){
           let sandbox = localStorage.getItem('sanbox')?true:false;
           let device  = 'phone'
@@ -197,6 +196,8 @@ export class Tab3Page {
           localStorage.clear();
           localStorage.setItem('device',device);
           localStorage.setItem('sandbox',''+sandbox);
+          this.exit();
+
         }
       });
       return await modal.present();

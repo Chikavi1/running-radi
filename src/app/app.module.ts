@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -22,6 +22,17 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
 
+// import localePt from '@angular/common/locales/pt';
+import localeEs from '@angular/common/locales/es';
+import localeEn from '@angular/common/locales/en';
+
+import { registerLocaleData } from '@angular/common';
+// registerLocaleData(localePt, 'pt');
+registerLocaleData(localeEs, 'es');
+registerLocaleData(localeEn, 'en');
+
+
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -43,7 +54,9 @@ export function playerFactory() {
     IonicModule.forRoot(),
 
     AppRoutingModule],
-  providers: [SocialSharing,NativeGeocoder,BarcodeScanner,LocalNotifications,OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'en' },
+    SocialSharing,NativeGeocoder,BarcodeScanner,LocalNotifications,OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

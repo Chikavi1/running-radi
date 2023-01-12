@@ -16,10 +16,27 @@ export class AppComponent {
       window.screen.orientation.lock('portrait');
       localStorage.setItem('device','phone');
       this.router.navigateByUrl('/')
-    let language = localStorage.getItem('language')?localStorage.getItem('language'):'en';
-    this.translateService.setDefaultLang(language);
-    this.translateService.addLangs(['en','es']);
+
+
+      if(localStorage.getItem('languagedevice')){
+        this.automaticTranslate();
+      }
+      let language = localStorage.getItem('language')?localStorage.getItem('language'):'en';
+      this.translateService.setDefaultLang(language);
+      this.translateService.addLangs(['en','es']);
+
     localStorage.setItem('sandbox','true')
 
+  }
+
+  automaticTranslate(){
+    if(this.translateService.getBrowserLang() === 'en'){
+      localStorage.setItem('language',this.translateService.getBrowserLang());
+      this.translateService.use(this.translateService.getBrowserLang());
+    }
+    if(this.translateService.getBrowserLang() === 'es'){
+      localStorage.setItem('language',this.translateService.getBrowserLang());
+      this.translateService.use(this.translateService.getBrowserLang());
+    }
   }
 }

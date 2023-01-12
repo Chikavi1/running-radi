@@ -3,7 +3,7 @@
     <ion-row style="margin-top: 6em;">
       <ion-col size="10">
         <ion-title size="large" *ngIf="premium">Premium</ion-title>
-        <ion-title size="large" *ngIf="!premium">Radi Runner</ion-title>
+        <ion-title size="large" *ngIf="!premium">Radi Running</ion-title>
       </ion-col>
 
       <ion-col *ngIf="user_id" size="2" (click)="goToPage('/near-people')">
@@ -59,8 +59,8 @@
     <ion-card style="padding:1em;">
       <h4>Este mes</h4>
       <div *ngIf="user_id">
-      <span>Kilometros total</span>
-        <p>{{total_km  | number : '.2-2' }} km</p>
+      <span>Distancia total</span>
+        <p>{{ total_km | distanceMeasure:measure  }} {{measure}}  </p>
         <span>Tiempo total</span>
         <p>{{total_time}}  Min</p>
       </div>
@@ -73,12 +73,6 @@
 
 
     <h2>Ultimos registros</h2>
-
-    <!-- <div *ngFor="let act of acts">
-
-      {{ act.user_id }}
-      {{ act.created }}
-    </div> -->
 
     <div *ngIf="user_id">
       <div *ngIf="activities.length == 0" class="text-center">
@@ -93,8 +87,8 @@
 
         <ion-slide *ngFor="let item of activities" style="text-align: left;">
           <ion-card style="padding:2em;" (click)="goToRun(item.id)">
-            <h3 style="font-weight: bold;">{{item.createdAt | date:'fullDate'}} </h3>
-            <h5> {{item.distance}} KM  &#x2022; {{item.time}} Min</h5>
+            <h3 style="font-weight: bold;">{{item.createdAt | localizedDate:'fullDate' }} </h3>
+            <h5> {{item.distance | distanceMeasure:measure  }} {{measure}}  &#x2022; {{item.time}} Min</h5>
           </ion-card>
         </ion-slide>
       </ion-slides>
@@ -159,10 +153,10 @@
     <ion-slides  [options]="slidePets"  *ngIf="lostPets.length != 0" >
       <ion-slide  *ngFor="let item of lostPets" style="text-align: left;" (click)="goToPage('place')">
        <ion-card style="text-align: left;margin-left: 1.5em;border-radius: 1em;width: 100%;">
-          <img  class="border-radius-img" src="https://i.ibb.co/zSM7JRJ/09615e6fd7dc.png" style="width:100%;object-fit: cover;min-height: 18em;max-height: 18em;height: 18em;">
+          <img  class="border-radius-img" [src]="item.photo" style="width:100%;object-fit: cover;min-height: 18em;max-height: 18em;height: 18em;">
           <div style="padding:1em;">
-            <p style="font-weight: 800;" class="capitalize">Nombre <br>
-              <span style="font-weight: 300;">2 Km</span> </p>
+            <p style="font-weight: 800;" class="capitalize">{{item.name}} <br>
+              <span style="font-weight: 300;">{{ item.distance | distanceMeasure:measure  }} {{measure}}  </span> </p>
           </div>
         </ion-card>
       </ion-slide>
@@ -184,7 +178,8 @@
           <img  class="border-radius-img" [src]="place.image" style="width:100%;object-fit: cover;min-height: 18em;max-height: 18em;height: 18em;">
           <div style="padding:1em;">
             <p style="font-weight: 800;" class="capitalize">{{place.title}}<br>
-              <span style="font-weight: 300;">{{place.distance  | number : '.2-2' }} Km</span> </p>
+              <span style="font-weight: 300;"> {{ place.distance | distanceMeasure:measure  }} {{measure}} </span>
+            </p>
           </div>
         </ion-card>
       </ion-slide>

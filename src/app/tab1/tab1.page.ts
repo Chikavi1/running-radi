@@ -32,9 +32,7 @@ export class Tab1Page implements OnDestroy{
     private api: DataService,
     private toastController:ToastController){
 
-      if(localStorage.getItem('date_start')){
-        this.presentAlertWithout();
-      }
+
 
 
     if(localStorage.getItem('customer_id')){
@@ -51,6 +49,10 @@ export class Tab1Page implements OnDestroy{
 
             }
           });
+        }
+
+        if(localStorage.getItem('date_start')){
+          this.presentAlertWithout();
         }
     }
 
@@ -577,6 +579,9 @@ ionViewDidEnter(){
   if(!this.mapa){
     this.initMap();
   }
+
+
+
 }
 
 ionViewWillLeave(){
@@ -605,20 +610,9 @@ initMap(){
         animate: true,
         duration: 1.5
         });
+
         this.mapa.invalidateSize();
-      var homeICon = L.icon(
-        {
-          iconUrl:  'https://i.ibb.co/d59mYxn/wanted.png',
-          iconSize:     [31, 31], // size of the icon
-        });
 
-
-
-        var userIcon = L.icon(
-          {
-            iconUrl:  'https://i.ibb.co/Z6f29T3/placeholder.png',
-            iconSize:     [31, 31], // size of the icon
-          });
 
     // Leaflet.marker([this.lat,this.lng],{draggable: true,icon: userIcon}).on('dragend', e => this.procesar(e) ).addTo(this.mapa).bindPopup('Tu Ubicación');
 // https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}
