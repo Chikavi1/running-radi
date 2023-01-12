@@ -189,6 +189,7 @@ export class Tab3Page {
       });
 
       modal.onDidDismiss().then((data) => {
+        console.log(data);
         if(data['data']){
           let sandbox = localStorage.getItem('sanbox')?true:false;
           let device  = 'phone'

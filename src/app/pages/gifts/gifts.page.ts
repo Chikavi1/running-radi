@@ -15,7 +15,7 @@ export class GiftsPage {
   amount = 0;
   description = null;
   slide = {
-    slidesPerView: 2.1,
+    slidesPerView: 1.8,
     spaceBetween: 1
   }
   data;

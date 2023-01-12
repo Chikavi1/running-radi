@@ -31,7 +31,7 @@
 
       <div class="text-center p-1" style="margin-top: 4em;"  *ngIf="mascotas.length == 0 && !offline">
         <h2>Por el momento no tienes mascotas.</h2>
-        <ion-button fill="clear">Agregar mascota</ion-button>
+        <ion-button fill="clear" (click)="goToPage('/create-pet')">Agregar mascota</ion-button>
       </div>
     </div>
 

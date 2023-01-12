@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {registerPlugin} from "@capacitor/core";
 import {BackgroundGeolocationPlugin} from "@capacitor-community/background-geolocation";
 const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("BackgroundGeolocation");
@@ -24,7 +24,7 @@ declare var L: any;
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnDestroy{
 
   constructor(
     private modalController:ModalController,
@@ -472,8 +472,9 @@ getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 }
 
 async presentAlert(){
+  this.terminateAlert(ModalWarningPage,'Terminar paseo','¿Estas seguro de terminar el paseo?','Cancelar','Terminar','warning');
 
-  this.modalWarning('Atención','¿Estas seguro de terminar el paseo?','Cancelar','Terminar','warning');
+  // this.modalWarning('Terminar paseo','¿Estas seguro de terminar el paseo?','Cancelar','Terminar','warning');
 
 
   // const alert = await this.alertController.create({
@@ -502,11 +503,8 @@ async presentAlert(){
   // const { role } = await alert.onDidDismiss();
 }
 
-modalWarning(title,subtitle,cancel_text,done_text,path){
-  this.presentWarning(ModalWarningPage,title,subtitle,cancel_text,done_text,path);
-}
 
-async presentWarning(component,title,subtitle,cancel_text?,done_text?,path?) {
+async terminateAlert(component,title,subtitle,cancel_text?,done_text?,path?) {
   const modal = await this.modalController.create({
     component: component,
     breakpoints: [0.0,0.5, 0.90],
@@ -532,6 +530,40 @@ async presentWarning(component,title,subtitle,cancel_text?,done_text?,path?) {
   return await modal.present();
 }
 
+async pendingAlert(component,title,subtitle,cancel_text?,done_text?,path?) {
+  const modal = await this.modalController.create({
+    component: component,
+    breakpoints: [0.0,0.5, 0.90],
+    componentProps:{
+      title: title,
+      subtitle: subtitle,
+      cancel_text: cancel_text,
+      done_text: done_text,
+      path: path
+    },
+    initialBreakpoint: 0.5,
+    backdropDismiss:true,
+    swipeToClose​:true,
+    cssClass: 'small-modal'
+  });
+
+  modal.onDidDismiss().then((data) => {
+    console.log(data);
+    if(data['data'] == 1){
+      this.distance = parseFloat(localStorage.getItem('kilometers'));
+      this.seconds  = parseInt(localStorage.getItem('seconds'));
+      this.pet_selected = JSON.parse(localStorage.getItem('pet_selected'));
+      this.time = this.getTimeFormatted();
+      console.log(this.distance,this.time,this.pet_selected);
+      this.terminate();
+    }else{
+      this.removeData();
+    }
+
+  });
+  return await modal.present();
+}
+
 terminate(){
   BackgroundGeolocation.removeWatcher({id:this.id});
   window.clearInterval(this.interval); // Clear the interval
@@ -542,15 +574,25 @@ terminate(){
 }
 
 ionViewDidEnter(){
-  this.initMap();
+  if(!this.mapa){
+    this.initMap();
+  }
 }
 
 ionViewWillLeave(){
   if(this.isStart){
     console.log('seconds',this.seconds);
   }
+if(localStorage.getItem('reload')){
+  this.mapa.off();
+  this.mapa.remove();
+}
 }
 
+
+ngOnDestroy() {
+
+}
 
 initMap(){
 
@@ -563,7 +605,7 @@ initMap(){
         animate: true,
         duration: 1.5
         });
-
+        this.mapa.invalidateSize();
       var homeICon = L.icon(
         {
           iconUrl:  'https://i.ibb.co/d59mYxn/wanted.png',
@@ -680,7 +722,7 @@ async presentAlertWithout() {
   this.time = this.getTimeFormatted();
 
 
-  this.modalWarning('Atención',
+  this.pendingAlert(ModalWarningPage,'Paseo sin terminar',
   'Tienes una paseada sin terminar de '+this.time +' min, ¿deseas guardarla?',
   'Descartar',
   'Guardar y terminar',

@@ -1,5 +1,5 @@
 import { Component, OnInit,  } from '@angular/core';
-import {  ModalController } from '@ionic/angular';
+import {  ModalController, NavController } from '@ionic/angular';
 import { DataService } from '../../services/data.service';
 import { LoginPage } from '../login/login.page';
 
@@ -19,7 +19,10 @@ pets_selected:any = [];
 
 offline = false;
 
-  constructor(private modalCtrl:ModalController,private api: DataService){
+  constructor(
+    private modalCtrl:ModalController,
+    private navCtrl:NavController,
+    private api: DataService){
 
     if(localStorage.getItem('pe')){
       if(new Date(localStorage.getItem('pe')) > new Date()){
@@ -38,6 +41,11 @@ offline = false;
     this.getPets()
    }
 
+
+   goToPage(page){
+     this.modalCtrl.dismiss();
+    this.navCtrl.navigateForward(page);
+   }
 
   step = 1;
   ngOnInit() {
