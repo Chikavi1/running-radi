@@ -4,6 +4,7 @@ import { OneSignal } from '@awesome-cordova-plugins/onesignal/ngx';
 import { Browser } from '@capacitor/browser';
 import { ModalController, NavController, Platform } from '@ionic/angular';
 import { LoginPage } from '../pages/login/login.page';
+import { ModalWarningPage } from '../pages/modal-warning/modal-warning.page';
 import { DataService } from '../services/data.service';
 
 declare var require: any;
@@ -164,14 +165,52 @@ export class Tab3Page {
       this.navCtrl.navigateForward(pagina,navigationExtras);
     }
 
+
+    modalWarning(title,subtitle){
+      this.presentWarning(ModalWarningPage,title,subtitle);
+    }
+
+
+    async presentWarning(component,title,subtitle) {
+      const modal = await this.modalCtrl.create({
+        component: component,
+        breakpoints: [0.0,0.5, 0.90],
+        componentProps:{
+          title: title,
+          subtitle: subtitle,
+          cancel_text: 'Cancelar',
+          done_text: 'Cerrar Sesión',
+          path:'warning'
+        },
+        initialBreakpoint: 0.5,
+        backdropDismiss:true,
+        swipeToClose​:true,
+        cssClass: 'small-modal'
+      });
+
+      modal.onDidDismiss().then((data) => {
+        if(data['data']){
+          let sandbox = localStorage.getItem('sanbox')?true:false;
+          let device  = 'phone'
+
+          localStorage.clear();
+          localStorage.setItem('device',device);
+          localStorage.setItem('sandbox',''+sandbox);
+        }
+      });
+      return await modal.present();
+    }
+
   logout(){
 
     if(localStorage.getItem('date_start')){
-      alert('tienes una actividad inconclusa.')
+      this.modalWarning('Atención','Tienes una actividad inconclusa.');
+      return;
     }
 
     if(localStorage.getItem('activities')){
-      alert('tienes actividades sin subir, al salir se eliminaran.')
+      this.modalWarning('Atención','Tienes actividades sin subir, al salir se eliminaran.');
+      return;
     }
 
     let sandbox = localStorage.getItem('sanbox')?true:false;
@@ -181,17 +220,7 @@ export class Tab3Page {
     localStorage.setItem('device',device);
     localStorage.setItem('sandbox',''+sandbox);
 
-    // localStorage.removeItem('user_id');
-    // localStorage.removeItem('address_default_id');
-    // localStorage.removeItem('method_payment');
-    // localStorage.removeItem('customer_id');
-    // localStorage.removeItem('pet_default_id');
-    // localStorage.removeItem('email');
 
-    // localStorage.removeItem('name');
-    // localStorage.removeItem('month_distance');
-    // localStorage.removeItem('photo');
-    // localStorage.removeItem('pe');
     this.exit();
   }
 

@@ -18,7 +18,7 @@ export class NearPeoplePage implements OnInit {
 
   near_success = false;
 
-  lottieQr: AnimationOptions  = {
+  walkpet: AnimationOptions  = {
     path: 'https://assets10.lottiefiles.com/packages/lf20_XRLjtE.json',
     autoplay: true,
     loop: true

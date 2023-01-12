@@ -180,6 +180,10 @@ const routes: Routes = [
   {
     path: 'feedback',
     loadChildren: () => import('./pages/feedback/feedback.module').then( m => m.FeedbackPageModule)
+  },
+  {
+    path: 'modal-warning',
+    loadChildren: () => import('./pages/modal-warning/modal-warning.module').then( m => m.ModalWarningPageModule)
   }
 
 

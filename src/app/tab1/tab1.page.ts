@@ -16,6 +16,7 @@ import { Network } from '@capacitor/network';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { DataService } from '../services/data.service';
 import { PendingActivitiesPage } from '../pages/pending-activities/pending-activities.page';
+import { ModalWarningPage } from '../pages/modal-warning/modal-warning.page';
 declare var L: any;
 
 @Component({
@@ -470,31 +471,65 @@ getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   return d.toFixed(2);
 }
 
-async presentAlert() {
-  const alert = await this.alertController.create({
-    header: '¿estas seguro?',
-    buttons: [
-      {
-        text: 'Cancelar',
-        role: 'cancel',
-        handler: () => {
-        },
-      },
-      {
-        text: 'Si,Terminar',
-        role: 'confirm',
-        handler: () => {
+async presentAlert(){
 
-          this.terminate();
+  this.modalWarning('Atención','¿Estas seguro de terminar el paseo?','Cancelar','Terminar','warning');
 
-        },
-      },
-    ],
+
+  // const alert = await this.alertController.create({
+  //   header: '¿estas seguro?',
+  //   buttons: [
+  //     {
+  //       text: 'Cancelar',
+  //       role: 'cancel',
+  //       handler: () => {
+  //       },
+  //     },
+  //     {
+  //       text: 'Si,Terminar',
+  //       role: 'confirm',
+  //       handler: () => {
+
+  //         this.terminate();
+
+  //       },
+  //     },
+  //   ],
+  // });
+
+  // await alert.present();
+
+  // const { role } = await alert.onDidDismiss();
+}
+
+modalWarning(title,subtitle,cancel_text,done_text,path){
+  this.presentWarning(ModalWarningPage,title,subtitle,cancel_text,done_text,path);
+}
+
+async presentWarning(component,title,subtitle,cancel_text?,done_text?,path?) {
+  const modal = await this.modalController.create({
+    component: component,
+    breakpoints: [0.0,0.5, 0.90],
+    componentProps:{
+      title: title,
+      subtitle: subtitle,
+      cancel_text: cancel_text,
+      done_text: done_text,
+      path: path
+    },
+    initialBreakpoint: 0.5,
+    backdropDismiss:true,
+    swipeToClose​:true,
+    cssClass: 'small-modal'
   });
 
-  await alert.present();
-
-  const { role } = await alert.onDidDismiss();
+  modal.onDidDismiss().then((data) => {
+    console.log(data);
+    if(data['data']){
+      this.terminate();
+    }
+  });
+  return await modal.present();
 }
 
 terminate(){
@@ -644,35 +679,45 @@ async presentAlertWithout() {
   this.seconds = parseInt(localStorage.getItem('seconds'));
   this.time = this.getTimeFormatted();
 
-  const alert = await this.alertController.create({
-    header: 'Tienes una paseada sin terminar de '+this.time +' min, ¿deseas guardarla?',
-    buttons: [
-      {
-        text: 'Empezar de nuevo',
-        role: 'cancel',
-        handler: () => {
-          this.removeData();
-        },
-      },
-      {
-        text: 'Terminar y guardar',
-        role: 'confirm',
-        handler: () => {
 
-          this.distance = parseFloat(localStorage.getItem('kilometers'));
-          this.seconds  = parseInt(localStorage.getItem('seconds'));
-          this.pet_selected = JSON.parse(localStorage.getItem('pet_selected'));
-          this.time = this.getTimeFormatted();
-          console.log(this.distance,this.time,this.pet_selected);
-          this.terminate();
-        },
-      },
-    ],
-  });
+  this.modalWarning('Atención',
+  'Tienes una paseada sin terminar de '+this.time +' min, ¿deseas guardarla?',
+  'Descartar',
+  'Guardar y terminar',
+  'pending'
+  );
 
-  await alert.present();
 
-  const { role } = await alert.onDidDismiss();
+  // const alert = await this.alertController.create({
+  //   header: 'Tienes una paseada sin terminar de '+this.time +' min, ¿deseas guardarla?',
+  //   buttons: [
+  //     {
+  //       text: 'Empezar de nuevo',
+  //       role: 'cancel',
+  //       handler: () => {
+  //         this.removeData();
+  //       },
+  //     },
+  //     {
+  //       text: 'Terminar y guardar',
+  //       role: 'confirm',
+  //       handler: () => {
+
+  //         this.distance = parseFloat(localStorage.getItem('kilometers'));
+  //         this.seconds  = parseInt(localStorage.getItem('seconds'));
+  //         this.pet_selected = JSON.parse(localStorage.getItem('pet_selected'));
+  //         this.time = this.getTimeFormatted();
+  //         console.log(this.distance,this.time,this.pet_selected);
+  //         this.terminate();
+  //       },
+  //     },
+  //   ],
+  // });
+
+  // await alert.present();
+
+  // const { role } = await alert.onDidDismiss();
+
 }
 
 
