@@ -25,11 +25,11 @@ export class ModalWarningPage implements OnInit {
 
   ngOnInit(){
     if(this.path == 'warning'){
-      this.lottie =   'https://assets2.lottiefiles.com/packages/lf20_iaPjrMEc3H.json'
+      this.lottie = '../../../assets/lotties/warning.json'
     }
 
     if(this.path == 'pending'){
-      this.lottie =   'https://assets1.lottiefiles.com/temp/lf20_8BYzaH.json'
+      this.lottie = '../../../assets/lotties/pending.json'
     }
 
     console.log(this.path);

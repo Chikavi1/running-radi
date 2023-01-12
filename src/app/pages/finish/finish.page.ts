@@ -42,7 +42,7 @@ datas:any = [];
 
   response:any = [];
 
-
+  measure = 'mi';
   constructor(
     private modalCtrl:ModalController,
     private nativeGeocoder: NativeGeocoder,

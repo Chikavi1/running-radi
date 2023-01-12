@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { PendingActivitiesPageRoutingModule } from './pending-activities-routing.module';
 
 import { PendingActivitiesPage } from './pending-activities.page';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    PipesModule,
     PendingActivitiesPageRoutingModule
   ],
   declarations: [PendingActivitiesPage]

@@ -18,6 +18,8 @@ time;
 
 url;
 
+measure='mi';
+
   ngOnInit() {
     this.today = moment().utc().format('MM/DD/Y');
     var canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
@@ -25,9 +27,9 @@ url;
     var imageObj = new Image();
     imageObj.crossOrigin = "anonymous";  // This enables CORS
     var today  = this.today;
-    var km =  this.distance;
+    var distance =  this.getdistance(this.distance);
     var min = this.time;
-
+    var measure = this.measure
 imageObj.onload = function () {
   context.drawImage(imageObj,0,0,imageObj.width,imageObj.height,0,0,canvas.width,canvas.height);
     context.fillStyle = 'white';
@@ -38,7 +40,7 @@ imageObj.onload = function () {
     context.font = "15px Arial";
     context.fillText(today, 20, 275);
     context.font = "bold 26px Arial";
-    context.fillText(km+" km "+min+" min", 20, 300);
+    context.fillText(distance+" "+measure+" "+min+" min", 20, 300);
 
 };
 
@@ -51,6 +53,15 @@ setTimeout(async function(){
 },100);
 }
 
+getdistance(distance){
+  let result = 0;
+  if(this.measure == 'mi'){
+    result = (distance*0.6214);
+  }else{
+    result = distance;
+  }
+  return result.toFixed(2);
+}
 
 shareImage(){
   this.url = localStorage.getItem('image');

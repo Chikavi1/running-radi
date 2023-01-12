@@ -18,38 +18,44 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class RunShowPage implements OnInit {
 
-premium = true;
+  premium = true;
+  measure = 'mi';
 
     getSafeUrl(filePreviewUrl){
       return this.sanitization.bypassSecurityTrustStyle('url(\'' + filePreviewUrl + '\')');
     }
 
     image  = "https://radi-images.s3.us-west-1.amazonaws.com/764fddb820c660fe";;
-
     activity:any=[];
+    pets:any = [];
 
+
+    slide = {
+      slidesPerView:  1.1,
+      spaceBetween:1,
+      coverflowEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      }
+    }
+    myFor;
   constructor(
     private sanitization: DomSanitizer,
     private navCtrl:NavController,
     private api: DataService,
     private route: ActivatedRoute
-    ) {
-
+    ){
      this.route.params.subscribe((params: Params) => {
-      this.api.getActivity(params['id']).subscribe(data => {
-        this.activity = data[0];
+      this.api.getActivity(params['id']).subscribe((data:any) => {
+        this.myFor = JSON.parse(data.activity[0].json_points)
+        this.activity = data.activity[0];
+        this.pets = data.pets;
       })
-
    });
-
-
-
-
-
    }
-
-  lat = 20.620616;
-  lng = -103.305521;
 
   ngOnInit() {
   }
@@ -64,33 +70,47 @@ premium = true;
   }
 
   ionViewDidEnter(){
+    setTimeout(() => {
     this.initMap();
+  },1000)
   }
 
   polyline;
   mapa;
 
 
+  lat;
+  lng;
 
   initMap(){
-
     let array = []
-    let myfor = JSON.parse(this.activity.json_points)
-
-    myfor.forEach(element => {
+    console.log(this.myFor);
+    this.myFor.forEach(element => {
       array.push([element.x,element.y]);
     });
 
-    console.log(myfor[0],myfor[myfor.length - 1]);
+   this.lat = this.myFor[0].x
+   this.lng =  this.myFor[0].y
 
 
-      this.mapa = Leaflet.map('mapa-run',{ zoomControl: false}).setView([myfor[0].x, myfor[0].y], 11);
 
+      this.mapa = Leaflet.map('mapa-run',{ zoomControl: false}).setView([this.myFor[0].x, this.myFor[0].y], 11);
         this.mapa.flyTo([this.lat, this.lng], 14, {
           animate: true,
           duration: 1.5
     });
 
+    var startIcon = L.icon(
+      {
+        iconUrl:  '../../../assets/start.png',
+        iconSize:     [31, 31], // size of the icon
+      });
+
+      var finishIcon = L.icon(
+        {
+          iconUrl:  '../../../assets/finish.png',
+          iconSize:     [31, 31], // size of the icon
+        });
 
 
       let pointsForJson = array;
@@ -108,6 +128,8 @@ premium = true;
 
       setTimeout(() => {
         this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8}).addTo(this.mapa);
+        Leaflet.marker([this.myFor[0].x,this.myFor[0].y],{icon: startIcon}).addTo(this.mapa).bindPopup('Start');
+        Leaflet.marker([this.myFor[this.myFor.length - 1].x,this.myFor[this.myFor.length - 1].y],{icon: finishIcon}).addTo(this.mapa).bindPopup('Finish');
       },1700)
 
 

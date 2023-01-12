@@ -11,6 +11,8 @@ import { DataService } from 'src/app/services/data.service';
 export class PendingActivitiesPage implements OnInit {
 
   activities:any = [];
+  measure = 'mi';
+
   constructor(private toastController:ToastController,private api:DataService) {
     this.activities = JSON.parse(localStorage.getItem('activities'));
   }
@@ -40,12 +42,12 @@ export class PendingActivitiesPage implements OnInit {
       "user_id": localStorage.getItem('user_id'),
       "distance": item.distance,
       "time": item.time,
-      "json_points": item.json_points,
+      "json_points": JSON.stringify(item.json_points),
       "seconds": 0,
       "city": item.city,
     }
 
-    this.response = JSON.parse(item.pets);
+    this.response = item.pets;
 
     this.api.createActivity(activityData).subscribe((activyResponse:any) => {
       const actid = activyResponse.id;

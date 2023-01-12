@@ -9,6 +9,7 @@ import { NearPeoplePageRoutingModule } from './near-people-routing.module';
 import { NearPeoplePage } from './near-people.page';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 export function playerFactory() {
   return player;
@@ -19,6 +20,7 @@ export function playerFactory() {
     CommonModule,
     FormsModule,
     IonicModule,
+    PipesModule,
     LottieModule.forRoot({ player: playerFactory }),
     NearPeoplePageRoutingModule
   ],

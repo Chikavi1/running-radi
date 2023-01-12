@@ -2,15 +2,15 @@
   <div style="background-color: #031e40;color:beige" >
     <div style="padding: 1em;">
 
-      <img src="../../../assets/img/white-logo.png" alt="logo" style="margin-top:1.9em;width: 3.5em;height:3.5em;z-index: 10000;">
+      <img src="../../../assets/img/logo.png" alt="logo" style="margin-top:1.9em;width: 3.5em;height:3.5em;z-index: 10000;">
       <h1 style="font-weight: bold;">¡Felicidades, has terminado!</h1>
       <p class="capital">
        Paseo en {{welcome}} en {{ city }}
          <br>
-        {{ today | date:'fullDate' }}
+         {{ today |  localizedDate:'fullDate' }}
       </p>
       <h3>
-        ¡Recorriste {{ distance | number : '.2-2' }}  KM!
+        ¡Recorriste {{ distance | distanceMeasure:measure  }} {{measure}}!
       </h3>
     </div>
   </div>
@@ -27,7 +27,7 @@
         Distancia
       </ion-col>
       <ion-col size="6">
-        {{distance  | number : '.2-2' }} KM
+        {{ distance | distanceMeasure:measure  }} {{measure}}
       </ion-col>
       <ion-col size="6">
         Tiempo

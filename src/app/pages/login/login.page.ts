@@ -48,12 +48,7 @@ export class LoginPage {
                 this.unauthorized = value;
               });
 
-    this.lottieConfig = {
-      path: 'https://assets5.lottiefiles.com/packages/lf20_T7TNvI.json',
-      renderer: 'canvas',
-      autoplay: true,
-      loop: true
-  };
+
 
 }
 

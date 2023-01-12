@@ -13,59 +13,61 @@
 
     <ion-card style="padding:2em">
       <h1>Paseo en la mañana en Tlaquepaque</h1>
-      <h2>{{activity.createdAt | date:'fullDate'}}</h2>
+      <p>{{ activity.createdAt |  localizedDate:'fullDate' }}</p>
+
+      <!-- <h2>{{activity.createdAt | localizedDate:'fullDate' }}</h2> -->
       <p style="margin-top: 3em;">Distancia</p>
-      <h2>{{ activity.distance }} km</h2>
+      <h2>
+        {{ activity.distance | distanceMeasure:measure  }} {{measure}}
+      </h2>
       <p>Tiempo</p>
       <h2>{{ activity.time }} Min</h2>
 
     </ion-card>
 
     <!-- <ion-button expand="full" fill="clear">Compartir a  mis amigos</ion-button> -->
-
-    <ion-card style="padding:2em">
-      <h2 style="text-align: center;padding: 1em;">Más información</h2>
-      <p>Estado</p>
-      <h2>Cansado</h2>
-      <p>¿tomo agua?</p>
-      <h2>Si</h2>
-      <p>¿hizo sus necesidades?</p>
-      <h2>No</h2>
-    </ion-card>
+    <h2 style="text-align: center;padding: 1em;">Más información</h2>
+    <ion-slides [options]="slide" pager="true" style="padding-bottom: 3em;">
+      <ion-slide *ngFor="let pet of pets; let i = index">
+        <ion-card >
+          <img [src]="pet.pet_photo" alt="">
+          <div style="padding:2em">
 
 
+          <h3 class="capital">{{ pet.pet_name }}</h3>
+          <p>Estado</p>
+          <h2 *ngIf="pet.behavior == 0">No se registro</h2>
+          <h2 *ngIf="pet.behavior == 1">Enojado</h2>
+          <h2 *ngIf="pet.behavior == 2">normal</h2>
+          <h2 *ngIf="pet.behavior == 3">Feliz</h2>
+          <h2 *ngIf="pet.behavior == 4">Triste</h2>
+          <p>¿Tomo agua?</p>
+          <h2 *ngIf="pet.water == 0">No</h2>
+          <h2 *ngIf="pet.water == 1">Si</h2>
+          <p>¿Hizo sus necesidades?</p>
+          <h2 *ngIf="pet.popped == 0">No</h2>
+          <h2 *ngIf="pet.popped == 1">Si</h2>
+          <h2 style="text-align: center;padding: 1em;">Recuerdo</h2>
 
+          <div *ngIf="pet.photo">
+            <img [src]="pet.photo" style="width: 100%;border-radius: 1em;" alt="pet photo">
+          </div>
 
-    <h2 style="text-align: center;padding: 1em;">Recuerdo</h2>
-    <ion-card *ngIf="image"  style="background-repeat: no-repeat;background-size: cover;height: 20em;" [style.background-image]="getSafeUrl(image)">
-    </ion-card>
+          <div *ngIf="!pet.photo">
+            <div *ngIf="premium">
+              <p>No hay momento,guarda tu recuerdo de esa salida con tu mascota.</p>
+              <ion-button fill="clear" expand="block" >Subir foto</ion-button>
+            </div>
+            <div *ngIf="!premium">
+              <p>No hay momento, para guardar el momento recuerda necesitas Radi Pets Premium.</p>
+              <ion-button fill="clear" expand="block" (click)="goToPage('/subscription')">Subscribirse</ion-button>
+            </div>
+          </div>
+        </div>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
 
-    <ion-card style="padding:2em" *ngIf="!image">
-      <div *ngIf="premium">
-        <p>No hay momento,guarda tu recuerdo de esa salida con tu mascota.</p>
-        <ion-button fill="clear" expand="block" >Subir foto</ion-button>
-      </div>
-      <div *ngIf="!premium">
-        <p>No hay momento, para guardar el momento recuerda necesitas Radi Pets Premium.</p>
-        <ion-button fill="clear" expand="block" (click)="goToPage('/subscription')">Subscribirse</ion-button>
-      </div>
-    </ion-card>
-
-
-
-    <h2 class="p-1">Mascota</h2>
-    <ion-card (click)="goToPets(activity.pet_id)" >
-      <ion-row>
-      <ion-col>
-          <img [src]="activity.pet_photo" alt="pet image">
-      </ion-col>
-      <ion-col>
-        <h2>{{activity.pet_name}}</h2>
-        <p>{{activity.peT_size}}</p>
-        <p>Ver más</p>
-      </ion-col>
-    </ion-row>
-  </ion-card>
 
   </div>
 </ion-content>

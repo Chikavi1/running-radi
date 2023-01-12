@@ -26,8 +26,8 @@
           </ion-col>
           <ion-col size="8">
             <p style="font-weight: bold;">{{user.name}}</p>
-            <p style="font-size: .75em;" *ngIf="1 > user.distance"> Menos de 1 KM</p>
-            <p style="font-size: .75em;" *ngIf="user.distance > 1">A {{user.distance | number : '.2-2' }} KM</p>
+            <p style="font-size: .75em;" *ngIf="1 > user.distance && measure == 'km'" > Menos de 1 KM</p>
+            <p style="font-size: .75em;" *ngIf="user.distance > 1">A {{ user.distance | distanceMeasure:measure  }} {{measure}}</p>
 
             <p style="color: green;font-size: .75em;" *ngIf="user.subscription">Premium</p>
           </ion-col>

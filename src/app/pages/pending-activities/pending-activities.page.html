@@ -10,12 +10,14 @@
 
       <ion-item lines="none" *ngFor="let item of activities;let i = index;">
         <ion-label>
-          <h2 class="bold">{{ item.date | date: 'dd/MM/yyyy' }}</h2>
+          <h2 class="bold">
+            {{ item.date  |  localizedDate:'fullDate' }}
+          </h2>
           <p>
             {{ item.time }} min
           </p>
          <p>
-          {{ item.distance }} km
+          {{ item.distance | distanceMeasure:measure  }} {{measure}}
          </p>
         </ion-label>
         <ion-button slot="end" color="danger" fill="outline" (click)="remove(i)">

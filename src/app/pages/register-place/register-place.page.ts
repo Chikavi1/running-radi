@@ -40,8 +40,7 @@ export class RegisterPlacePage implements OnInit {
   }
 
   send(){
-
-    this.navCtrl.back()
+   this.navCtrl.back()
    this.presentToast('Se ha enviado, muchas gracias por tu aporte.','success');
   }
 

@@ -4,6 +4,8 @@ import { ModalController, NavController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { Geolocation } from '@capacitor/geolocation';
 import { StartNearPage } from '../start-near/start-near.page';
+// import { StartNearPage } from '../../../assets/lotties/walk.json';
+
 import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
@@ -19,10 +21,12 @@ export class NearPeoplePage implements OnInit {
   near_success = false;
 
   walkpet: AnimationOptions  = {
-    path: 'https://assets10.lottiefiles.com/packages/lf20_XRLjtE.json',
+    path: '../../../assets/lotties/walk.json',
     autoplay: true,
     loop: true
   };
+
+  measure='mi'
 
   constructor(private navCtrl:NavController,private api:DataService,private modalController:ModalController) {
 
@@ -76,7 +80,7 @@ export class NearPeoplePage implements OnInit {
 
   async share(){
     await Share.share({
-      title: 'Radi Runners',
+      title: 'Radi Running',
       text: 'Descarga la app para ir de paseo con tu mascota',
       url: 'https://radi.pet/',
       dialogTitle: 'Descarga la app para ir de paseo con tu mascota'

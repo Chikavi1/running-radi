@@ -42,6 +42,7 @@ export class UserPage implements OnInit {
   show_pets         = false;
   show_rewards      = false;
 
+  measure='mi';
 
   constructor(
     private navCtrl:NavController,
