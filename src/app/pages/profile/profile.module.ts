@@ -8,6 +8,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     TranslateModule,
+    PipesModule,
     ProfilePageRoutingModule
   ],
   declarations: [ProfilePage]

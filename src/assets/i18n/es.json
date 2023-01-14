@@ -1,0 +1,32 @@
+{
+  "menu.about":"Acerca de Radi",
+  "menu.pets": "Mascotas",
+  "menu.show_profile": "Ver perfil",
+  "menu.configuration": "Configuración",
+  "menu.personal_information":"Información Personal",
+  "menu.points":"Puntos",
+  "menu.addresses":"Direcciones",
+  "menu.payments": "Pagos",
+  "menu.notifications":"Notificaciones",
+  "menu.language": "Idioma",
+  "menu.help": "Ayuda",
+  "menu.help_center":"Centro de Ayuda",
+  "menu.guide":"Guías",
+  "menu.send_comments":"Envianos tus comentarios",
+  "menu.terms_of_service":"Terminos de servicios",
+  "menu.gift": "Regala una tarjeta",
+  "menu.visit": "Visitas",
+  "menu.next_vists": "Siguientes Visitas",
+  "menu.logout":"Cerrar sesión",
+  "menu.changepassword":"Cambiar contraseña",
+  "menu.add": "Agregar",
+  "menu.pet": "mascota",
+  "menu.reminders":"Recordatorios",
+
+  "menu.privacy":"Privacidad",
+  "menu.sharecode": "Compartir mi código",
+  "menu.subscriptions": "Subscripciones",
+  "menu.measures":"Medidas",
+  "menu.mypets":"Mis mascotas"
+
+}

@@ -172,7 +172,8 @@
               <ion-icon *ngIf="vaccine.status == 2" slot="end" style="color:green;" name="shield-checkmark-outline"></ion-icon>
               <ion-label >
                 <h2 class="capitalize">{{vaccine.name}}</h2>
-                <h3 class="capitalize">{{vaccine.date  |  date:'fullDate':'es'}}</h3>
+                <h3 class="capitalize">
+                  {{ vaccine.date  |  localizedDate:'fullDate' }}</h3>
               </ion-label>
             </ion-item>
         </div>
@@ -200,7 +201,9 @@
                 <ion-icon *ngIf="deworming.status == 2" slot="end" style="color:green;" name="shield-checkmark-outline"></ion-icon>
                 <ion-label >
                   <h2 class="capitalize">{{deworming.name}}</h2>
-                  <h3 class="capitalize">{{deworming.date  |  date:'fullDate':'es'}}</h3>
+                  <h3 class="capitalize">
+                    vaccine.date
+                    {{deworming.date |  localizedDate:'fullDate'}}</h3>
                 </ion-label>
               </ion-item>
             </ion-item-sliding>

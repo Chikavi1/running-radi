@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { SubscriptionsPageRoutingModule } from './subscriptions-routing.module';
 
 import { SubscriptionsPage } from './subscriptions.page';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    PipesModule,
     SubscriptionsPageRoutingModule
   ],
   declarations: [SubscriptionsPage]

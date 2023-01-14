@@ -32,7 +32,7 @@
     </ion-row>
 
     <div *ngIf="user_id != user.id">
-        <ion-button color="success" style="margin-top:1em;" expand="full" (click)="follow()" *ngIf="follower == 0" ><ion-icon name="person-add-outline"></ion-icon>  Salir a pasear</ion-button>
+        <ion-button color="success" style="margin-top:1em;" expand="full" (click)="follow()" *ngIf="follower == 0" ><ion-icon name="person-add-outline"></ion-icon>  Seguir</ion-button>
         <ion-button color="success" style="margin-top:1em;" expand="full" (click)="deleteRequest()" *ngIf="follower == 1"> Pendiente</ion-button>
 
       <div *ngIf="follower == 2">
@@ -43,10 +43,12 @@
       </div>
     </div>
 
+
     <div *ngIf="follower == 2">
-      <h5><ion-icon name="logo-whatsapp"> </ion-icon> Mandar mensaje</h5>
-      <h5><ion-icon name="logo-instagram"> </ion-icon> Ver Perfil</h5>
-      <h5><ion-icon name="logo-facebook"> </ion-icon> Ver Perfil</h5>
+      <h5  *ngIf="social_media.whatsapp" (click)="contact('wa',social_media.whatsapp)"><ion-icon name="logo-whatsapp"> </ion-icon> Mandar mensaje</h5>
+      <h5 *ngIf="social_media.instagram" (click)="contact('ig',social_media.instagram)"><ion-icon name="logo-instagram" > </ion-icon> Ver Perfil</h5>
+      <h5 *ngIf="social_media.facebook" (click)="contact('fb',social_media.facebook)"><ion-icon name="logo-facebook" > </ion-icon> Ver Perfil</h5>
+
     </div>
 
     <ion-item-divider mode="md"> </ion-item-divider>
@@ -85,7 +87,7 @@
         <ion-progress-bar [value]="you_bar" color="primary"></ion-progress-bar>
 
         <p *ngIf="measure == 'km'">* Comparación de Km en los ultimos 30 dias</p>
-        <p *ngIf="measure == 'mi'">* Comparación de Km en los ultimos 30 dias</p>
+        <p *ngIf="measure == 'mi'">* Comparación de las millas en los ultimos 30 dias</p>
 
         <ion-card style="padding: 1em;">
           <h6>Tiempo Total</h6>
@@ -100,8 +102,8 @@
 
       <div *ngIf="show_activities">
         <div *ngIf="activities.length != 0">
-          <div *ngFor="let activity of activities">
-            <ion-row (click)="goToRun(activity.id)">
+          <div *ngFor="let activity of activities;let i = index;">
+            <ion-row (click)="goToRun(activity.id)" *ngIf="6 > i">
               <ion-col size="8">
                 <img style="border-radius:1em;" src="https://media.istockphoto.com/id/1137117479/vector/city-urban-streets-roads-abstract-map.jpg?s=612x612&w=0&k=20&c=QXajx6ZG-OmfLmwmKkeCA03rcFPuFHmSTtCpJYiDFSo=" alt="image">
               </ion-col>

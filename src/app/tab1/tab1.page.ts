@@ -26,6 +26,8 @@ declare var L: any;
 })
 export class Tab1Page implements OnDestroy{
 
+  measure;
+
   constructor(
     private modalController:ModalController,
     private alertController:AlertController,
@@ -576,6 +578,8 @@ terminate(){
 }
 
 ionViewDidEnter(){
+  this.measure = localStorage.getItem('measure');
+
   if(!this.mapa){
     this.initMap();
   }

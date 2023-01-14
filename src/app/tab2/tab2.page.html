@@ -6,9 +6,11 @@
         <ion-title size="large" *ngIf="!premium">Radi Running</ion-title>
       </ion-col>
 
-      <ion-col *ngIf="user_id" size="2" (click)="goToPage('/near-people')">
+      <!-- <ion-col *ngIf="user_id" size="2" (click)="goToPage('/near-people')">
         <h3><ion-icon name="people"></ion-icon></h3>
-      </ion-col>
+      </ion-col> -->
+
+
       <!-- <ion-col size="2" (click)="goToPage('/groups')">
         <h3><ion-icon name="people"></ion-icon></h3>
       </ion-col> -->
@@ -87,7 +89,7 @@
 
         <ion-slide *ngFor="let item of activities" style="text-align: left;">
           <ion-card style="padding:2em;" (click)="goToRun(item.id)">
-            <h3 style="font-weight: bold;">{{item.createdAt | localizedDate:'fullDate' }} </h3>
+            <h3 style="font-weight: bold;" class="capital">{{item.createdAt | localizedDate:'fullDate' }} </h3>
             <h5> {{item.distance | distanceMeasure:measure  }} {{measure}}  &#x2022; {{item.time}} Min</h5>
           </ion-card>
         </ion-slide>
@@ -141,7 +143,16 @@
 
     <h1>Cerca de ti</h1>
 
-    <h2>Mascotas desaparecidas</h2>
+    <ion-row>
+      <ion-col size="8">
+        <h3>Mascotas Desaparecidas</h3>
+      </ion-col>
+      <ion-col size="4">
+        <!-- <h5 style="text-align: right;">
+          ver más
+        </h5> -->
+      </ion-col>
+    </ion-row>
 
     <div *ngIf="lostPets.length == 0" style="text-align: left;">
       <ion-card style="padding: 1em;">
@@ -162,13 +173,23 @@
       </ion-slide>
     </ion-slides>
 
-    <h2>Lugares Pet Friendly</h2>
+    <ion-row>
+      <ion-col size="8">
+        <h3>Pet Friendly</h3>
+      </ion-col>
+      <ion-col  size="4">
+        <!-- <h5 style="text-align: right;">
+          ver más
+        </h5> -->
+      </ion-col>
+    </ion-row>
 
     <div *ngIf="places.length == 0" style="text-align: left;">
       <ion-card style="padding: 1em;">
         <h4>No hay lugares pet friendly cerca de ti</h4>
         <p>Pero no te preocupes, si conoces algun lugar puedes recomendarlo</p>
-        <ion-button fill="clear" expand="block" (click)="goToPage('/register-place')" >Recomendar lugar</ion-button>
+        <ion-button fill="clear" expand="block" (click)="goToPage('/register-place')"  *ngIf="!user_id" >Iniciar sesión</ion-button>
+        <ion-button fill="clear" expand="block" (click)="goToPage('/register-place')"  *ngIf="user_id">Recomendar lugar</ion-button>
       </ion-card>
     </div>
 

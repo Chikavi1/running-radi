@@ -1,0 +1,54 @@
+
+  <ion-content >
+
+    <ion-fab  *ngIf="step != 4"   style="margin-left: 1em;" vertical="top" horizontal="end"  slot="fixed" >
+      <p style="text-decoration:underline;font-weight: bold;color:white;" (click)="skip()">{{ 'intro.skip' | translate }}</p>
+    </ion-fab>
+
+      <img *ngIf="step == 1" style="height: 70%;width: 100%;object-fit: cover;"  src="../../../assets/intro.jpg" alt="">
+      <img *ngIf="step == 2" style="height: 70%;width: 100%;object-fit: cover;" src="../../../assets/intro2.jpg" alt="">
+      <img *ngIf="step == 3" style="height: 70%;width: 100%;object-fit: cover;" src="../../../assets/intro3.jpg" alt="">
+
+
+      <div class="text-center" style="padding:1em;border: 1em 0em 0em 1em">
+        <div *ngIf="step == 1">
+          <h2>{{ 'intro.titlefirst' | translate }}</h2>
+          <p style="font-weight: 500;font-size:1.2em;color:#858489;">{{ 'intro.subtitlefirst' | translate }}</p>
+        </div>
+        <div *ngIf="step == 2">
+          <h2>{{ 'intro.titlesecond' | translate }}</h2>
+          <p style="font-weight: 500;font-size:1.2em;color:#858489;">{{ 'intro.subtitlesecond' | translate }}</p>
+        </div>
+        <div *ngIf="step == 3">
+          <h2>{{ 'intro.titlethird' | translate }}</h2>
+          <p style="font-weight: 500;font-size:1.2em;color:#858489;">{{ 'intro.subtitlethird' | translate }}</p>
+        </div>
+        <ion-button color="dark" *ngIf="step != 4" shape="round" (click)="nextStep()">{{ 'intro.next' | translate }}</ion-button>
+      </div>
+
+      <div *ngIf="step == 4" style="padding: 7em 2em;" >
+
+        <h5>{{ 'intro.titlefour' | translate }} Configuración de la app </h5>
+        <p>{{ 'intro.subtitlefour' | translate }} </p>
+
+
+        <ion-item lines="none" (click)="goToPage('/language')">
+          <ion-icon style="zoom:1.5" name="navigate-circle-outline"></ion-icon>
+          <ion-label style="margin-left: 1.6em;">
+            <h3>Lenguaje</h3>
+          </ion-label>
+        </ion-item>
+
+        <ion-item   (click)="goToPage('/measures')"  lines="none">
+          <ion-icon style="zoom:1.5" name="map-outline"></ion-icon>
+          <ion-label style="margin-left: 1.6em;">
+            <h3>Sistema metrico</h3>
+          </ion-label>
+        </ion-item>
+
+        <ion-button style="margin-top: 3em;" color="dark"  shape="round" (click)="finish()">{{ 'intro.finish' | translate }}</ion-button>
+
+      </div>
+    </ion-content>
+
+

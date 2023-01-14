@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { ModalAnnouncementPageRoutingModule } from './modal-announcement-routing.module';
 
 import { ModalAnnouncementPage } from './modal-announcement.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    TranslateModule,
     ModalAnnouncementPageRoutingModule
   ],
   declarations: [ModalAnnouncementPage]

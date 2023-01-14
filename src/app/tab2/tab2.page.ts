@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { SetGoalPage } from '../pages/set-goal/set-goal.page';
 import { DataService } from '../services/data.service';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { SharingRunPage } from '../pages/sharing-run/sharing-run.page';
 import { Geolocation } from '@capacitor/geolocation';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tab2',
@@ -38,6 +37,7 @@ longitude;
   constructor(
     private navCtrl:NavController,
     private modalController:ModalController,
+    private translateService:TranslateService,
     private api: DataService){
 
     this.getActivities();
@@ -69,7 +69,7 @@ longitude;
   total_time = '';
 
   premium;
-  measure= 'mi';
+  measure;
 
 
   getPetsLost(){
@@ -121,7 +121,9 @@ longitude;
   }
 
   ionViewWillEnter(){
+    console.log(this.translateService.currentLang);
 
+    this.measure = localStorage.getItem('measure');
     if(localStorage.getItem('pe')){
       if(new Date(localStorage.getItem('pe')) > new Date()){
         this.premium = true;

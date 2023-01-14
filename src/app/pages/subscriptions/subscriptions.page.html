@@ -20,8 +20,8 @@
       <h2 class="text-center text-green" *ngIf="datos.status != 'active'">Subscripion No vigente</h2>
       <p class="text-center"><ion-icon style="color:green;font-size:1.7em;" name="checkmark-circle-outline"></ion-icon></p>
       <p>Gracias por ser parte de radi</p>
-      <p *ngIf="datos.cancel_at_period_end" class="bold">Se cancelera el {{expira*1000 | date:'fullDate':'es'}}</p>
-      <p *ngIf="!datos.cancel_at_period_end" class="bold" >Se renueva el  {{expira*1000 | date:'fullDate':'es'}}</p>
+      <p *ngIf="datos.cancel_at_period_end" class="bold">Se cancelera el {{expira*1000 |  localizedDate:'fullDate'}}</p>
+      <p *ngIf="!datos.cancel_at_period_end" class="bold" >Se renueva el  {{expira*1000 |  localizedDate:'fullDate'}}</p>
       <ion-item-divider mode="md"> </ion-item-divider>
       <h2>Decide como apoyar</h2>
       <p>Cuando eres premium puedes decidir a que causa se destinara el dinero que das en la Subscripcion</p>

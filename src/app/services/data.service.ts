@@ -26,6 +26,10 @@ export class DataService {
     }
    }
 
+   getFriends(data){
+      return this.http.post(this.MODE + 'follower/friends', JSON.parse(JSON.stringify(data)), this.options);
+   }
+
    createFollow(data){
     return this.http.post(this.MODE + 'follower/create', JSON.parse(JSON.stringify(data)), this.options);
    }
@@ -168,6 +172,11 @@ export class DataService {
       photo: 'https://avatars.dicebear.com/api/initials/' + data.name + '.svg'
     }
     return this.http.post(this.MODE + 'api/register', datos);
+  }
+
+
+  prePlaces(data){
+    return this.http.post(this.MODE+'places/pre_register',JSON.parse(JSON.stringify(data)), this.options);
   }
 
    givePoints(data){

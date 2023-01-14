@@ -15,7 +15,6 @@
       <h1>Paseo en la mañana en Tlaquepaque</h1>
       <p>{{ activity.createdAt |  localizedDate:'fullDate' }}</p>
 
-      <!-- <h2>{{activity.createdAt | localizedDate:'fullDate' }}</h2> -->
       <p style="margin-top: 3em;">Distancia</p>
       <h2>
         {{ activity.distance | distanceMeasure:measure  }} {{measure}}

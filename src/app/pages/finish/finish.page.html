@@ -1,5 +1,5 @@
 <ion-content>
-  <div style="background-color: #031e40;color:beige" >
+  <div style="background-color: #5327ab;color:beige" >
     <div style="padding: 1em;">
 
       <img src="../../../assets/img/logo.png" alt="logo" style="margin-top:1.9em;width: 3.5em;height:3.5em;z-index: 10000;">
@@ -88,7 +88,7 @@
   </ion-slides>
 </ion-content>
 <ion-footer>
-  <ion-button color="success" *ngIf="!offline" expand="full" (click)="finish()">Siguiente</ion-button>
-  <ion-button color="warning" *ngIf="offline" expand="full" (click)="finish()">Siguiente</ion-button>
+  <ion-button color="success" *ngIf="!offline" expand="full" (click)="finish()">Terminar</ion-button>
+  <ion-button color="warning" *ngIf="offline" expand="full" (click)="finish()">Terminar</ion-button>
 
 </ion-footer>

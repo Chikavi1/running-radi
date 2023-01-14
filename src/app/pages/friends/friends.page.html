@@ -6,18 +6,67 @@
     </ion-fab-button>
   </ion-fab>
 
-  <h2 class="text-center" style="margin-top: 4em;">Amigos</h2>
+  <h2 class="text-center" style="margin-top: 4em;">Seguidores</h2>
 
-  <ion-item lines="none" *ngFor="let item of [1,1,1,1,1,1,1,1,1]">
-    <ion-avatar slot="start">
-      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-    </ion-avatar>
-    <ion-label>
-      Avatar Item
-    </ion-label>
-      <ion-button slot="end" fill="outline">
-        Aceptar
-      </ion-button>
-  </ion-item>
+
+  <ion-segment
+  style="margin: 3em 0em;"
+  value="adopciones"
+  color="tertiary"
+  scrollable="true"
+  mode="ios"
+  [(ngModel)]="segmentModel"
+  (ionChange)="segmentChanged($event)">
+
+    <ion-segment-button value="request">
+      <ion-label>Solicitudes</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="friends">
+      <ion-label>Seguidores</ion-label>
+    </ion-segment-button>
+</ion-segment>
+
+<div *ngIf="segmentModel === 'request'" style="padding:1em">
+  <div *ngIf="request.length == 0">
+    <h2>Por el momento no tienes Solicitudes</h2>
+  </div>
+  <div *ngIf="request.length != 0">
+    <ion-item  lines="none" *ngFor="let item of request;let i = index;" >
+      <ion-avatar slot="start" (click)="seeProfile(item.id)">
+        <img alt="Silhouette of a person's head" [src]="item.photo"/>
+      </ion-avatar>
+      <ion-label (click)="seeProfile(item.id)">
+        {{item.name}}
+      </ion-label>
+        <ion-button slot="end" *ngIf="item.friend_status" fill="outline" (click)="accept(item,i)" >
+          Aceptar
+        </ion-button>
+        <!-- <ion-button color="success" slot="end" fill="outline" >
+          Amigos
+        </ion-button> -->
+    </ion-item>
+  </div>
+</div>
+
+<div  *ngIf="segmentModel === 'friends'"  style="padding:1em">
+  <div *ngIf="friends.length  == 0">
+    <h2>Por el momento no tienes amigos</h2>
+  </div>
+  <div *ngIf="friends.length  != 0">
+    <ion-item  lines="none" *ngFor="let item of friends" (click)="seeProfile(item.id)">
+      <ion-avatar slot="start" >
+        <img alt="Silhouette of a person's head" [src]="item.photo" />
+      </ion-avatar>
+      <ion-label >
+        {{item.name}}
+      </ion-label>
+        <!-- <ion-button slot="end" fill="outline">
+          Aceptar
+        </ion-button> -->
+    </ion-item>
+  </div>
+</div>
+
 
 </ion-content>

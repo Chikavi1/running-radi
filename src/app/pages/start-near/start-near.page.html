@@ -85,11 +85,13 @@
       </ion-textarea>
 
       <p>Edad</p>
-      <p *ngIf="birthday">23 años</p>
-      <p style="color:green;" *ngIf="!birthday" id="open-modal2">Agregar edad</p>
+      <p *ngIf="age">{{age}} años</p>
+      <p style="color:green;" *ngIf="!age" id="open-modal2">Agregar edad</p>
       <ion-modal trigger="open-modal2" [cssClass]="'bottom-end'">
         <ng-template>
           <ion-datetime
+            [max]="eighteen"
+            (ionChange)="birthdayChange()"
             presentation="date"
             [(ngModel)]="birthday"
             size="cover"
@@ -97,9 +99,10 @@
           ></ion-datetime>
         </ng-template>
       </ion-modal>
-      <p>Ciudad</p>
-      <p  style="color:green;" *ngIf="!city">Agregar ciudad</p>
-      <p *ngIf="city">{{city}}</p>
+      <div *ngIf="city">
+        <p>Ciudad</p>
+        <p >{{city}}</p>
+      </div>
 
       <ion-row style="margin-top: 2em;">
         <ion-col *ngIf="whatsapp_number" (click)="verified('wa',whatsapp_number)">
@@ -118,7 +121,7 @@
           <ion-button expand="full" (click)="back()"  color="warning" fill="clear">Regresar</ion-button>
         </ion-col>
         <ion-col>
-          <ion-button expand="full" [disabled]="description.length == 0" color="dark"  (click)="finish()">Finalizar</ion-button>
+          <ion-button expand="full" [disabled]="description.length == 0 || !age" color="dark"  (click)="finish()">Finalizar</ion-button>
         </ion-col>
       </ion-row>
     </div>

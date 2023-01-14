@@ -49,24 +49,24 @@
     </ion-select>
   </ion-item>
 
-  <ion-button color="dark" (click)="nextStep()" [disabled]="!owner || !type || !name || !google">Siguiente</ion-button>
+  <ion-button style="margin-left: 1em;" color="dark" (click)="nextStep()" [disabled]="!owner || !type || !name || !google">Siguiente</ion-button>
 </div>
 
   <div *ngIf="step == 2">
   <div *ngIf="google == 1">
-    <img style="border-radius:1em;" src="https://i.ibb.co/x2btb0Y/Whats-App-Image-2022-12-26-at-5-28-05-PM.jpg" alt="image">
+    <img style="border-radius:1em;" src="../../../assets/google-link.jpg" alt="image">
     <p>Ingresa la direccion del establecimiento en google maps, selecciona la opcion de compartir, despues da clic en copiar y en el siguiente campo ingresa el link.</p>
     <ion-item lines="none">
       <ion-input class="new-input  mtb-1" [(ngModel)]="url" placeholder="Ingresa el link">
       </ion-input>
     </ion-item>
-    <ion-button color="dark" (click)="nextStep()" [disabled]="!url">Siguiente</ion-button>
+    <ion-button style="margin-left: 1em;" color="dark" (click)="nextStep()" [disabled]="!url">Siguiente</ion-button>
   </div>
 
   <div *ngIf="google == 2">
 
    <ion-item lines="none">
-     <ion-input  [(ngModel)]="street" class="new-input  mtb-1" placeholder="Calle y numero">
+     <ion-input  [(ngModel)]="street" class="new-input  mtb-1" placeholder="dirección: calle, colonia, código postal">
     </ion-input>
   </ion-item>
 
@@ -80,16 +80,14 @@
     </ion-input>
   </ion-item>
 
-  <ion-button color="dark" (click)="nextStep()" [disabled]="!street || !city || !state">Siguiente</ion-button>
+  <ion-button style="margin-left: 1em;" color="dark" (click)="nextStep()" [disabled]="!street || !city || !state">Siguiente</ion-button>
 </div>
   </div>
 
   <div *ngIf="step == 3">
-    <p *ngIf="owner == 1">Un miembro del equipo de Radi Pets, tomará la información enviada para agregar tu establecimiento. Se comunicara contigo lo más pronto posible, cualquier sugerencia falsa será castigada en la plataforma. </p>
-    <p *ngIf="owner == 2">Un miembro del equipo de Radi Pets, tomará la información enviada y agregará un lugar Pet Friendly para que la comunidad conozca más lugares, así, al enviarla, notifico que mi sugerencia es auténtica y de mi experiencia, cualquier sugerencia falsa será castigada en la plataforma. </p>
-
-    <ion-button color="dark" expand="full" (click)="send()">Enviar</ion-button>
-
+    <p *ngIf="owner == 1">Un miembro del equipo de Radi Pets, tomará la información enviada para agregar tu establecimiento. En caso de alguna duda se comunicara contigo, cualquier sugerencia falsa será castigada en la plataforma, gracias por ser un lugar Pet Friendly. </p>
+    <p *ngIf="owner == 2">Un miembro del equipo de Radi Pets, tomará la información enviada y agregará el lugar Pet Friendly, al enviarla, notificas que tu sugerencia es auténtica, cualquier sugerencia falsa será castigada en la plataforma, gracias por aportar a la comunidad. </p>
+    <ion-button style="margin-left: 1em;" color="dark" expand="full" (click)="send()">Enviar</ion-button>
   </div>
 
 

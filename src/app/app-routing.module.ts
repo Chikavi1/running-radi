@@ -184,6 +184,14 @@ const routes: Routes = [
   {
     path: 'modal-warning',
     loadChildren: () => import('./pages/modal-warning/modal-warning.module').then( m => m.ModalWarningPageModule)
+  },
+  {
+    path: 'measures',
+    loadChildren: () => import('./pages/measures/measures.module').then( m => m.MeasuresPageModule)
+  },
+  {
+    path: 'intro',
+    loadChildren: () => import('./pages/intro/intro.module').then( m => m.IntroPageModule)
   }
 
 

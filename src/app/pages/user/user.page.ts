@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Browser } from '@capacitor/browser';
 import { ActionSheetController, NavController, ToastController } from '@ionic/angular';
 import * as moment from 'moment';
 import { DataService } from 'src/app/services/data.service';
@@ -42,7 +43,8 @@ export class UserPage implements OnInit {
   show_pets         = false;
   show_rewards      = false;
 
-  measure='mi';
+  measure;
+  social_media:any = [];
 
   constructor(
     private navCtrl:NavController,
@@ -51,6 +53,9 @@ export class UserPage implements OnInit {
     private toastController: ToastController,
     private api: DataService) {
 
+      this.measure = localStorage.getItem('measure');
+
+
     this.user_id = localStorage.getItem('user_id');
     this.photo = localStorage.getItem('photo');
     this.my_distance = parseFloat(localStorage.getItem('month_distance'));
@@ -58,7 +63,9 @@ export class UserPage implements OnInit {
     this.route.params.subscribe((params: Params) => {
      let data = { id: params['id'], id_follower: localStorage.getItem('user_id') } ;
       this.api.userRunning(data).subscribe((data:any) => {
-        console.log(data);
+        if(data.user[0].social_media){
+          this.social_media = JSON.parse(data.user[0].social_media);
+        }
         this.user = data.user[0];
         this.follower = data.follower;
         this.configuration = JSON.parse(this.user.public_configuration);
@@ -200,6 +207,20 @@ export class UserPage implements OnInit {
       }
     });
 
+  }
+
+  async openUrl(url){
+    await Browser.open({ url });
+   }
+
+  contact(type,link){
+    if(type == 'fb'){
+      this.openUrl('https://www.facebook.com/'+link)
+    }else if(type == 'ig'){
+      this.openUrl('https://www.instagram.com/'+link);
+    }else if(type == 'wa'){
+      this.openUrl('https://api.whatsapp.com/send?phone='+link);
+    }
   }
 
 

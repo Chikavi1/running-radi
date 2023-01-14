@@ -18,9 +18,11 @@ time;
 
 url;
 
-measure='mi';
+measure;
 
   ngOnInit() {
+    this.measure = localStorage.getItem('measure');
+
     this.today = moment().utc().format('MM/DD/Y');
     var canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
     var context = canvas.getContext('2d');
@@ -65,7 +67,7 @@ getdistance(distance){
 
 shareImage(){
   this.url = localStorage.getItem('image');
-  this.socialSharing.shareViaWhatsApp('hoy corri 2km',localStorage.getItem('image'),null)
+  this.socialSharing.shareViaWhatsApp('hoy corri '+this.distance+' '+this.measure,localStorage.getItem('image'),null)
   .then((success) =>{
 
    })

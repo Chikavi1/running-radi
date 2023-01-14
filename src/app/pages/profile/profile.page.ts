@@ -69,7 +69,7 @@ ionViewDidEnter(){
 getUser(){
   this.api.getUser(localStorage.getItem('user_id')).subscribe( data => {
     this.datos = data[0];
-    // console.log(this.datos);
+    console.log(this.datos);
     this.name           = data[0].name;
      this.photo         = data[0].photo;
      localStorage.setItem('photo',this.photo);

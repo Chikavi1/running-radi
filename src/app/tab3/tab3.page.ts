@@ -138,9 +138,13 @@ export class Tab3Page {
 
     modal.onDidDismiss().then((data) => {
      if(data['data']){
-      this.router.navigateByUrl('/tabs/tab1')
+      // this.router.navigateByUrl('/tabs/tab1')
 
         this.user_id = localStorage.getItem('user_id');
+        this.photo = localStorage.getItem('photo');
+        this.name = localStorage.getItem('name');
+
+        localStorage.setItem('newActivity','true');
         // this.apiget();
         this.mostrar = false;
       setTimeout(() => {
@@ -217,10 +221,15 @@ export class Tab3Page {
 
     let sandbox = localStorage.getItem('sanbox')?true:false;
     let device  = 'phone'
+    let measure = localStorage.getItem('measure');
+    let mass = localStorage.getItem('mass');
 
     localStorage.clear();
     localStorage.setItem('device',device);
     localStorage.setItem('sandbox',''+sandbox);
+    localStorage.setItem('measure',''+measure);
+    localStorage.setItem('mass',''+mass);
+    localStorage.setItem('intro',''+true);
 
 
     this.exit();

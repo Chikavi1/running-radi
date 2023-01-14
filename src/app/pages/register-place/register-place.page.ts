@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-register-place',
@@ -22,7 +23,10 @@ export class RegisterPlacePage implements OnInit {
   state;
 
 
-  constructor(private toastController:ToastController,private navCtrl:NavController) { }
+  constructor(
+    private toastController:ToastController,
+    private api:DataService,
+    private navCtrl:NavController) { }
 
   ngOnInit() {
   }
@@ -40,7 +44,23 @@ export class RegisterPlacePage implements OnInit {
   }
 
   send(){
-   this.navCtrl.back()
+
+    let data = {
+      "user_id": localStorage.getItem('user_id'),
+      "name": this.name,
+      "owner": this.owner,
+      "type": this.type,
+      "url": this.url,
+      "address": this.street+', '+this.city+', '+this.state
+    };
+
+    this.api.prePlaces(data).subscribe(data => {
+      console.log(data);
+    });
+
+    console.log(data);
+
+   this.navCtrl.back();
    this.presentToast('Se ha enviado, muchas gracias por tu aporte.','success');
   }
 

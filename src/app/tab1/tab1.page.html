@@ -11,8 +11,8 @@
   <ion-slides [options]="slide" style="margin-top:-15em;padding-bottom:1em;position: absolute;z-index:1000;height: 240px;width: 100%;">
 
     <ion-slide >
-      <ion-card  style="height: 200px;width: 100%;padding: 1em !important;text-align: left;"  >
-        <p style="font-size: .8em;"  *ngIf="offline" style="color:orangered"><ion-icon name="alert-circle-outline"></ion-icon> Estas desconectado</p>
+      <ion-card  style="height: 210px;width: 100%;padding: 1em !important;text-align: left;"  >
+        <p style="font-size: .6em;"  *ngIf="offline" style="color:orangered"><ion-icon name="alert-circle-outline"></ion-icon> Estas desconectado</p>
 
           <div *ngIf="!isStart">
             <div *ngIf="activities">
@@ -29,7 +29,7 @@
           </ion-col>
           <ion-col>
             <span>Distance:</span>
-            <h1>{{ distance | number : '.2-2' }} km</h1>
+            <h1>{{ distance | distanceMeasure:measure  }} {{measure}} </h1>
           </ion-col>
         </ion-row>
 

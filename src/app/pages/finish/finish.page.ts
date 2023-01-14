@@ -43,6 +43,7 @@ datas:any = [];
   response:any = [];
 
   measure = 'mi';
+
   constructor(
     private modalCtrl:ModalController,
     private nativeGeocoder: NativeGeocoder,
@@ -56,7 +57,7 @@ datas:any = [];
       this.today = new Date();
 
       this.slide = {
-        slidesPerView:  1.1,
+        slidesPerView: this.pet_selected.length != 0?1.1:1,
         spaceBetween:1,
         coverflowEffect: {
           rotate: 50,
@@ -91,7 +92,6 @@ datas:any = [];
           "id":  this.pet_selected.id
         }
       ];
-
 
         this.response.push({
           id: this.pet_selected.id,
@@ -250,7 +250,7 @@ finish(){
         "date": moment().toDate(),
         "distance": this.distance,
         "time": this.time,
-        "json_points": this.json_points,
+        "json_points": JSON.stringify(this.json_points),
         "seconds": 0,
         "city": this.city,
         "pets": this.response
@@ -265,7 +265,6 @@ finish(){
       }else{
         this.presentToast('Se guardara en local,se borrara pronto, cuando tengas internet subelo','success');
       }
-      this.modalCtrl.dismiss(true);
 
     }
     else{
@@ -279,6 +278,8 @@ finish(){
     localStorage.removeItem('kilometers');
     localStorage.removeItem('seconds');
     localStorage.removeItem('pet_selected');
+    this.modalCtrl.dismiss(true);
+
 }
 
 create(){
@@ -286,7 +287,7 @@ create(){
     "user_id": localStorage.getItem('user_id'),
     "distance": this.distance,
     "time": this.time,
-    "json_points": this.json_points,
+    "json_points": JSON.stringify(this.json_points),
     "seconds": 0,
     "city": this.city,
   }

@@ -7,11 +7,17 @@
   </ion-fab>
   <ion-row>
     <ion-col [size]="device =='tablet'?8:12" [offset]="device =='tablet'?2:0">
-    
-  <img [ngClass]="{'ml-8' : device == 'tablet' }"  src="../../../assets/svgs/customer.svg" width="450" height="250" alt="">
+
+      <ion-row>
+
+        <ion-col offset="4" size="4">
+          <img style="width: 100%;margin-top:3em"  src="../../../assets/question.png"  alt="">
+        </ion-col>
+      </ion-row>
+
   <div style="margin: .7em;">
-    <h2 style="text-align: center;margin-top:-2em;">{{ 'helpcenter.title' | translate }}</h2>
-  
+    <h2 style="text-align: center;margin-top:4em;">{{ 'helpcenter.title' | translate }}</h2>
+
     <ion-segment scrollable [(ngModel)]="menu" mode="md" value="globe" style="margin: 1em 1.2em;">
     <ion-segment-button value="general">
       <ion-label>{{ 'helpcenter.general' | translate }}</ion-label>

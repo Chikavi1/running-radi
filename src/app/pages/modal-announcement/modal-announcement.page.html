@@ -1,9 +1,30 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>ModalAnnouncement</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <div *ngIf="step == 1" style="padding:1em;" >
+    <h2 class="text-center">{{ 'modal-announcement.title' | translate }}</h2>
+    <div *ngFor="let item of items">
+      <ul class="checkbox-items">
+        <li >
+            <input class="checkbox-round" type="checkbox" name="" id="" [(ngModel)]="item.isChecked" (change)="changeSelection()">{{ 'modal-announcement.'+item.id | translate }}
+        </li>
+      </ul>
+    </div>
 
+    <ion-button full="expand" fill="clear" (click)="nextStep()">
+      {{ 'modal-announcement.next' | translate }}
+    </ion-button>
+  </div>
+  <div *ngIf="step == 2">
+
+    <div style="width: 100%;height: 30%;">
+      <ion-row>
+        <ion-col [size]="device =='tablet'?6:12" [offset]="device =='tablet'?3:0">
+          <img style="width: 100%;object-fit:cover;padding: 2em;padding-left: 5em;" src="../../../assets/girlwithdog.png" alt="girl with dog">
+        </ion-col>
+      </ion-row>
+    </div>
+    <h1 class="text-center" style="margin-top: 2em;font-weight: bold;">{{ 'modal-announcement.letsregister' | translate }}</h1>
+    <ion-button expand="full" fill="clear" (click)="goToPage()">{{ 'modal-announcement.start' | translate }}</ion-button>
+    <ion-button expand="full" color="warning" fill="clear" (click)="close()">{{ 'modal-announcement.iwantadopt' | translate }}</ion-button>
+
+  </div>
 </ion-content>

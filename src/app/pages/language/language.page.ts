@@ -22,7 +22,7 @@ export class LanguagePage  {
     this.language = localStorage.getItem('languagedevice');
     this.selectLanguage = localStorage.getItem('language');
     this.idiom = this.translateService.getBrowserLang();
-    console.log(this.idiom);
+    console.log(this.selectLanguage);
    }
 
    beforePage(){
@@ -32,12 +32,13 @@ export class LanguagePage  {
    changeLang(language){
     this.selectLanguage = localStorage.setItem('language',language);
     this.translateService.use(language);
+    // this.translateService.currentLang = language;
     this.beforePage();
   }
 
   changeToggle(){
     if(this.language){
-      
+
       localStorage.setItem('languagedevice','true');
       this.selectLanguage = localStorage.setItem('language',this.translateService.getBrowserLang());
       this.translateService.use(this.translateService.getBrowserLang());

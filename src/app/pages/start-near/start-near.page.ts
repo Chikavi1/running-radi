@@ -3,6 +3,7 @@ import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@aw
 import { Browser } from '@capacitor/browser';
 import { Geolocation } from '@capacitor/geolocation';
 import { ModalController } from '@ionic/angular';
+import * as moment from 'moment';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -24,19 +25,19 @@ export class StartNearPage implements OnInit {
   social_media = false;
 
   name;
-  description = '';
+  description:string = '';
   city;
   birthday;
-
+  eighteen;
   constructor(private api:DataService,
     private modalCtrl:ModalController,
     private nativeGeocoder: NativeGeocoder){
-
+    this.eighteen = moment().subtract(18,'years').format('yyyy-MM-DD');
     this.api.getUserByNearConfiguration({id:localStorage.getItem('user_id')}).subscribe(data => {
       console.log(data);
       this.whatsapp_number      = data[0].cellphone;
       this.name                 = data[0].name;
-      this.description          = data[0].description;
+      this.description          = data[0].description?data[0].description:'';
       this.birthday             = data[0].birthday;
       this.city                 = data[0].city;
 
@@ -58,15 +59,20 @@ export class StartNearPage implements OnInit {
         this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude, options)
         .then((result: NativeGeocoderResult[]) => {
           this.city = result[0].locality;
-          this.city = result[0].locality;
 
         })
         .catch((error: any) => console.log(error));
       });
     }
-
-
    }
+
+   age;
+
+   birthdayChange(){
+    var years = moment().diff(moment(this.birthday).format('yyyy-MM-DD'), 'years');
+    this.age = years;
+    console.log(this.age);
+  }
 
   ngOnInit(){
 
@@ -92,7 +98,6 @@ export class StartNearPage implements OnInit {
     }else if(type == 'wa'){
       this.openUrl('https://api.whatsapp.com/send?phone='+link);
     }
-
   }
 
 

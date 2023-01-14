@@ -26,7 +26,7 @@ export class NearPeoplePage implements OnInit {
     loop: true
   };
 
-  measure='mi'
+  measure;
 
   constructor(private navCtrl:NavController,private api:DataService,private modalController:ModalController) {
 
@@ -34,6 +34,7 @@ export class NearPeoplePage implements OnInit {
 
 
   ionViewWillEnter(){
+    this.measure = localStorage.getItem('measure');
     this.show = localStorage.getItem('show_near')?true:false;
     this.near_success = localStorage.getItem('near_success')?true:false;
     if(this.show && this.near_success){

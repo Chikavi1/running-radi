@@ -199,7 +199,6 @@ export class RegisterPage {
   public submit(){
     this.presentLoading();
     console.log(this.registrationForm.value)
-    return;
     let navigationExtras: NavigationExtras = {
       state: {
         type:'verification',
@@ -217,6 +216,8 @@ export class RegisterPage {
         this.data.register(this.registrationForm.value,customer_id,this.currency,this.country).subscribe( (data:any) => {
           this.presentToast(data.message,"success");
           localStorage.setItem('user_id',data.id);
+          localStorage.setItem('photo','https://avatars.dicebear.com/api/initials/' + data.name+'.svg');
+          localStorage.setItem('name',this.registrationForm.value.name)
           this.navCtrl.navigateForward('/code-verification',navigationExtras);
           this.exit(true);
         },error => {

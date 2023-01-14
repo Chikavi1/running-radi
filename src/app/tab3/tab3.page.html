@@ -73,22 +73,10 @@
 
               <ion-item lines="none" (click)="goToPage('/my-pets')">
                 <ion-icon slot="end" name="paw-outline"></ion-icon>
-                <ion-label>{{ 'menu.my_pets' | translate }}</ion-label>
+                <ion-label>{{ 'menu.mypets' | translate }}</ion-label>
               </ion-item>
 
-              <!-- <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.visit' | translate }}</h2>
-              <ion-item lines="none" (click)="goToPage('/next-visits')">
-                <ion-icon slot="end" name="calendar-outline"></ion-icon>
-                <ion-label>{{ 'menu.next_vists' | translate }}</ion-label>
-              </ion-item>
-              -->
-
-              <!-- <div *ngIf="isMobile">
-                <ion-item lines="none" (click)="goToPage('/reminders')">
-                  <ion-icon slot="end" name="alarm-outline"></ion-icon>
-                  <ion-label>{{ 'menu.reminders' | translate }}</ion-label>
-                </ion-item>
-              </div> -->
+              <!-- <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.visit' | translate }}</h2> -->
 
               <h2 style="color:#868686;margin-left: .5em;" >{{ 'menu.configuration' | translate }}</h2>
 
@@ -97,19 +85,19 @@
                 <ion-label>{{ 'menu.personal_information' | translate }}</ion-label>
               </ion-item>
 
-              <ion-item lines="none" (click)="goToPage('/privacy')">
+              <!-- <ion-item lines="none" (click)="goToPage('/privacy')">
                 <ion-icon slot="end" name="shield-outline"></ion-icon>
-                <ion-label>Privacidad</ion-label>
+                <ion-label>{{ 'menu.privacy' | translate }}</ion-label>
               </ion-item>
 
               <ion-item lines="none" (click)="goToPage('/qr-user')">
                 <ion-icon slot="end" name="qr-code-outline"></ion-icon>
-                <ion-label>Compartir mi código</ion-label>
-              </ion-item>
+                <ion-label>{{ 'menu.sharecode' | translate }}</ion-label>
+              </ion-item> -->
 
               <ion-item lines="none" (click)="goToPage('/subscriptions')">
                 <ion-icon slot="end" name="bag-outline"></ion-icon>
-                <ion-label>Subscripciones</ion-label>
+                <ion-label>{{ 'menu.subscriptions' | translate }}</ion-label>
               </ion-item>
 
               <!-- traducir
@@ -141,6 +129,11 @@
               <ion-item lines="none" (click)="goToPage('/language')">
                 <ion-icon slot="end"  name="language"></ion-icon>
                 <ion-label>{{ 'menu.language' | translate }}</ion-label>
+              </ion-item>
+
+              <ion-item lines="none" (click)="goToPage('/measures')">
+                <ion-icon slot="end" name="options-outline"></ion-icon>
+                <ion-label>{{ 'menu.measures' | translate }}</ion-label>
               </ion-item>
 
               <ion-item lines="none" (click)="goToPage('/change-password',{login:1})">
@@ -199,6 +192,11 @@
           <ion-item lines="none" (click)="goToPage('/language')">
             <ion-icon slot="end"  name="language"></ion-icon>
             <ion-label>{{ 'menu.language' | translate }}</ion-label>
+          </ion-item>
+
+          <ion-item lines="none" (click)="goToPage('/measures')">
+            <ion-icon slot="end" name="options-outline"></ion-icon>
+            <ion-label>{{ 'menu.measures' | translate }}</ion-label>
           </ion-item>
 
           <h2 style="color:#868686;margin-left: .5em;">{{ 'menu.help' | translate }}</h2>
