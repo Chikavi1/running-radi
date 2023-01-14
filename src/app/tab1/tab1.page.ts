@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {registerPlugin} from "@capacitor/core";
 import {BackgroundGeolocationPlugin} from "@capacitor-community/background-geolocation";
 const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("BackgroundGeolocation");
@@ -24,47 +24,9 @@ declare var L: any;
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page implements OnDestroy{
+export class Tab1Page implements OnInit,OnDestroy{
 
   measure;
-
-  constructor(
-    private modalController:ModalController,
-    private alertController:AlertController,
-    private api: DataService,
-    private toastController:ToastController){
-
-
-
-
-    if(localStorage.getItem('customer_id')){
-        if(!localStorage.getItem('pe')){
-          this.api.getSubscriptions({'id':localStorage.getItem('customer_id')}).subscribe( data => {
-            if(data.data){
-
-              if(data.data[0].status == 'active'){ // se guarda la fecha del premium
-                localStorage.setItem('pe',''+new Date(data.data[0].current_period_end*1000));
-              }else{
-                localStorage.setItem('pe','a');
-              }
-            }else{
-
-            }
-          });
-        }
-
-        if(localStorage.getItem('date_start')){
-          this.presentAlertWithout();
-        }
-    }
-
-    this.items = this.pets;
-    this.slide = {
-        slidesPerView: 1.1
-      }
-    }
-
-
 
   lat:any;
   lng:any;
@@ -99,87 +61,131 @@ export class Tab1Page implements OnDestroy{
 
   isStart:boolean = false;
 
-  isPets:boolean = true;
+  isPets:boolean = false;
 
 
-  places:any = [
-    {
-      "image": "https://i.ibb.co/6rKNjzg/coffee.jpg",
-      "title": "Coffe and Pets",
-      "subtitle":"subtitle",
-      "latitude": "20.614203",
-      "longitude": "-103.316067"
-    },
-    {
-      "image": "https://i.ibb.co/F70nS9B/Whats-App-Image-2022-12-01-at-11-49-28-AM.jpg",
-      "title": "Petunia",
-      "subtitle":"subtitle",
-      "latitude": "20.615820",
-      "longitude": "-103.304319"
-    },
-    {
-      "image": "https://i.ibb.co/B3fT3KP/image.png",
-      "title": "Urbana Gourmet",
-      "subtitle":"subtitle",
-      "latitude": "20.638449",
-      "longitude": "-103.311984"
-    },
-    {
-      "image": "https://i.ibb.co/fNQDTY5/image.png",
-      "title": "Bendigo Cage",
-      "subtitle":"subtitle",
-      "latitude": "20.643959",
-      "longitude": " -103.318934"
+  places:any = [];
+  // [
+  //   {
+  //     "image": "https://i.ibb.co/6rKNjzg/coffee.jpg",
+  //     "title": "Coffe and Pets",
+  //     "subtitle":"subtitle",
+  //     "latitude": "20.614203",
+  //     "longitude": "-103.316067"
+  //   },
+  //   {
+  //     "image": "https://i.ibb.co/F70nS9B/Whats-App-Image-2022-12-01-at-11-49-28-AM.jpg",
+  //     "title": "Petunia",
+  //     "subtitle":"subtitle",
+  //     "latitude": "20.615820",
+  //     "longitude": "-103.304319"
+  //   },
+  //   {
+  //     "image": "https://i.ibb.co/B3fT3KP/image.png",
+  //     "title": "Urbana Gourmet",
+  //     "subtitle":"subtitle",
+  //     "latitude": "20.638449",
+  //     "longitude": "-103.311984"
+  //   },
+  //   {
+  //     "image": "https://i.ibb.co/fNQDTY5/image.png",
+  //     "title": "Bendigo Cage",
+  //     "subtitle":"subtitle",
+  //     "latitude": "20.643959",
+  //     "longitude": " -103.318934"
+  //   }
+  // ];
+
+  items:any = [];
+
+  // pets:any = [
+  //   {
+  //     "image": "https://i.ibb.co/44dMw7K/083bb445cf89.png",
+  //     "title": "pelusa",
+  //     "subtitle":"20/12/2022",
+  //     "latitude": "20.620491",
+  //     "longitude": "-103.315560"
+  //   },
+  //   {
+  //     "image": "https://i.ibb.co/zFfYCLs/e35946d2b404.png",
+  //     "title": "Corki",
+  //     "subtitle":"18/12/2022",
+  //     "latitude": "20.614200",
+  //     "longitude": "-103.316471"
+  //   },
+  //   {
+  //     "image": "https://i.ibb.co/Twpwrqd/734347785ffa.png",
+  //     "title": "pulguitas",
+  //     "subtitle":"17/12/2022",
+  //     "latitude": "20.625732",
+  //     "longitude": "-103.310321"
+  //   },
+  //   {
+  //     "image": "https://i.ibb.co/zSM7JRJ/09615e6fd7dc.png",
+  //     "title": "Fok",
+  //     "subtitle":"14/12/2022",
+  //     "latitude": "20.626997",
+  //     "longitude": "-103.307285"
+  //   }
+  // ]
+
+  constructor(
+    private modalController:ModalController,
+    private alertController:AlertController,
+    private api: DataService,
+    private toastController:ToastController){
+
+    if(localStorage.getItem('customer_id')){
+        if(!localStorage.getItem('pe')){
+          this.api.getSubscriptions({'id':localStorage.getItem('customer_id')}).subscribe( data => {
+            if(data.data){
+              if(data.data[0].status == 'active'){ // se guarda la fecha del premium
+                localStorage.setItem('pe',''+new Date(data.data[0].current_period_end*1000));
+              }else{
+                localStorage.setItem('pe','a');
+              }
+            }else{
+
+            }
+          });
+        }
+
+        if(localStorage.getItem('date_start')){
+          this.presentAlertWithout();
+        }
     }
-  ];
-  items:any;
 
-  pets:any = [
-    {
-      "image": "https://i.ibb.co/44dMw7K/083bb445cf89.png",
-      "title": "pelusa",
-      "subtitle":"20/12/2022",
-      "latitude": "20.620491",
-      "longitude": "-103.315560"
-    },
-    {
-      "image": "https://i.ibb.co/zFfYCLs/e35946d2b404.png",
-      "title": "Corki",
-      "subtitle":"18/12/2022",
-      "latitude": "20.614200",
-      "longitude": "-103.316471"
-    },
-    {
-      "image": "https://i.ibb.co/Twpwrqd/734347785ffa.png",
-      "title": "pulguitas",
-      "subtitle":"17/12/2022",
-      "latitude": "20.625732",
-      "longitude": "-103.310321"
-    },
-    {
-      "image": "https://i.ibb.co/zSM7JRJ/09615e6fd7dc.png",
-      "title": "Fok",
-      "subtitle":"14/12/2022",
-      "latitude": "20.626997",
-      "longitude": "-103.307285"
-    }
-  ]
+    if(!this.isPets){
+      Geolocation.getCurrentPosition().then((resp) => {
 
-
-
-
-  getInfo(){
-    this.isPets = !this.isPets;
-    if(this.isPets){
-      this.items = this.pets;
-    }else{
-      this.items = this.places;
+        this.api.getPlaces(resp.coords.latitude, resp.coords.longitude).subscribe(data => {
+          this.items = data;
+        });
+      });
 
     }
-  }
 
-  openModal(){
-    this.presentModalShow(PlacePage);
+
+    // this.items = this.places;
+
+    this.slide = {
+        slidesPerView: 1.1
+      }
+    }
+
+
+  // getInfo(){
+  //   this.isPets = !this.isPets;
+  //   if(this.isPets){
+  //     this.items = this.pets;
+  //   }else{
+  //     this.items = this.places;
+
+  //   }
+  // }
+
+  openModal(id){
+    this.presentModalShow(PlacePage,id);
   }
 
   openPendingActivities(){
@@ -219,11 +225,11 @@ export class Tab1Page implements OnDestroy{
       return await modal.present();
     }
 
-    async presentModalShow(component) {
+    async presentModalShow(component,id) {
       const modal = await this.modalController.create({
         component: component,
         componentProps:{
-          id: 1
+          id: id
         },
         breakpoints: [0.0,0.6, 1],
         initialBreakpoint: 0.6,
@@ -552,7 +558,6 @@ async pendingAlert(component,title,subtitle,cancel_text?,done_text?,path?) {
   });
 
   modal.onDidDismiss().then((data) => {
-    console.log(data);
     if(data['data'] == 1){
       this.distance = parseFloat(localStorage.getItem('kilometers'));
       this.seconds  = parseInt(localStorage.getItem('seconds'));
@@ -580,9 +585,14 @@ terminate(){
 ionViewDidEnter(){
   this.measure = localStorage.getItem('measure');
 
-  if(!this.mapa){
-    this.initMap();
-  }
+  // if(localStorage.getItem('new_login')){
+  //   this.mapa.off();
+  //   this.mapa.remove();
+  //   localStorage.removeItem('new_login')
+  // }
+
+  // if(!this.mapa){
+  // }
 
 
 
@@ -592,13 +602,14 @@ ionViewWillLeave(){
   if(this.isStart){
     console.log('seconds',this.seconds);
   }
-if(localStorage.getItem('reload')){
-  this.mapa.off();
-  this.mapa.remove();
-}
+
+
 }
 
 
+ngOnInit() {
+  this.initMap();
+}
 ngOnDestroy() {
 
 }

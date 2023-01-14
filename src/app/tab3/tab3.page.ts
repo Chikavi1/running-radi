@@ -143,7 +143,7 @@ export class Tab3Page {
         this.user_id = localStorage.getItem('user_id');
         this.photo = localStorage.getItem('photo');
         this.name = localStorage.getItem('name');
-
+        localStorage.setItem('new_login','true');
         localStorage.setItem('newActivity','true');
         // this.apiget();
         this.mostrar = false;

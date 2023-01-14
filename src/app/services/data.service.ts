@@ -26,6 +26,11 @@ export class DataService {
     }
    }
 
+   createReportPlace(data):any{
+    return this.http.post(this.MODE + 'reports/place/create', JSON.parse(JSON.stringify(data)), this.options);
+   }
+
+
    getFriends(data){
       return this.http.post(this.MODE + 'follower/friends', JSON.parse(JSON.stringify(data)), this.options);
    }

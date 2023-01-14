@@ -22,7 +22,7 @@ export class AppComponent {
       if(!localStorage.getItem('intro')){
         this.router.navigateByUrl('/intro');
       }else{
-        this.router.navigateByUrl('/register-place');
+        this.router.navigateByUrl('/');
       }
 
       if(localStorage.getItem('languagedevice')){

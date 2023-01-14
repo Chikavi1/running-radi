@@ -21,6 +21,7 @@ import { NativeGeocoder } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
+import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
 
 // import localePt from '@angular/common/locales/pt';
 import localeEs from '@angular/common/locales/es';
@@ -56,7 +57,7 @@ export function playerFactory() {
     AppRoutingModule],
   providers: [
     { provide: LOCALE_ID, useValue: 'en' },
-    SocialSharing,NativeGeocoder,BarcodeScanner,LocalNotifications,OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+    Clipboard,SocialSharing,NativeGeocoder,BarcodeScanner,LocalNotifications,OneSignal,AppVersion,ScreenOrientation,CallNumber,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -143,14 +143,14 @@
 
     <h1>Cerca de ti</h1>
 
-    <ion-row>
+    <!-- <ion-row>
       <ion-col size="8">
         <h3>Mascotas Desaparecidas</h3>
       </ion-col>
       <ion-col size="4">
         <!-- <h5 style="text-align: right;">
           ver más
-        </h5> -->
+        </h5> --
       </ion-col>
     </ion-row>
 
@@ -159,7 +159,7 @@
         <h4>No hay mascotas desaparecidas</h4>
         <p>Afortunadamente, no hay mascotas desaparecidas cerca de tu ubicaciòn.</p>
       </ion-card>
-    </div>
+    </div> -->
 
     <ion-slides  [options]="slidePets"  *ngIf="lostPets.length != 0" >
       <ion-slide  *ngFor="let item of lostPets" style="text-align: left;" (click)="goToPage('place')">
@@ -194,7 +194,7 @@
     </div>
 
     <ion-slides  [options]="slidePets" *ngIf="places.length != 0">
-      <ion-slide  *ngFor="let place of places" style="text-align: left;" (click)="goToPage('place')">
+      <ion-slide  *ngFor="let place of places" style="text-align: left;" (click)="openModalPlace(place.id)">
        <ion-card style="text-align: left;margin-left: 1.5em;border-radius: 1em;width: 100%;">
           <img  class="border-radius-img" [src]="place.image" style="width:100%;object-fit: cover;min-height: 18em;max-height: 18em;height: 18em;">
           <div style="padding:1em;">
@@ -213,7 +213,7 @@
         <ion-card *ngFor="let blog of blogs" (click)="goToBlog(blog.slug)" >
           <img alt="blog image" [src]="blog.image" />
       <ion-card-header>
-        <ion-card-subtitle>{{blog.date | date:'longDate'}}&#8226; {{blog.timeread}} Min </ion-card-subtitle>
+        <ion-card-subtitle>{{blog.date | localizedDate:'fullDate'}}&#8226; {{blog.timeread}} Min </ion-card-subtitle>
         <ion-card-title>{{blog.title}}</ion-card-title>
       </ion-card-header>
 

@@ -11,10 +11,12 @@ import { DataService } from 'src/app/services/data.service';
 export class PendingActivitiesPage implements OnInit {
 
   activities:any = [];
-  measure = 'mi';
+  measure;
 
   constructor(private toastController:ToastController,private api:DataService) {
     this.activities = JSON.parse(localStorage.getItem('activities'));
+    this.measure = localStorage.getItem('measure');
+
   }
 
   ngOnInit() {

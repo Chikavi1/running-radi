@@ -4,6 +4,7 @@ import { SetGoalPage } from '../pages/set-goal/set-goal.page';
 import { DataService } from '../services/data.service';
 import { Geolocation } from '@capacitor/geolocation';
 import { TranslateService } from '@ngx-translate/core';
+import { PlacePage } from '../pages/place/place.page';
 
 @Component({
   selector: 'app-tab2',
@@ -47,13 +48,13 @@ longitude;
       this.longitude = resp.coords.longitude;
 
       // this.getPetsLost();
-      // this.getPetFriendly();
+      this.getPetFriendly();
 
     });
 
-    // this.api.getBlogs().subscribe(data => {
-    //   this.blogs = data;
-    // })
+    this.api.getBlogs().subscribe(data => {
+      this.blogs = data;
+    })
 
   }
 
@@ -82,18 +83,12 @@ longitude;
   places:any = [];
 
   getPetFriendly(){
-
     this.api.getPlaces(this.latitude,this.longitude).subscribe(data => {
       this.places = data;
-      console.log(this.places);
-
     });
-
-
 }
 
-
-  getActivities(){
+getActivities(){
     if(localStorage.getItem('user_id')){
       this.api.getActivitiesByMonth({id:localStorage.getItem('user_id')}).subscribe(data => {
         this.activities = data;
@@ -121,8 +116,6 @@ longitude;
   }
 
   ionViewWillEnter(){
-    console.log(this.translateService.currentLang);
-
     this.measure = localStorage.getItem('measure');
     if(localStorage.getItem('pe')){
       if(new Date(localStorage.getItem('pe')) > new Date()){
@@ -176,9 +169,6 @@ longitude;
     this.presentModalShow(SetGoalPage);
   }
 
-
-
-
   async presentModalShow(component) {
     const modal = await this.modalController.create({
       component: component,
@@ -201,6 +191,35 @@ longitude;
     });
     return await modal.present();
   }
+
+  openModalPlace(id){
+    this.presentModalPlace(PlacePage,id);
+  }
+
+  async presentModalPlace(component,id) {
+    const modal = await this.modalController.create({
+      component: component,
+      componentProps:{
+        id: id
+      },
+      breakpoints: [0.0,0.89, 1],
+      initialBreakpoint: 0.89,
+      backdropDismiss:true,
+      swipeToClose​:true,
+      cssClass: 'small-modal'
+    });
+
+    modal.onDidDismiss().then((data) => {
+     if(data['data']){
+      this.convertgoal =  (parseInt(localStorage.getItem('goal'))/60);
+
+     }
+
+    });
+    return await modal.present();
+  }
+
+
 
   async presentMedium(component) {
     const modal = await this.modalController.create({

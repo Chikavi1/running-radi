@@ -1,0 +1,61 @@
+<ion-content>
+  <ion-row  *ngIf="step == 1">
+
+    <ion-col [size]="device=='tablet'?10:12" [offset]="device=='tablet'?1:0" >
+      <div style="margin-top:3em;">
+        <ion-list-header>{{ 'modal-report.title' | translate }}</ion-list-header>
+        <p style="margin-left: 1em;">{{ 'modal-report.subtitle' | translate }}</p>
+        <ion-item (click)="selected('Inappropriate')">
+          <ion-label>{{ 'modal-report.inappropriate' | translate }}</ion-label>
+          <ion-checkbox color="primary"  slot="start"></ion-checkbox>
+        </ion-item>
+        <ion-item (click)="selected('False')">
+          <ion-label>{{ 'modal-report.false' | translate }}</ion-label>
+          <ion-checkbox color="primary"  slot="start"></ion-checkbox>
+        </ion-item>
+
+        <ion-item (click)="selected('Offensive')">
+          <ion-label>{{ 'modal-report.offensive' | translate }}</ion-label>
+          <ion-checkbox color="primary"  slot="start"></ion-checkbox>
+        </ion-item>
+
+        <ion-item (click)="selected('Image inappropriate')">
+          <ion-label>{{ 'modal-report.imageinappropiate' | translate }}</ion-label>
+          <ion-checkbox color="primary"  slot="start"></ion-checkbox>
+        </ion-item>
+
+        <ion-item (click)="selected('Other')">
+          <ion-label>{{ 'modal-report.other' | translate }}</ion-label>
+          <ion-checkbox color="primary"  slot="start"></ion-checkbox>
+        </ion-item>
+      </div>
+
+    </ion-col>
+    <p style="padding:1em;"><ion-icon name="alert-circle-outline" ></ion-icon>{{ 'modal-report.prevent' | translate }} </p>
+  </ion-row>
+
+    <div *ngIf="step == 2">
+
+      <ion-row>
+
+        <ion-col style="margin-top:5em;padding:1em;"  [size]="device=='tablet'?10:12" [offset]="device=='tablet'?1:0">
+          <h2>{{ 'modal-report.describe' | translate }}</h2>
+          <ion-textarea rows="7" [(ngModel)]="message" class="new-input"  type="text">
+          </ion-textarea>
+        </ion-col>
+      </ion-row>
+    </div>
+
+
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col>
+      <ion-button fill="clear" expand="full" color="danger" (click)="close()" >{{ 'modal-report.close' | translate }}</ion-button>
+    </ion-col>
+    <ion-col *ngIf="step == 2">
+      <ion-button [disabled]="15 > message.length" fill="clear" color="primary" expand="full" (click)="send()" >{{ 'modal-report.send' | translate }}</ion-button>
+    </ion-col>
+
+  </ion-row>
+</ion-footer>

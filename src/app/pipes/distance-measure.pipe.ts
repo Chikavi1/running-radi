@@ -10,7 +10,7 @@ export class DistanceMeasurePipe implements PipeTransform {
     if(pattern == 'mi'){
       result = (distance*0.6214);
     }else{
-      result = distance;
+      result = distance*1;
     }
     return result.toFixed(2);
   }

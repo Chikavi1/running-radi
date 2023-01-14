@@ -7,13 +7,13 @@
   </ion-fab>
 
   <div   id="mapa-run" style="width: 100%;height: 29em;background-color: gainsboro;z-index: -1;">
-
   </div>
+
   <div style="margin-top:-6em;z-index:1000;">
 
     <ion-card style="padding:2em">
-      <h1>Paseo en la mañana en Tlaquepaque</h1>
-      <p>{{ activity.createdAt |  localizedDate:'fullDate' }}</p>
+      <h1>Paseo en la {{welcome}} en {{activity.city}}</h1>
+      <p class="capital">{{ activity.createdAt |  localizedDate:'fullDate' }}</p>
 
       <p style="margin-top: 3em;">Distancia</p>
       <h2>
@@ -54,8 +54,8 @@
 
           <div *ngIf="!pet.photo">
             <div *ngIf="premium">
-              <p>No hay momento,guarda tu recuerdo de esa salida con tu mascota.</p>
-              <ion-button fill="clear" expand="block" >Subir foto</ion-button>
+              <p>No hay momento, recuerda guarda tu recuerdo de esa salida con tu mascota al terminar el paseo.</p>
+              <!-- <ion-button fill="clear" expand="block" >Subir foto</ion-button> -->
             </div>
             <div *ngIf="!premium">
               <p>No hay momento, para guardar el momento recuerda necesitas Radi Pets Premium.</p>

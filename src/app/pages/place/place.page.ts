@@ -1,9 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
+import { Share } from '@capacitor/share';
 import { ActionSheetController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { DataService } from 'src/app/services/data.service';
+import * as Leaflet from 'leaflet';
+import { Browser } from '@capacitor/browser';
+import { ModalReportPage } from '../modal-report/modal-report.page';
+import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
+
+declare var L: any;
 
 @Component({
   selector: 'app-place',
@@ -55,29 +62,23 @@ export class PlacePage implements OnInit {
     private translateService:TranslateService,
     private navCtrl: NavController,
     private api:DataService,
+    private clipboard:Clipboard,
     private modalController:ModalController,
     private actionSheetController:ActionSheetController,
     private toastController:ToastController
   ){
- // this.device = localStorage.getItem('device')
- this.device = 'phone'
-     this.translate();
-
-
+    this.device = 'phone'
+    this.translate();
     this.user_id = localStorage.getItem('user_id');
-
-
   }
 
   ngOnInit() {
+
+
     this.api.getPlace(this.id).subscribe((data:any) => {
       this.place = data[0];
-      console.log(this.place);
       this.schedule = JSON.parse(this.place.schedule);
-
-
       if(this.schedule){
-
         this.monday_start = this.schedule[0].start;
         this.monday_end = this.schedule[0].end;
 
@@ -207,30 +208,31 @@ export class PlacePage implements OnInit {
         this.presentReport();
       }
     },
-    {
-      text: this.optionsave,
-      icon: 'bookmark',
-      handler: () => {
-        // this.api.createSaved({user_id:localStorage.getItem('user_id'),place_id: this.place.id }).subscribe((data:any) => {
-        //   if(data.status == 200){
-        //     this.presentToast(this.savemessage,'success');
-        //   }
-        // });
-      }
-    },
-    {
-      text: this.optionnosave,
-      icon: 'bookmark',
-      handler: () => {
-        // this.api.deleteSaved({user_id:localStorage.getItem('user_id'),place_id: this.place.id }).subscribe(data => {
-        //   console.log(data);
-        //   if(data.status == 200){
-        //     this.presentToast(this.deletemessage,'warning')
-        //   }
-        // });
+    // ,
+    // {
+    //   text: this.optionsave,
+    //   icon: 'bookmark',
+    //   handler: () => {
+    //     // this.api.createSaved({user_id:localStorage.getItem('user_id'),place_id: this.place.id }).subscribe((data:any) => {
+    //     //   if(data.status == 200){
+    //     //     this.presentToast(this.savemessage,'success');
+    //     //   }
+    //     // });
+    //   }
+    // },
+    // {
+    //   text: this.optionnosave,
+    //   icon: 'bookmark',
+    //   handler: () => {
+    //     // this.api.deleteSaved({user_id:localStorage.getItem('user_id'),place_id: this.place.id }).subscribe(data => {
+    //     //   console.log(data);
+    //     //   if(data.status == 200){
+    //     //     this.presentToast(this.deletemessage,'warning')
+    //     //   }
+    //     // });
 
-      }
-    },
+    //   }
+    // },
     {
       text: this.optioncancel,
       icon: 'close',
@@ -275,7 +277,7 @@ export class PlacePage implements OnInit {
 }
 
 presentReport(){
-  // this.presentModal(ModalReportPage,this.place.id,'place');
+  this.presentModal(ModalReportPage,this.place.id,'place');
 }
 
 async presentModal(component,id,type) {
@@ -303,12 +305,12 @@ openMenu(){
 }
 
 async share(){
-  // await Share.share({
-  //   title: this.place.title,
-  //   text: 'Este lugar se llama '+this.place.title+' y se encuentra en '+this.place.city+' te mando el link para que lo cheques: ',
-  //   url: this.place.google_link,
-  //   dialogTitle: 'Lugar pet friendly',
-  // });
+  await Share.share({
+    title: this.place.title,
+    text: 'Este lugar se llama '+this.place.title+' y se encuentra en '+this.place.city+' te mando el link para que lo cheques: ',
+    url: this.place.google_link,
+    dialogTitle: 'Lugar pet friendly',
+  });
 }
 
 
@@ -319,7 +321,7 @@ adClick(){
 
 
   copyText(text){
-    // this.clipboard.copy(text);
+    this.clipboard.copy(text);
     this.presentToast(this.copy,'success')
    }
 
@@ -333,37 +335,37 @@ adClick(){
   }
 
   async openUrl(url){
-    // await Browser.open({ url });
+    await Browser.open({ url });
    }
 
 
   ionViewDidEnter() {
 
-    // this.leafletMap();
+    this.leafletMap();
    }
 
   map;
 
-    // leafletMap(){
-    //   var homeICon = L.icon(
-    //     {
-    //       iconUrl:  'https://i.ibb.co/ZJn69WJ/icons8-vets-60.png',
-    //       iconSize:     [33, 33], // size of the icon
-    //     });
-    //   this.map = Leaflet.map(this.mapElement.nativeElement,{ zoomControl: false}).setView([this.place.latitude,this.place.longitude], 15);
-    //   Leaflet.tileLayer('https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga', {
-    //     zoom: 8,
-    //     zoomControl: false,
-    //     maxZoom: 18,
-    //     minZoom: 4,
-    //     minResolution: 4891.96981025128,
-    //     maxResolution: 39135.75848201024,
-    //     doubleClickZoom: true
-    //     }).addTo(this.map);
+    leafletMap(){
+      var homeICon = L.icon(
+        {
+          iconUrl:  'https://i.ibb.co/X2gkTYX/shops.png',
+          iconSize:     [33, 33], // size of the icon
+        });
+      this.map = Leaflet.map(this.mapElement.nativeElement,{ zoomControl: false}).setView([this.place.latitude,this.place.longitude], 15);
+      Leaflet.tileLayer('https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga', {
+        zoom: 8,
+        zoomControl: false,
+        maxZoom: 18,
+        minZoom: 4,
+        minResolution: 4891.96981025128,
+        maxResolution: 39135.75848201024,
+        doubleClickZoom: true
+        }).addTo(this.map);
 
-    //     Leaflet.marker([this.place.latitude,this.place.longitude],{icon: homeICon}).addTo(this.map).bindPopup(this.place.address);
+        Leaflet.marker([this.place.latitude,this.place.longitude],{icon: homeICon}).addTo(this.map).bindPopup(this.place.address);
 
-    // }
+    }
 
     beforePage(){{
       this.navCtrl.back();

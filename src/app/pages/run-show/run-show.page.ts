@@ -9,6 +9,7 @@ declare var require: any;
 const Hashids = require('hashids/cjs');
 const hashids = new Hashids('Elradipet10Lt', 6,'ABCEIU1234567890');
 import { DomSanitizer } from '@angular/platform-browser';
+import * as moment from 'moment';
 
 
 @Component({
@@ -18,29 +19,20 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class RunShowPage implements OnInit {
 
-  premium = true;
-  measure = 'mi';
+  premium;
+  measure;
+  welcome;
 
     getSafeUrl(filePreviewUrl){
       return this.sanitization.bypassSecurityTrustStyle('url(\'' + filePreviewUrl + '\')');
     }
 
-    image  = "https://radi-images.s3.us-west-1.amazonaws.com/764fddb820c660fe";;
     activity:any=[];
     pets:any = [];
 
 
-    slide = {
-      slidesPerView:  1.1,
-      spaceBetween:1,
-      coverflowEffect: {
-        rotate: 50,
-        stretch: 0,
-        depth: 100,
-        modifier: 1,
-        slideShadows: true,
-      }
-    }
+    slide;
+
     myFor;
   constructor(
     private sanitization: DomSanitizer,
@@ -48,16 +40,44 @@ export class RunShowPage implements OnInit {
     private api: DataService,
     private route: ActivatedRoute
     ){
-     this.route.params.subscribe((params: Params) => {
-      this.api.getActivity(params['id']).subscribe((data:any) => {
-        this.myFor = JSON.parse(data.activity[0].json_points)
-        this.activity = data.activity[0];
-        this.pets = data.pets;
-      })
+
+
+      if(localStorage.getItem('pe')){
+        if(new Date(localStorage.getItem('pe')) > new Date()){
+          this.premium = true;
+        }else{
+          this.premium = false;
+        }
+      }else{
+        this.premium = false;
+      }
+
+      this.route.params.subscribe((params: Params) => {
+        this.api.getActivity(params['id']).subscribe((data:any) => {
+          this.measure = localStorage.getItem('measure');
+          this.myFor = JSON.parse(data.activity[0].json_points)
+          this.activity = data.activity[0];
+          this.pets = data.pets;
+          this.welcome =  parseInt(moment(this.activity.createdAt).format('hh')) < 12 ? 'en la mañana' : parseInt(moment(this.activity.createdAt).format('hh'))  < 18 ? 'en la tarde' : 'en la noche'
+          this.slide = {
+            slidesPerView: this.pets.length == 1?1:1.1,
+            spaceBetween:1,
+            coverflowEffect: {
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: true,
+            }
+          }
+        })
    });
+
    }
 
   ngOnInit() {
+    this.measure = localStorage.getItem('measure');
+
   }
 
   beforePage(){
@@ -84,7 +104,6 @@ export class RunShowPage implements OnInit {
 
   initMap(){
     let array = []
-    console.log(this.myFor);
     this.myFor.forEach(element => {
       array.push([element.x,element.y]);
     });
@@ -103,13 +122,13 @@ export class RunShowPage implements OnInit {
     var startIcon = L.icon(
       {
         iconUrl:  '../../../assets/start.png',
-        iconSize:     [31, 31], // size of the icon
+        iconSize:     [24, 24], // size of the icon
       });
 
       var finishIcon = L.icon(
         {
           iconUrl:  '../../../assets/finish.png',
-          iconSize:     [31, 31], // size of the icon
+          iconSize:     [24, 24], // size of the icon
         });
 
 
@@ -127,7 +146,7 @@ export class RunShowPage implements OnInit {
             }).addTo(this.mapa);
 
       setTimeout(() => {
-        this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 8}).addTo(this.mapa);
+        this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 6}).addTo(this.mapa);
         Leaflet.marker([this.myFor[0].x,this.myFor[0].y],{icon: startIcon}).addTo(this.mapa).bindPopup('Start');
         Leaflet.marker([this.myFor[this.myFor.length - 1].x,this.myFor[this.myFor.length - 1].y],{icon: finishIcon}).addTo(this.mapa).bindPopup('Finish');
       },1700)

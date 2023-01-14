@@ -192,6 +192,10 @@ const routes: Routes = [
   {
     path: 'intro',
     loadChildren: () => import('./pages/intro/intro.module').then( m => m.IntroPageModule)
+  },
+  {
+    path: 'modal-report',
+    loadChildren: () => import('./pages/modal-report/modal-report.module').then( m => m.ModalReportPageModule)
   }
 
 

@@ -2,7 +2,7 @@
 
 <ion-row>
   <ion-col [size]="device=='tablet'?10:12" [offset]="device=='tablet'?1:0">
-    <img [src]="place.image" style="width: 100%;" alt="place image">
+    <img [src]="place.image?place.image:'../../../assets/default-place.png'" style="width: 100%;" alt="place image">
     <div style="padding: 1.8em;">
       <h2 style="font-weight: 400;">{{place.title}}
         <ion-icon *ngIf="place.verified" style="color: #11a525;" name="checkmark-circle-outline">
@@ -138,7 +138,7 @@
       </ion-row>
      </div>
 
-     <div (click)="adClick()">
+     <div (click)="adClick()" style="margin: 1em 0em;">
       <img src="../../../assets/radiads1.png" alt="anuncion">
     </div>
 
@@ -204,7 +204,6 @@
             <ion-icon *ngIf="(total_score/2) >= 5" style="color:#eab728" name="star"></ion-icon>
             <ion-icon *ngIf="((total_score/2) * 10 % 10 /10) >= 0.5" style="color:#eab728" name="star-half"></ion-icon>
           </p>
-
           <h5>{{ 'place.basedon' | translate }} <span style="font-weight: bold;">{{ reviews.length }} {{ 'place.reviews' | translate }}</span> </h5>
         </ion-col>
         <!-- <ion-col size="6">
@@ -253,7 +252,7 @@
         <h4 class="text-center">{{ 'vets.noreviews' | translate }}</h4>
       </div>
 
-      <ion-button *ngIf="user_id" fill="clear" expand="full" (click)="goReviewCreate()">{{ 'place.leavereview' | translate }}</ion-button>
+      <!-- <ion-button *ngIf="user_id" fill="clear" expand="full" (click)="goReviewCreate()">{{ 'place.leavereview' | translate }}</ion-button> -->
 
       <ion-item-divider mode="md">
       </ion-item-divider>
@@ -276,7 +275,7 @@
     </div>
   </ion-col>
 
-  <div  (click)="adClick()">
+  <div  (click)="adClick()" style="margin: 1em 0em;">
     <img src="../../../assets/radiads2.png" alt="anuncion">
   </div>
 

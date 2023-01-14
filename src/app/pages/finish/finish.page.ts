@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdMob,RewardAdOptions,RewardAdPluginEvents,AdMobRewardItem } from '@capacitor-community/admob';
-import { ModalController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { Network } from '@capacitor/network';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
@@ -42,15 +42,19 @@ datas:any = [];
 
   response:any = [];
 
-  measure = 'mi';
+  measure;
+  btnFinish = true;
 
   constructor(
     private modalCtrl:ModalController,
     private nativeGeocoder: NativeGeocoder,
     private toastController:ToastController,
     private modalController:ModalController,
+    private loadingController:LoadingController,
     private api:DataService){
-      const date = new Date().getHours()
+      this.measure = localStorage.getItem('measure');
+
+      const date = new Date().getHours();
       this.welcome = date < 12 ? 'en la mañana' : date < 18 ? 'en la tarde' : 'en la noche'
 
       this.initialize();
@@ -282,7 +286,19 @@ finish(){
 
 }
 
+async presentLoading(){
+  const loading = await this.loadingController.create({
+    message: 'Cargando anuncio ...',
+    duration: 3000
+  });
+
+  loading.present();
+}
+
 create(){
+
+
+
   let activityData = {
     "user_id": localStorage.getItem('user_id'),
     "distance": this.distance,
@@ -310,17 +326,15 @@ create(){
 
 
     this.modalCtrl.dismiss(true);
-
+    localStorage.setItem('newActivity','true');
     this.presentToast('Se ha subido exitosamente la actividad a tu perfil','success');
 
 
   });
 }
-
   async showRewardVideo(){
-    AdMob.addListener(RewardAdPluginEvents.Rewarded,(reward: AdMobRewardItem) => {
-      this.create();
-    })
+    this.btnFinish = false;
+    this.presentLoading();
 
       const options: RewardAdOptions = {
       adId: '9906704246',
@@ -329,6 +343,10 @@ create(){
 
       await AdMob.prepareRewardVideoAd(options);
       await AdMob.showRewardVideoAd();
+
+      AdMob.addListener(RewardAdPluginEvents.Rewarded,(reward: AdMobRewardItem) => {
+        this.create();
+      })
 
   }
 
