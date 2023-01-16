@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { PipesModule } from '../pipes/pipes.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { PipesModule } from '../pipes/pipes.module';
     CommonModule,
     FormsModule,
     PipesModule,
+    TranslateModule,
     ExploreContainerComponentModule,
     Tab1PageRoutingModule
   ],

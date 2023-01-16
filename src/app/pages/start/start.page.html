@@ -1,13 +1,14 @@
 <ion-content >
   <div *ngIf="step == 1" style="margin-top: 3em;padding:2em;">
-    <h1>Iniciar Caminata</h1>
-    <p *ngIf="offline">Estas sin internet</p>
+    <h1>{{ 'start.title' | translate }} </h1>
+    <p *ngIf="offline">{{ 'start.offline' | translate }} </p>
     <div  *ngIf="user_id">
       <div *ngIf="mascotas.length != 0">
-        <h5>¿cuál mascota?</h5>
+        <h5>{{ 'start.offline' | translate }}</h5>
         <div style="margin: 2em 0em;">
           <ion-select
             style="width:100%;"
+            placeholder="{{ 'start.placeholderpet' | translate }}"
             class="capitalize"
             [multiple]="premium"
             [(ngModel)]="pets_selected"
@@ -25,36 +26,36 @@
         </div>
 
         <ion-button [disabled]="pets_selected.length == 0" *ngIf="step == 1" expand="full" (click)="next()" >
-          Siguiente
+          {{ 'start.next' | translate }}
         </ion-button>
       </div>
 
       <div class="text-center p-1" style="margin-top: 4em;"  *ngIf="mascotas.length == 0 && !offline">
-        <h2>Por el momento no tienes mascotas.</h2>
-        <ion-button fill="clear" (click)="goToPage('/create-pet')">Agregar mascota</ion-button>
+        <h2>{{ 'start.nopets' | translate }} </h2>
+        <ion-button fill="clear" (click)="goToPage('/create-pet')">{{ 'start.addpet' | translate }}</ion-button>
       </div>
     </div>
 
     <div  style="margin-top: 4em;"  *ngIf="!user_id">
-      <h4>Necesitas iniciar sesión para guardar los paseos con tus mascotas.</h4>
+      <h4>{{ 'start.login' | translate }}</h4>
       <ion-button expand="full" fill="clear"  (click)="login()">{{ 'login.login' | translate }}</ion-button>
     </div>
 
 
   </div>
   <div *ngIf="step == 2" style="margin-top: 3em;">
-    <h1 style="font-size:3em;padding:1em;">Recuerda <br> traer</h1>
+    <h1 style="font-size:3em;padding:1em;"  [innerHtml]="'start.remember' | translate"></h1>
     <ion-card>
-      <ul>💧 Agua para tu mascota.</ul>
+      <ul>💧 {{ 'start.water' | translate }} </ul>
     </ion-card>
     <ion-card>
-      <ul>💩 Bolsas para las heces.</ul>
+      <ul>💩 {{ 'start.poop' | translate }}  </ul>
     </ion-card>
     <ion-card>
-      <ul>🐕‍🦺 Ir con collar y placa.</ul>
+      <ul>🐕‍🦺 {{ 'start.neclacke' | translate }} </ul>
     </ion-card>
     <ion-button *ngIf="step == 2" fill="clear" expand="full" color="success" (click)="close(true)">
-      Si, lo Tengo
+      {{ 'start.yes' | translate }}
     </ion-button>
   </div>
 </ion-content>

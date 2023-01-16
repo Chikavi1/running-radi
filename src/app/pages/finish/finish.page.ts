@@ -8,6 +8,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { PhotoModalPage } from '../photo-modal/photo-modal.page';
 import { SharingRunPage } from '../sharing-run/sharing-run.page';
 import * as moment from 'moment';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -16,13 +17,8 @@ import * as moment from 'moment';
   styleUrls: ['./finish.page.scss'],
 })
 
-
-
 export class FinishPage implements OnInit {
   slide;
-
-
-
   today;
   distance = 0;
   time = '0:00';
@@ -32,7 +28,7 @@ export class FinishPage implements OnInit {
 
   lat_start;
   lng_start;
-  city = 'a';
+  city;
 
   premium;
 
@@ -45,17 +41,67 @@ datas:any = [];
   measure;
   btnFinish = true;
 
+  morning;
+  evenning;
+  night;
+  photo;
+  cancel;
+  gallery;
+  takephoto;
+  premiumoffline;
+  freeoffline;
+  loadingad;
+  successupload
+
+  translate(){
+    this.translateService.get('finish.morning').subscribe(value => {
+      this.morning = value;
+    });
+    this.translateService.get('finish.evenning').subscribe(value => {
+      this.evenning = value;
+    });
+    this.translateService.get('finish.night').subscribe(value => {
+      this.night = value;
+    });
+    this.translateService.get('finish.photo').subscribe(value => {
+      this.photo = value;
+    });
+    this.translateService.get('finish.cancel').subscribe(value => {
+      this.cancel = value;
+    });
+    this.translateService.get('finish.gallery').subscribe(value => {
+      this.gallery = value;
+    });
+    this.translateService.get('finish.takephoto').subscribe(value => {
+      this.takephoto = value;
+    });
+    this.translateService.get('finish.premiumoffline').subscribe(value => {
+      this.premiumoffline = value;
+    });
+    this.translateService.get('finish.freeoffline').subscribe(value => {
+      this.freeoffline = value;
+    });
+    this.translateService.get('finish.loadingad').subscribe(value => {
+      this.loadingad = value;
+    });
+    this.translateService.get('finish.successupload').subscribe(value => {
+      this.successupload = value;
+    });
+  }
+
   constructor(
     private modalCtrl:ModalController,
     private nativeGeocoder: NativeGeocoder,
     private toastController:ToastController,
+    private translateService:TranslateService,
     private modalController:ModalController,
     private loadingController:LoadingController,
     private api:DataService){
+      this.translate();
       this.measure = localStorage.getItem('measure');
 
       const date = new Date().getHours();
-      this.welcome = date < 12 ? 'en la mañana' : date < 18 ? 'en la tarde' : 'en la noche'
+      this.welcome = date < 12 ? this.morning : date < 18 ? this.evenning: this.night
 
       this.initialize();
       this.today = new Date();
@@ -142,10 +188,10 @@ datas:any = [];
       allowEditing: false,
       resultType: CameraResultType.Base64,
       source: CameraSource.Camera,
-      promptLabelHeader: 'Foto',
-      promptLabelCancel: 'Cancelar',
-      promptLabelPhoto: 'Galeria',
-      promptLabelPicture: 'Tomar Foto'
+      promptLabelHeader: this.photo,
+      promptLabelCancel: this.cancel,
+      promptLabelPhoto: this.gallery,
+      promptLabelPicture: this.takephoto
     });
       this.modalImage(i,image.base64String);
   }
@@ -265,9 +311,9 @@ finish(){
       localStorage.setItem('activities',JSON.stringify(array));
 
       if(this.premium){
-        this.presentToast('Se guardara en local,cuando recuperes la conexión podras subirlos','success');
+        this.presentToast(this.premiumoffline,'success');
       }else{
-        this.presentToast('Se guardara en local,se borrara pronto, cuando tengas internet subelo','success');
+        this.presentToast(this.freeoffline,'success');
       }
 
     }
@@ -278,17 +324,14 @@ finish(){
         this.showRewardVideo();
       }
     }
-    localStorage.removeItem('date_start');
-    localStorage.removeItem('kilometers');
-    localStorage.removeItem('seconds');
-    localStorage.removeItem('pet_selected');
+
     this.modalCtrl.dismiss(true);
 
 }
 
 async presentLoading(){
   const loading = await this.loadingController.create({
-    message: 'Cargando anuncio ...',
+    message: this.loadingad,
     duration: 3000
   });
 
@@ -327,7 +370,7 @@ create(){
 
     this.modalCtrl.dismiss(true);
     localStorage.setItem('newActivity','true');
-    this.presentToast('Se ha subido exitosamente la actividad a tu perfil','success');
+    this.presentToast(this.successupload,'success');
 
 
   });

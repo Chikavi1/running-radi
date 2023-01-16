@@ -70,68 +70,68 @@
 
         <h2>{{ 'place.schedule' | translate }}</h2>
         <ion-row>
-          <ion-col size="6">Lunes</ion-col>
+          <ion-col size="6">{{ 'place.monday' | translate }}</ion-col>
           <ion-col  size="6">
             <span  *ngIf="monday_start != '00:00' && monday_end != '00:00'">
               {{ monday_start }} – {{monday_end}}
             </span>
             <span *ngIf="monday_start == '00:00' && monday_end == '00:00'">
-              {{ 'place.break' | translate }}
+              {{ 'place.nowork' | translate }}
             </span>
           </ion-col>
-          <ion-col  size="6">Martes</ion-col>
+          <ion-col  size="6">{{ 'place.tuesday' | translate }}</ion-col>
           <ion-col  size="6">
             <span  *ngIf="tuesday_start != '00:00' && tuesday_end != '00:00'">
               {{tuesday_start}}–{{tuesday_end}}
             </span>
             <span *ngIf="tuesday_start == '00:00' && tuesday_end == '00:00'">
-              {{ 'place.break' | translate }}
+              {{ 'place.nowork' | translate }}
             </span>
           </ion-col>
-        <ion-col  size="6">Miercoles</ion-col>
+        <ion-col  size="6">{{ 'place.wednesday' | translate }}</ion-col>
         <ion-col  size="6">
           <span  *ngIf="wednesday_start != '00:00' && wednesday_end != '00:00'">
             {{wednesday_start}}–{{wednesday_end}}
           </span>
           <span *ngIf="wednesday_start == '00:00' && wednesday_end == '00:00'">
-            {{ 'place.break' | translate }}
+            {{ 'place.nowork' | translate }}
           </span>
         </ion-col>
-        <ion-col  size="6">Jueves</ion-col>
+        <ion-col  size="6">{{ 'place.thursday' | translate }}</ion-col>
         <ion-col  size="6">
           <span  *ngIf="thursday_start != '00:00' && thursday_end != '00:00'">
             {{thursday_start}}–{{thursday_end}}
           </span>
           <span *ngIf="thursday_start == '00:00' && thursday_end == '00:00'">
-            {{ 'place.break' | translate }}
+            {{ 'place.nowork' | translate }}
           </span>
 
         </ion-col>
-        <ion-col  size="6">Viernes</ion-col>
+        <ion-col  size="6">{{ 'place.friday' | translate }}</ion-col>
         <ion-col  size="6">
           <span  *ngIf="friday_start != '00:00' && friday_end != '00:00'">
             {{friday_start}}–{{friday_end}}
           </span>
           <span *ngIf="friday_start == '00:00' && friday_end == '00:00'">
-            {{ 'place.break' | translate }}
+            {{ 'place.nowork' | translate }}
           </span>
         </ion-col>
-        <ion-col  size="6">Sabado</ion-col>
+        <ion-col  size="6">{{ 'place.saturday' | translate }}</ion-col>
         <ion-col  size="6">
           <span  *ngIf="saturday_start != '00:00' && saturday_end != '00:00'">
             {{saturday_start}}–{{saturday_end}}
           </span>
           <span *ngIf="saturday_start == '00:00' && saturday_end == '00:00'">
-            {{ 'place.break' | translate }}
+            {{ 'place.nowork' | translate }}
           </span>
         </ion-col>
-        <ion-col  size="6">Domingo</ion-col>
+        <ion-col  size="6">{{ 'place.sunday' | translate }}</ion-col>
         <ion-col  size="6">
           <span  *ngIf="sunday_start != '00:00' && sunday_end != '00:00'">
             {{sunday_start}}–{{sunday_end}}
           </span>
           <span *ngIf="sunday_start == '00:00' && sunday_end == '00:00'">
-            {{ 'place.break' | translate }}
+            {{ 'place.nowork' | translate }}
           </span>
 
         </ion-col>
@@ -286,5 +286,5 @@
 </ion-content>
 <ion-footer>
 
-<ion-button expand="full" (click)="close()" color="danger">Cerrar</ion-button>
+<ion-button expand="full" (click)="close()" color="danger">{{ 'place.close' | translate }}</ion-button>
 </ion-footer>

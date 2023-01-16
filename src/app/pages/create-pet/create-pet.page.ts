@@ -260,7 +260,8 @@ export class CreatePetPage  {
     }
   }
   device;
-    constructor(
+  language;
+  constructor(
       public actionSheetController: ActionSheetController,
       public api: DataService,
       private navCtrl: NavController,
@@ -271,7 +272,8 @@ export class CreatePetPage  {
       )
       {
         this.device = localStorage.getItem('device');
-
+        this.language = localStorage.getItem('language');
+        // this.language = 'ja';
         this.translate()
         this.user_id = localStorage.getItem('user_id');
         this.today =  moment().format('yyyy-MM-DD');

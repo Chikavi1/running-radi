@@ -12,20 +12,20 @@
   <div style="margin-top:-6em;z-index:1000;">
 
     <ion-card style="padding:2em">
-      <h1>Paseo en la {{welcome}} en {{activity.city}}</h1>
+      <h1>{{ 'runshow.walkin' | translate }} {{welcome}} {{activity.city}}</h1>
       <p class="capital">{{ activity.createdAt |  localizedDate:'fullDate' }}</p>
 
-      <p style="margin-top: 3em;">Distancia</p>
+      <p style="margin-top: 3em;">{{ 'runshow.distance' | translate }} </p>
       <h2>
         {{ activity.distance | distanceMeasure:measure  }} {{measure}}
       </h2>
-      <p>Tiempo</p>
-      <h2>{{ activity.time }} Min</h2>
+      <p>{{ 'runshow.time' | translate }} </p>
+      <h2>{{ activity.time }} {{ 'runshow.min' | translate }}</h2>
 
     </ion-card>
 
     <!-- <ion-button expand="full" fill="clear">Compartir a  mis amigos</ion-button> -->
-    <h2 style="text-align: center;padding: 1em;">Más información</h2>
+    <h2 style="text-align: center;padding: 1em;">{{ 'runshow.moreinfo' | translate }} </h2>
     <ion-slides [options]="slide" pager="true" style="padding-bottom: 3em;">
       <ion-slide *ngFor="let pet of pets; let i = index">
         <ion-card >
@@ -34,19 +34,19 @@
 
 
           <h3 class="capital">{{ pet.pet_name }}</h3>
-          <p>Estado</p>
-          <h2 *ngIf="pet.behavior == 0">No se registro</h2>
-          <h2 *ngIf="pet.behavior == 1">Enojado</h2>
-          <h2 *ngIf="pet.behavior == 2">normal</h2>
-          <h2 *ngIf="pet.behavior == 3">Feliz</h2>
-          <h2 *ngIf="pet.behavior == 4">Triste</h2>
-          <p>¿Tomo agua?</p>
-          <h2 *ngIf="pet.water == 0">No</h2>
-          <h2 *ngIf="pet.water == 1">Si</h2>
-          <p>¿Hizo sus necesidades?</p>
-          <h2 *ngIf="pet.popped == 0">No</h2>
-          <h2 *ngIf="pet.popped == 1">Si</h2>
-          <h2 style="text-align: center;padding: 1em;">Recuerdo</h2>
+          <p>{{ 'runshow.behavior' | translate }} </p>
+          <h2 *ngIf="pet.behavior == 0">{{ 'runshow.nobehavior' | translate }}</h2>
+          <h2 *ngIf="pet.behavior == 1">{{ 'runshow.sad' | translate }} </h2>
+          <h2 *ngIf="pet.behavior == 2">{{ 'runshow.angry' | translate }}</h2>
+          <h2 *ngIf="pet.behavior == 3">{{ 'runshow.normal' | translate }}</h2>
+          <h2 *ngIf="pet.behavior == 4">{{ 'runshow.happy' | translate }}</h2>
+          <p>{{ 'runshow.water' | translate }}</p>
+          <h2 *ngIf="pet.water == 0">{{ 'runshow.no' | translate }}</h2>
+          <h2 *ngIf="pet.water == 1">{{ 'runshow.yes' | translate }}</h2>
+          <p>{{ 'runshow.pooped' | translate }}</p>
+          <h2 *ngIf="pet.popped == 0">{{ 'runshow.no' | translate }}</h2>
+          <h2 *ngIf="pet.popped == 1">{{ 'runshow.yes' | translate }}</h2>
+          <h2 style="text-align: center;padding: 1em;">{{ 'runshow.memory' | translate }}</h2>
 
           <div *ngIf="pet.photo">
             <img [src]="pet.photo" style="width: 100%;border-radius: 1em;" alt="pet photo">
@@ -54,12 +54,12 @@
 
           <div *ngIf="!pet.photo">
             <div *ngIf="premium">
-              <p>No hay momento, recuerda guarda tu recuerdo de esa salida con tu mascota al terminar el paseo.</p>
+              <p>{{ 'runshow.premium' | translate }</p>
               <!-- <ion-button fill="clear" expand="block" >Subir foto</ion-button> -->
             </div>
             <div *ngIf="!premium">
-              <p>No hay momento, para guardar el momento recuerda necesitas Radi Pets Premium.</p>
-              <ion-button fill="clear" expand="block" (click)="goToPage('/subscription')">Subscribirse</ion-button>
+              <p>{{ 'runshow.free' | translate }}</p>
+              <ion-button fill="clear" expand="block" (click)="goToPage('/subscription')">{{ 'runshow.subscribe' | translate }}</ion-button>
             </div>
           </div>
         </div>

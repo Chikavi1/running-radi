@@ -125,7 +125,7 @@ export class PlacePage implements OnInit {
   optioncancel
 
   translate(){
-    this.translateService.get('reservation.copytext').subscribe(value => {
+    this.translateService.get('place.copy').subscribe(value => {
       this.copy = value;
     });
     this.translateService.get('petsmenu.title').subscribe(value => {

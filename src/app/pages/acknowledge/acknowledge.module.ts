@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { AcknowledgePageRoutingModule } from './acknowledge-routing.module';
 
 import { AcknowledgePage } from './acknowledge.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    TranslateModule,
     AcknowledgePageRoutingModule
   ],
   declarations: [AcknowledgePage]

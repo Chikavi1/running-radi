@@ -98,7 +98,7 @@
       <h2>{{ 'editprofile.aboutme' | translate }}</h2>
       <div *ngIf="!edit">
         <p *ngIf="description">{{ description }}</p>
-        <p *ngIf="!description" class="oranged"> * No haz agregado una descripción</p>
+        <p *ngIf="!description" class="oranged"> {{ 'editprofile.nodescription' | translate }}</p>
       </div>
       <div *ngIf="edit">
         <ion-input maxlength="250" class="new-input"  [(ngModel)]="description"></ion-input>
@@ -131,32 +131,32 @@
         <h4>{{ datos.createdAt | date:'dd/MM/yy' }}</h4>
       </div>
       <div class="form-group">
-        <span>Ciudad</span>
-        <p *ngIf="!datos.city" class="oranged">* No tienes tu ciudad definida</p>
+        <span>{{ 'editprofile.city' | translate }}</span>
+        <p *ngIf="!datos.city" class="oranged">{{ 'editprofile.nocity' | translate }} </p>
         <h4 *ngIf="datos.city">{{datos.city}}</h4>
       </div>
       <div class="form-group">
-        <span>Nacimiento</span>
-        <p *ngIf="!datos.birthday" class="oranged">* No tienes tu fecha de nacimiento</p>
+        <span>{{ 'editprofile.birthday' | translate }}</span>
+        <p *ngIf="!datos.birthday" class="oranged"> {{ 'editprofile.nobirthday' | translate }}</p>
         <h4 *ngIf="datos.birthday">{{datos.birthday  | date:'dd/MM/yy'}}</h4>
       </div>
       <div class="form-group">
-        <span>Genero</span>
-        <h4 *ngIf="datos.gender == 1">Masculino</h4>
-        <h4 *ngIf="datos.gender == 2">Femenino</h4>
-        <h4 *ngIf="datos.gender == 3">Sin especificar</h4>
-        <p *ngIf="datos.gender == 0" class="oranged">*No tienes el genero especificado</p>
+        <span>{{ 'editprofile.gender' | translate }}</span>
+        <h4 *ngIf="datos.gender == 1">{{ 'editprofile.male' | translate }}</h4>
+        <h4 *ngIf="datos.gender == 2">{{ 'editprofile.female' | translate }}</h4>
+        <h4 *ngIf="datos.gender == 3">{{ 'editprofile.other' | translate }}</h4>
+        <p *ngIf="!datos.gender" class="oranged">{{ 'editprofile.nogender' | translate }} </p>
       </div>
       <div class="form-group">
         <span>{{ 'editprofile.country' | translate }}</span>
         <h4>{{datos.country}}</h4>
-        <p *ngIf="!datos.country" class="oranged">*No tienes tu pais definido </p>
+        <p *ngIf="!datos.country" class="oranged">{{ 'editprofile.nocountry' | translate }} </p>
 
       </div>
       <div class="form-group">
         <span>{{ 'editprofile.currency' | translate }}</span>
         <h4>{{datos.currency}}</h4>
-        <p *ngIf="!datos.currency" class="oranged">*No tienes tu moneda definida</p>
+        <p *ngIf="!datos.currency" class="oranged">{{ 'editprofile.nocurrency' | translate }} </p>
 
       </div>
 
@@ -183,15 +183,15 @@
     <ion-col size="9">
       <h4>{{ 'editprofile.identity' | translate }}</h4>
       <ion-chip color="danger" *ngIf="!identification">
-        <ion-icon name="alert-circle-outline"></ion-icon>&nbsp;  {{ 'editprofile.noverify' | translate }}
+        <ion-icon name="alert-circle-outline"></ion-icon>&nbsp;  {{ 'editprofile.noverified' | translate }}
       </ion-chip>
       <ion-chip color="success" *ngIf="identification" >
-        <ion-icon name="checkmark-circle-outline"></ion-icon>&nbsp;  {{ 'editprofile.verify' | translate }}
+        <ion-icon name="checkmark-circle-outline"></ion-icon>&nbsp;  {{ 'editprofile.verified' | translate }}
       </ion-chip>
     </ion-col>
     <ion-col *ngIf="!identification">
       <p (click)="goToPage('/verification')" style="text-align: right;">
-        {{ 'editprofile.check' | translate }}
+        {{ 'editprofile.verify' | translate }}
       </p>
     </ion-col>
    </ion-row>
@@ -231,7 +231,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-label style="margin-left: 1.5em;" color="primary">Nacimiento</ion-label>
+    <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.birthday' | translate }} </ion-label>
 
       <div id="open-modal2">
         <ion-row justify-content-center align-items-center  style="margin:1em;">
@@ -243,6 +243,7 @@
       <ion-modal trigger="open-modal2" [cssClass]="'bottom-end'">
         <ng-template>
           <ion-datetime
+            [locale]="language"
             presentation="date"
             [(ngModel)]="birthday"
             size="cover"
@@ -251,7 +252,7 @@
         </ng-template>
       </ion-modal>
 
-      <p class="oranged">* Esta información solo se puede cambiar una vez.</p>
+      <p class="oranged">{{ 'editprofile.alertonechange' | translate }} * Esta información solo se puede cambiar una vez.</p>
 
       <ion-item-divider mode="md" style="margin:1em 0em;"> </ion-item-divider>
 

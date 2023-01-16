@@ -28,21 +28,21 @@
 
       <div *ngIf="step == 4" style="padding: 7em 2em;" >
 
-        <h5>{{ 'intro.titlefour' | translate }} Configuración de la app </h5>
+        <h5>{{ 'intro.titlefour' | translate }}</h5>
         <p>{{ 'intro.subtitlefour' | translate }} </p>
 
 
         <ion-item lines="none" (click)="goToPage('/language')">
-          <ion-icon style="zoom:1.5" name="navigate-circle-outline"></ion-icon>
+          <ion-icon style="zoom:1.5" name="language-outline"></ion-icon>
           <ion-label style="margin-left: 1.6em;">
-            <h3>Lenguaje</h3>
+            <h3>{{ 'intro.language' | translate }}</h3>
           </ion-label>
         </ion-item>
 
         <ion-item   (click)="goToPage('/measures')"  lines="none">
-          <ion-icon style="zoom:1.5" name="map-outline"></ion-icon>
+          <ion-icon style="zoom:1.5" name="options-outline"></ion-icon>
           <ion-label style="margin-left: 1.6em;">
-            <h3>Sistema metrico</h3>
+            <h3>{{ 'intro.measure' | translate }}</h3>
           </ion-label>
         </ion-item>
 

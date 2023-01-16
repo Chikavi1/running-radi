@@ -1,5 +1,10 @@
 <ion-content [fullscreen]="true">
 
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
     <ion-row style="margin-top: 6em;">
       <ion-col size="10">
         <ion-title size="large" *ngIf="premium">Premium</ion-title>
@@ -17,7 +22,7 @@
     </ion-row>
 
   <div style="padding: 2em;">
-    <h1>Actividad</h1>
+    <h1>{{ 'home.activities' | translate }} </h1>
 
 
   <!-- <ion-card style="padding: 1em;">
@@ -59,29 +64,29 @@
   </ion-card> -->
 
     <ion-card style="padding:1em;">
-      <h4>Este mes</h4>
+      <h4>{{ 'home.thismonth' | translate }}</h4>
       <div *ngIf="user_id">
-      <span>Distancia total</span>
+      <span>{{ 'home.totaldistance' | translate }} </span>
         <p>{{ total_km | distanceMeasure:measure  }} {{measure}}  </p>
-        <span>Tiempo total</span>
-        <p>{{total_time}}  Min</p>
+        <span>{{ 'home.totaltime' | translate }} </span>
+        <p>{{total_time}}  {{ 'home.min' | translate }}</p>
       </div>
       <div *ngIf="!user_id">
-        <p>Necesitas ingresar para ver tus estadisticas.</p>
+        <p>{{ 'home.needloginstatics' | translate }}</p>
       </div>
     </ion-card>
 
     <img *ngIf="!premium" style="padding: 2em 0em;" (click)="goToPage('subscription')"  src="../../assets/radi premium.png" alt="">
 
 
-    <h2>Ultimos registros</h2>
+    <h2>{{ 'home.lastrecords' | translate }}</h2>
 
     <div *ngIf="user_id">
       <div *ngIf="activities.length == 0" class="text-center">
         <ion-card style="padding: 1em;">
-          <h4>No tienes ninguna actividad.</h4>
-          <p>Empieza a generar tu historial saliendo a pasear con tu mascota.</p>
-          <ion-button fill="clear" expand="block" (click)="goToPage('tabs/tab1')">Empezar a correr  </ion-button>
+          <h4>{{ 'home.noactivities' | translate }}</h4>
+          <p>{{ 'home.startactivities' | translate }}</p>
+          <ion-button fill="clear" expand="block" (click)="goToPage('tabs/tab1')">{{ 'home.ctastartactivities' | translate }}</ion-button>
         </ion-card>
       </div>
 
@@ -90,7 +95,7 @@
         <ion-slide *ngFor="let item of activities" style="text-align: left;">
           <ion-card style="padding:2em;" (click)="goToRun(item.id)">
             <h3 style="font-weight: bold;" class="capital">{{item.createdAt | localizedDate:'fullDate' }} </h3>
-            <h5> {{item.distance | distanceMeasure:measure  }} {{measure}}  &#x2022; {{item.time}} Min</h5>
+            <h5> {{item.distance | distanceMeasure:measure  }} {{measure}}  &#x2022; {{item.time}} {{ 'home.min' | translate }}</h5>
           </ion-card>
         </ion-slide>
       </ion-slides>
@@ -98,8 +103,8 @@
 
     <div  *ngIf="!user_id">
       <ion-card style="padding:2em;">
-        <h4 style="font-weight: bold;">Inicia sesión</h4>
-        <h5> Para poder mostrarte tus actividades debes iniciar sesión</h5>
+        <h4 style="font-weight: bold;">{{ 'home.login' | translate }}</h4>
+        <h5>{{ 'home.needloginrecords' | translate }}</h5>
       </ion-card>
     </div>
 
@@ -141,7 +146,7 @@
     <ion-item-divider mode="md"> </ion-item-divider>
 
 
-    <h1>Cerca de ti</h1>
+    <h1>{{ 'home.nearby' | translate }}</h1>
 
     <!-- <ion-row>
       <ion-col size="8">
@@ -175,7 +180,7 @@
 
     <ion-row>
       <ion-col size="8">
-        <h3>Pet Friendly</h3>
+        <h3>{{ 'home.petfriedly' | translate }}</h3>
       </ion-col>
       <ion-col  size="4">
         <!-- <h5 style="text-align: right;">
@@ -186,10 +191,10 @@
 
     <div *ngIf="places.length == 0" style="text-align: left;">
       <ion-card style="padding: 1em;">
-        <h4>No hay lugares pet friendly cerca de ti</h4>
-        <p>Pero no te preocupes, si conoces algun lugar puedes recomendarlo</p>
-        <ion-button fill="clear" expand="block" (click)="goToPage('/register-place')"  *ngIf="!user_id" >Iniciar sesión</ion-button>
-        <ion-button fill="clear" expand="block" (click)="goToPage('/register-place')"  *ngIf="user_id">Recomendar lugar</ion-button>
+        <h4>{{ 'home.nopetfriendly' | translate }}</h4>
+        <p>{{ 'home.messagerecommend' | translate }}</p>
+        <ion-button fill="clear" expand="block" (click)="goToPage('/register-place')"  *ngIf="!user_id" >{{ 'home.ctalogin' | translate }} </ion-button>
+        <ion-button fill="clear" expand="block" (click)="goToPage('/register-place')"  *ngIf="user_id">{{ 'home.ctarecommend' | translate }} </ion-button>
       </ion-card>
     </div>
 
@@ -207,19 +212,19 @@
     </ion-slides>
 
     <ion-item-divider mode="md"> </ion-item-divider>
-    <h2>Sugerencias</h2>
+    <h2>{{ 'home.suggestion' | translate }}  </h2>
   </div>
 
         <ion-card *ngFor="let blog of blogs" (click)="goToBlog(blog.slug)" >
           <img alt="blog image" [src]="blog.image" />
       <ion-card-header>
-        <ion-card-subtitle>{{blog.date | localizedDate:'fullDate'}}&#8226; {{blog.timeread}} Min </ion-card-subtitle>
+        <ion-card-subtitle>{{blog.date | localizedDate:'fullDate'}}&#8226; {{blog.timeread}} {{ 'home.min' | translate }} </ion-card-subtitle>
         <ion-card-title>{{blog.title}}</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <p>{{ blog.subtitle }}</p>
-        <p style="text-align: right;">Leer más</p>
+        <p style="text-align: right;">{{ 'home.readmore' | translate }} </p>
       </ion-card-content>
     </ion-card>
 

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { RunShowPageRoutingModule } from './run-show-routing.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { RunShowPage } from './run-show.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { RunShowPage } from './run-show.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    TranslateModule,
     RunShowPageRoutingModule,
     PipesModule,
   ],

@@ -41,16 +41,7 @@ longitude;
     private translateService:TranslateService,
     private api: DataService){
 
-    this.getActivities();
 
-    Geolocation.getCurrentPosition().then((resp) => {
-      this.latitude = resp.coords.latitude;
-      this.longitude = resp.coords.longitude;
-
-      // this.getPetsLost();
-      this.getPetFriendly();
-
-    });
 
     this.api.getBlogs().subscribe(data => {
       this.blogs = data;
@@ -71,6 +62,19 @@ longitude;
 
   premium;
   measure;
+
+  getInfo(){
+    this.getActivities();
+
+    Geolocation.getCurrentPosition().then((resp) => {
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
+
+      // this.getPetsLost();
+      this.getPetFriendly();
+
+    });
+  }
 
 
   getPetsLost(){
@@ -151,6 +155,13 @@ getActivities(){
       this.getActivities();
       localStorage.removeItem('newActivity');
     }
+  }
+
+  doRefresh(event) {
+    this.getInfo();
+    setTimeout(() => {
+      event.target.complete();
+    },2000);
   }
 
   goToPage(page){

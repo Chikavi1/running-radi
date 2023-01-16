@@ -37,7 +37,7 @@ export class ProfilePage implements OnInit {
    expira;
 
    city;
-
+   language;
   constructor(
     private api: DataService,
     private navCtrl:NavController,
@@ -46,8 +46,8 @@ export class ProfilePage implements OnInit {
     private toastController: ToastController,
     private actionSheetController: ActionSheetController,
     private alertController:AlertController) {
-
-   }
+      this.language = localStorage.getItem('language');
+    }
 
 device = 'phone';
 
@@ -345,10 +345,6 @@ uploadImage(image){
     }
 
     datos['id'] = localStorage.getItem('user_id');
-
-    console.log(datos)
-    console.log('-dsada')
-    console.log(caca);
 
     // this.api.updateUser(datos).subscribe(data => {
     //     console.log(data)

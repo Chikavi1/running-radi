@@ -8,6 +8,7 @@ import { FinishPageRoutingModule } from './finish-routing.module';
 
 import { FinishPage } from './finish.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     FormsModule,
     IonicModule,
     PipesModule,
+    TranslateModule,
     FinishPageRoutingModule
   ],
   declarations: [FinishPage]

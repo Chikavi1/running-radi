@@ -3,37 +3,38 @@
     <div style="padding: 1em;">
 
       <img src="../../../assets/img/logo.png" alt="logo" style="margin-top:1.9em;width: 3.5em;height:3.5em;z-index: 10000;">
-      <h1 style="font-weight: bold;">¡Felicidades, has terminado!</h1>
-      <p class="capital">
-       Paseo en {{welcome}} en {{ city }}
-         <br>
-         {{ today |  localizedDate:'fullDate' }}
+      <h1 style="font-weight: bold;">{{ 'finish.title' | translate }} </h1>
+      <p class="capital" *ngIf="city">
+        {{ 'finish.walkin' | translate }} {{welcome}}  {{ 'finish.in' | translate }} {{ city }}
+      </p>
+      <p clas="capitla">
+        {{ today |  localizedDate:'fullDate' }}
       </p>
       <h3>
-        ¡Recorriste {{ distance | distanceMeasure:measure  }} {{measure}}!
+        {{ 'finish.youwalk' | translate }} {{ distance | distanceMeasure:measure  }} {{measure}}!
       </h3>
     </div>
   </div>
   <ion-card *ngIf="offline" style="padding:1em;">
-    <h2 style="color:orangered;"><ion-icon name="alert-circle-outline"></ion-icon> Estas desconectado</h2>
-    <p *ngIf="!premium">Tu proceso se guardará en tu telefono por una semana, cuando tengas conexion a internet lo podras subir de nuevo en el apartado de actividades pendientes, en caso de no guardarlo se eliminara</p>
-    <p *ngIf="premium" >Tu proceso se guardará en tu telefono y se subira cuando tengas conexion estable a internet.</p>
+    <h2 style="color:orangered;"><ion-icon name="alert-circle-outline"></ion-icon>  {{ 'finish.offline' | translate }} </h2>
+    <p *ngIf="!premium">  {{ 'finish.fremessage' | translate }} </p>
+    <p *ngIf="premium" >  {{ 'finish.premiummessage' | translate }}</p>
   </ion-card>
 
   <ion-card style="padding: 1em;">
-    <h1>Datos</h1>
+    <h1>  {{ 'finish.data' | translate }}</h1>
     <ion-row>
       <ion-col size="6">
-        Distancia
+        {{ 'finish.distance' | translate }}
       </ion-col>
       <ion-col size="6">
         {{ distance | distanceMeasure:measure  }} {{measure}}
       </ion-col>
       <ion-col size="6">
-        Tiempo
+        {{ 'finish.time' | translate }}
       </ion-col>
       <ion-col size="6">
-        {{time}} Min
+        {{time}}  {{ 'finish.min' | translate }}
       </ion-col>
     </ion-row>
   </ion-card>
@@ -43,52 +44,49 @@
   <ion-slides [options]="slide" pager="true" style="padding-bottom: 3em;">
     <ion-slide *ngFor="let pet of pets; let i = index">
       <ion-card  style="padding: 1em;width: 100%;">
-        <h4>Comportamiento de {{pet.name}}</h4>
+        <h4>  {{ 'finish.behavior' | translate }} {{pet.name}}</h4>
           <ion-chip [ngClass]="{'selected' : response[i].behavior == 1 }"  (click)="setBehavior(i,1)">😞</ion-chip>
           <ion-chip [ngClass]="{'selected' : response[i].behavior == 2 }"  (click)="setBehavior(i,2)">😡</ion-chip>
           <ion-chip [ngClass]="{'selected' : response[i].behavior == 3 }"  (click)="setBehavior(i,3)">😐</ion-chip>
           <ion-chip [ngClass]="{'selected' : response[i].behavior == 4 }"  (click)="setBehavior(i,4)">😊</ion-chip>
-        <p>¿Hizo del baño?</p>
+        <p>  {{ 'finish.pooped' | translate }} </p>
         <ion-row>
           <ion-col>
-            <ion-chip [ngClass]="{'selected' : response[i].popped == 1 }"  (click)="setPooped(i,1)">Si</ion-chip>
-            <ion-chip [ngClass]="{'selected' : response[i].popped  == 0 }"  (click)="setPooped(i,0)">No</ion-chip>
+            <ion-chip [ngClass]="{'selected' : response[i].popped == 1 }"  (click)="setPooped(i,1)">  {{ 'finish.yes' | translate }}</ion-chip>
+            <ion-chip [ngClass]="{'selected' : response[i].popped  == 0 }"  (click)="setPooped(i,0)"> {{ 'finish.no' | translate }}</ion-chip>
           </ion-col>
         </ion-row>
-        <p>¿Tomo agua?</p>
+        <p>  {{ 'finish.water' | translate }}</p>
         <ion-row>
           <ion-col>
-            <ion-chip [ngClass]="{'selected' :  response[i].water == 1 }"  (click)="setWater(i,1)">Si</ion-chip>
-            <ion-chip [ngClass]="{'selected' :  response[i].water == 0 }"  (click)="setWater(i,0)">No</ion-chip>
+            <ion-chip [ngClass]="{'selected' :  response[i].water == 1 }"  (click)="setWater(i,1)">  {{ 'finish.yes' | translate }} </ion-chip>
+            <ion-chip [ngClass]="{'selected' :  response[i].water == 0 }"  (click)="setWater(i,0)">  {{ 'finish.no' | translate }}</ion-chip>
           </ion-col>
         </ion-row>
         <ion-row *ngIf="!response[i].photo">
           <ion-col size="12" >
             <ion-button *ngIf="premium" expand="full" fill="clear" (click)="getPicture(i)" color="primary">
               <ion-icon fill="clear" name="camera-outline" slot="start"></ion-icon>
-              Foto del recuerdo</ion-button>
+              {{ 'finish.momentphoto' | translate }} </ion-button>
             </ion-col>
           </ion-row>
         <div *ngIf="response[i].photo">
-          <h2 class="text-center">Mi Recuerdo</h2>
+          <h2 class="text-center">  {{ 'finish.mymemory' | translate }} </h2>
           <ion-card >
             <img [src]="'data:image/jpeg;base64,'+response[i].photo" alt="memories">
           </ion-card>
               <ion-button expand="full" fill="clear" (click)="getPicture(i)" color="primary">
                 <ion-icon name="camera-outline" slot="start"></ion-icon>
-                Volver a tomar
+                {{ 'finish.takeagain' | translate }}
               </ion-button>
-              <ion-button fill="outline" (click)="openModalSharing('data:image/jpeg;base64,'+response[i].photo)">Compartir</ion-button>
-
+              <ion-button fill="outline" (click)="openModalSharing('data:image/jpeg;base64,'+response[i].photo)">  {{ 'finish.share' | translate }}</ion-button>
         </div>
       </ion-card>
     </ion-slide>
-
-
   </ion-slides>
 </ion-content>
 <ion-footer>
-  <ion-button color="success" *ngIf="!offline" expand="full" (click)="finish()">Terminar</ion-button>
-  <ion-button color="warning" *ngIf="offline" expand="full" [disabled]="!btnFinish" (click)="finish()">Terminar</ion-button>
+  <ion-button color="success" *ngIf="!offline" expand="full" (click)="finish()">  {{ 'finish.finish' | translate }}</ion-button>
+  <ion-button color="warning" *ngIf="offline" expand="full" [disabled]="!btnFinish" (click)="finish()">  {{ 'finish.finish' | translate }}</ion-button>
 
 </ion-footer>

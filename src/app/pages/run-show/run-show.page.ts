@@ -10,6 +10,7 @@ const Hashids = require('hashids/cjs');
 const hashids = new Hashids('Elradipet10Lt', 6,'ABCEIU1234567890');
 import { DomSanitizer } from '@angular/platform-browser';
 import * as moment from 'moment';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -34,13 +35,44 @@ export class RunShowPage implements OnInit {
     slide;
 
     myFor;
+
+    morning;
+    evenning;
+    night;
+
+    start;
+    finish;
+
+    translate(){
+      this.translateService.get('finish.morning').subscribe(value => {
+        this.morning = value;
+      });
+      this.translateService.get('finish.evenning').subscribe(value => {
+        this.evenning = value;
+      });
+      this.translateService.get('finish.night').subscribe(value => {
+        this.night = value;
+      });
+
+      this.translateService.get('runshow.start').subscribe(value => {
+        this.start = value;
+      });
+
+      this.translateService.get('runshow.finish').subscribe(value => {
+        this.finish = value;
+      });
+
+    }
+
   constructor(
     private sanitization: DomSanitizer,
     private navCtrl:NavController,
+    private translateService:TranslateService,
     private api: DataService,
     private route: ActivatedRoute
     ){
 
+      this.translate();
 
       if(localStorage.getItem('pe')){
         if(new Date(localStorage.getItem('pe')) > new Date()){
@@ -58,7 +90,9 @@ export class RunShowPage implements OnInit {
           this.myFor = JSON.parse(data.activity[0].json_points)
           this.activity = data.activity[0];
           this.pets = data.pets;
-          this.welcome =  parseInt(moment(this.activity.createdAt).format('hh')) < 12 ? 'en la mañana' : parseInt(moment(this.activity.createdAt).format('hh'))  < 18 ? 'en la tarde' : 'en la noche'
+          this.welcome = parseInt(moment(this.activity.createdAt).format('hh')) < 12 ? this.morning : parseInt(moment(this.activity.createdAt).format('hh')) < 18 ? this.evenning: this.night
+          // console.log(this.activity.createdAt,this.welcome,this.morning,this.evenning,this.);
+          // this.welcome =  parseInt(moment(this.activity.createdAt).format('hh')) < 12 ? 'en la mañana' : parseInt(moment(this.activity.createdAt).format('hh'))  < 18 ? 'en la tarde' : 'en la noche'
           this.slide = {
             slidesPerView: this.pets.length == 1?1:1.1,
             spaceBetween:1,
@@ -147,8 +181,8 @@ export class RunShowPage implements OnInit {
 
       setTimeout(() => {
         this.polyline = L.polyline(this.lngLatArrayToLatLng(pointsForJson),{color: '#3b1493',weight: 6}).addTo(this.mapa);
-        Leaflet.marker([this.myFor[0].x,this.myFor[0].y],{icon: startIcon}).addTo(this.mapa).bindPopup('Start');
-        Leaflet.marker([this.myFor[this.myFor.length - 1].x,this.myFor[this.myFor.length - 1].y],{icon: finishIcon}).addTo(this.mapa).bindPopup('Finish');
+        Leaflet.marker([this.myFor[0].x,this.myFor[0].y],{icon: startIcon}).addTo(this.mapa).bindPopup(this.start);
+        Leaflet.marker([this.myFor[this.myFor.length - 1].x,this.myFor[this.myFor.length - 1].y],{icon: finishIcon}).addTo(this.mapa).bindPopup(this.finish);
       },1700)
 
 

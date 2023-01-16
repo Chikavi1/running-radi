@@ -6,24 +6,24 @@
   </ion-fab>
 <div style="padding:1em">
   <img style="padding: 2em;" src="../../../assets/measuring-tape.png" alt="image measure">
-  <h2>Selecciona una unidad de medida</h2>
+  <h2>{{ 'measures.title' | translate }}</h2>
 
-  <h3 style="margin-left:.5em;">Longitud</h3>
+  <h3 style="margin-left:.5em;">{{ 'measures.length' | translate }}</h3>
   <ion-item (click)="changeDistance('km')" >
-    <ion-label [ngClass]="{'select' : selectDistance == 'km' }">Kilometros</ion-label>
+    <ion-label [ngClass]="{'select' : selectDistance == 'km' }">{{ 'measures.kilometres' | translate }} </ion-label>
   </ion-item>
 
   <ion-item (click)="changeDistance('mi')" >
-    <ion-label [ngClass]="{'select' : selectDistance == 'mi' }">Millas</ion-label>
+    <ion-label [ngClass]="{'select' : selectDistance == 'mi' }">{{ 'measures.miles' | translate }} </ion-label>
   </ion-item>
 
-  <h3 style="margin-left:.5em;margin-top:2em">Masa</h3>
+  <h3 style="margin-left:.5em;margin-top:2em">{{ 'measures.mass' | translate }}</h3>
   <ion-item (click)="changeMass('kg')" >
-    <ion-label [ngClass]="{'select' : selectMass == 'kg' }">Kilogramos</ion-label>
+    <ion-label [ngClass]="{'select' : selectMass == 'kg' }">{{ 'measures.kilograms' | translate }} </ion-label>
   </ion-item>
 
   <ion-item (click)="changeMass('lb')" >
-    <ion-label [ngClass]="{'select' : selectMass == 'lb' }">Libras</ion-label>
+    <ion-label [ngClass]="{'select' : selectMass == 'lb' }">{{ 'measures.pounds' | translate }} </ion-label>
   </ion-item>
 
 

@@ -71,7 +71,7 @@
     <ion-label style="margin-left: 1.5em;" color="primary">{{ 'editprofile.birthday' | translate }}</ion-label>
     <ion-row  style="margin:1em;">
       <ion-col size="12" [ngClass]="{'ml-4' : device == 'tablet' }">
-        <ion-datetime presentation="date" style="width: 100% !important;"  (ionChange)="birthdayChange()" [min]="yearLimitIonDateTime" [max]="today" [(ngModel)]="birthday"  displayFormat="DD/MM/YYYY" doneText="Aceptar" cancelText="Cancelar" value="19-02-1990" ></ion-datetime>
+        <ion-datetime [locale]="language" presentation="date" style="width: 100% !important;"  (ionChange)="birthdayChange()" [min]="yearLimitIonDateTime" [max]="today" [(ngModel)]="birthday"  displayFormat="DD/MM/YYYY" doneText="Aceptar" cancelText="Cancelar" value="19-02-1990" ></ion-datetime>
       </ion-col>
     </ion-row>
 

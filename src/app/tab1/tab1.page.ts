@@ -17,6 +17,7 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 import { DataService } from '../services/data.service';
 import { PendingActivitiesPage } from '../pages/pending-activities/pending-activities.page';
 import { ModalWarningPage } from '../pages/modal-warning/modal-warning.page';
+import { TranslateService } from '@ngx-translate/core';
 declare var L: any;
 
 @Component({
@@ -129,12 +130,80 @@ export class Tab1Page implements OnInit,OnDestroy{
   //   }
   // ]
 
+have;
+minutes;
+bgmessage
+bgtitle;
+finishwalk;
+finishwalktitle;
+cancel;
+finish;
+nointernetmap;
+incompletewalk;
+incompletewalkmessage;
+discard;
+save;
+incompletewalkmessagesnd;
+
+  translate(){
+    this.translateService.get('map.have').subscribe(value => {
+      this.have = value;
+    });
+
+    this.translateService.get('map.minutes').subscribe(value => {
+      this.minutes = value;
+    });
+
+    this.translateService.get('map.bgmessage').subscribe(value => {
+      this.bgmessage = value;
+    });
+
+    this.translateService.get('map.bgtitle').subscribe(value => {
+      this.bgtitle = value;
+    });
+
+    this.translateService.get('map.finishwalk').subscribe(value => {
+      this.finishwalk = value;
+    });
+
+    this.translateService.get('map.finishwalktitle').subscribe(value => {
+      this.finishwalktitle = value;
+    });
+
+    this.translateService.get('map.cancel').subscribe(value => {
+      this.cancel = value;
+    });
+    this.translateService.get('map.finish').subscribe(value => {
+      this.finish = value;
+    });
+    this.translateService.get('map.nointernetmap').subscribe(value => {
+      this.nointernetmap = value;
+    });
+    this.translateService.get('map.incompletewalk').subscribe(value => {
+      this.incompletewalk = value;
+    });
+    this.translateService.get('map.incompletewalkmessage').subscribe(value => {
+      this.incompletewalkmessage = value;
+    });
+    this.translateService.get('map.discard').subscribe(value => {
+      this.discard = value;
+    });
+    this.translateService.get('map.save').subscribe(value => {
+      this.save = value;
+    });
+    this.translateService.get('map.incompletewalkmessagesnd').subscribe(value => {
+      this.incompletewalkmessagesnd = value;
+    });
+
+
+  }
+
   constructor(
     private modalController:ModalController,
-    private alertController:AlertController,
+    private translateService:TranslateService,
     private api: DataService,
     private toastController:ToastController){
-
+      this.translate();
     if(localStorage.getItem('customer_id')){
         if(!localStorage.getItem('pe')){
           this.api.getSubscriptions({'id':localStorage.getItem('customer_id')}).subscribe( data => {
@@ -388,8 +457,8 @@ async noti(sec){
     notifications: [
       {
         id: 1,
-        title: 'Llevas '+min+' minutos',
-        body: 'Paseo de hoy',
+        title: 'Radi Pets Running',
+        body: this.have+' '+min+' '+this.minutes,
         extra: {
           data: 'pass'
         },
@@ -441,8 +510,8 @@ runGeolocation(){
 
 
   BackgroundGeolocation.addWatcher({
-        backgroundMessage: "Cancelalo cuando puedas para no drenar tu bateria.",
-        backgroundTitle: "Estas paseando con tu mascota.",
+        backgroundMessage: this.bgmessage,
+        backgroundTitle: this.bgtitle,
         requestPermissions: true,
         stale:false,
         distanceFilter: 15
@@ -482,42 +551,14 @@ getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 }
 
 async presentAlert(){
-  this.terminateAlert(ModalWarningPage,'Terminar paseo','¿Estas seguro de terminar el paseo?','Cancelar','Terminar','warning');
-
-  // this.modalWarning('Terminar paseo','¿Estas seguro de terminar el paseo?','Cancelar','Terminar','warning');
-
-
-  // const alert = await this.alertController.create({
-  //   header: '¿estas seguro?',
-  //   buttons: [
-  //     {
-  //       text: 'Cancelar',
-  //       role: 'cancel',
-  //       handler: () => {
-  //       },
-  //     },
-  //     {
-  //       text: 'Si,Terminar',
-  //       role: 'confirm',
-  //       handler: () => {
-
-  //         this.terminate();
-
-  //       },
-  //     },
-  //   ],
-  // });
-
-  // await alert.present();
-
-  // const { role } = await alert.onDidDismiss();
+  this.terminateAlert(ModalWarningPage,this.finishwalk,this.finishwalktitle,this.cancel,this.finish,'warning');
 }
 
 
 async terminateAlert(component,title,subtitle,cancel_text?,done_text?,path?) {
   const modal = await this.modalController.create({
     component: component,
-    breakpoints: [0.0,0.5, 0.90],
+    breakpoints: [0.0,0.73, 0.90],
     componentProps:{
       title: title,
       subtitle: subtitle,
@@ -543,7 +584,7 @@ async terminateAlert(component,title,subtitle,cancel_text?,done_text?,path?) {
 async pendingAlert(component,title,subtitle,cancel_text?,done_text?,path?) {
   const modal = await this.modalController.create({
     component: component,
-    breakpoints: [0.0,0.5, 0.90],
+    breakpoints: [0.0,0.73, 0.90],
     componentProps:{
       title: title,
       subtitle: subtitle,
@@ -578,6 +619,7 @@ terminate(){
   window.clearInterval(this.interval); // Clear the interval
   this.seconds = 0; // Sets seconds to zero
   this.isStart = false;
+  this.removeData();
   this.removeLines();
   this.presentModalComplete(FinishPage);
 }
@@ -598,18 +640,10 @@ ionViewDidEnter(){
 
 }
 
-ionViewWillLeave(){
-  if(this.isStart){
-    console.log('seconds',this.seconds);
-  }
-
-
-}
-
-
 ngOnInit() {
   this.initMap();
 }
+
 ngOnDestroy() {
 
 }
@@ -630,9 +664,9 @@ initMap(){
 
 
     // Leaflet.marker([this.lat,this.lng],{draggable: true,icon: userIcon}).on('dragend', e => this.procesar(e) ).addTo(this.mapa).bindPopup('Tu Ubicación');
-// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}
-// https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga
-// https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png
+    // https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}
+    // https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga
+    // https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png
 
 let tile;
   // if(window.matchMedia('(prefers-color-scheme: dark)').matches){
@@ -653,16 +687,9 @@ Leaflet.tileLayer(tile, {
           doubleClickZoom: true,
           center: [this.lat, this.lng]
           }).addTo(this.mapa);
-
-
-
-
   }).catch((error) => {
     console.log('Error getting location', error);
   });
-
-
-
 }
 
 procesar(e){
@@ -707,7 +734,7 @@ getTimeFormatted() {
 
 async presentToast() {
   const toast = await this.toastController.create({
-    message: 'No hay internet, el mapa puede fallar',
+    message: this.nointernetmap,
     duration: 1500,
     position: 'bottom'
   });
@@ -715,61 +742,24 @@ async presentToast() {
   await toast.present();
 }
 
-
 removeData(){
-
   localStorage.removeItem('date_start');
   localStorage.removeItem('kilometers');
   localStorage.removeItem('seconds');
   localStorage.removeItem('pet_selected');
-
 }
-
 
 async presentAlertWithout() {
   this.seconds = parseInt(localStorage.getItem('seconds'));
   this.time = this.getTimeFormatted();
 
 
-  this.pendingAlert(ModalWarningPage,'Paseo sin terminar',
-  'Tienes una paseada sin terminar de '+this.time +' min, ¿deseas guardarla?',
-  'Descartar',
-  'Guardar y terminar',
+  this.pendingAlert(ModalWarningPage,
+  this.incompletewalk,
+  this.incompletewalkmessage+' '+this.time +' '+this.incompletewalkmessagesnd,
+  this.discard,
+  this.save,
   'pending'
   );
-
-
-  // const alert = await this.alertController.create({
-  //   header: 'Tienes una paseada sin terminar de '+this.time +' min, ¿deseas guardarla?',
-  //   buttons: [
-  //     {
-  //       text: 'Empezar de nuevo',
-  //       role: 'cancel',
-  //       handler: () => {
-  //         this.removeData();
-  //       },
-  //     },
-  //     {
-  //       text: 'Terminar y guardar',
-  //       role: 'confirm',
-  //       handler: () => {
-
-  //         this.distance = parseFloat(localStorage.getItem('kilometers'));
-  //         this.seconds  = parseInt(localStorage.getItem('seconds'));
-  //         this.pet_selected = JSON.parse(localStorage.getItem('pet_selected'));
-  //         this.time = this.getTimeFormatted();
-  //         console.log(this.distance,this.time,this.pet_selected);
-  //         this.terminate();
-  //       },
-  //     },
-  //   ],
-  // });
-
-  // await alert.present();
-
-  // const { role } = await alert.onDidDismiss();
-
 }
-
-
 }

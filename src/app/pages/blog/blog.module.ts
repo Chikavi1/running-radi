@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { BlogPageRoutingModule } from './blog-routing.module';
 
 import { BlogPage } from './blog.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    TranslateModule,
     BlogPageRoutingModule
   ],
   declarations: [BlogPage]
