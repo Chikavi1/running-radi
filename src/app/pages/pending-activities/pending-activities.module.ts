@@ -8,12 +8,14 @@ import { PendingActivitiesPageRoutingModule } from './pending-activities-routing
 
 import { PendingActivitiesPage } from './pending-activities.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    TranslateModule,
     PipesModule,
     PendingActivitiesPageRoutingModule
   ],

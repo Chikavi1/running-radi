@@ -38,11 +38,6 @@ export class Tab3Page {
     private router:Router
     ){
 
-
-
-
-
-
       this.isMobile = this.platform.is('mobile');
       this.device = localStorage.getItem('device');
       this.slide = {

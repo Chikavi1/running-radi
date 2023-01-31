@@ -196,6 +196,14 @@ const routes: Routes = [
   {
     path: 'modal-report',
     loadChildren: () => import('./pages/modal-report/modal-report.module').then( m => m.ModalReportPageModule)
+  },
+  {
+    path: 'recipe',
+    loadChildren: () => import('./pages/recipe/recipe.module').then( m => m.RecipePageModule)
+  },
+  {
+    path: 'recipe-instructions',
+    loadChildren: () => import('./pages/recipe-instructions/recipe-instructions.module').then( m => m.RecipeInstructionsPageModule)
   }
 
 

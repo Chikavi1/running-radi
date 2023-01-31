@@ -3,10 +3,10 @@
 
 
     <div *ngIf="activities.length == 0">
-      <h2 class="text-center">Ya no tienes actividades pendientes</h2>
+      <h2 class="text-center">{{ 'pendingactivities.noactivities' | translate }} </h2>
     </div>
     <div *ngIf="activities.length != 0">
-      <h2 >Actividades pendientes</h2>
+      <h2 >{{ 'pendingactivities.activities' | translate }} </h2>
 
       <ion-item lines="none" *ngFor="let item of activities;let i = index;">
         <ion-label>
@@ -14,17 +14,17 @@
             {{ item.date  |  localizedDate:'fullDate' }}
           </h2>
           <p>
-            {{ item.time }} min
+            {{ item.time }} {{ 'pendingactivities.min' | translate }}
           </p>
          <p>
           {{ item.distance | distanceMeasure:measure  }} {{measure}}
          </p>
         </ion-label>
         <ion-button slot="end" color="danger" fill="outline" (click)="remove(i)">
-          Descartar
+          {{ 'pendingactivities.discard' | translate }}
         </ion-button>
         <ion-button slot="end" fill="outline" (click)="showAd(i,item)">
-          Subir
+          {{ 'pendingactivities.upload' | translate }}
         </ion-button>
       </ion-item>
     </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdMob, AdMobRewardItem, RewardAdOptions, RewardAdPluginEvents } from '@capacitor-community/admob';
 import { ToastController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -13,7 +14,15 @@ export class PendingActivitiesPage implements OnInit {
   activities:any = [];
   measure;
 
-  constructor(private toastController:ToastController,private api:DataService) {
+  successactivity
+  translate(){
+    this.translateService.get('pendingactivities.uploadsuccess').subscribe(value => {
+      this.successactivity = value;
+    })
+  }
+
+  constructor(private toastController:ToastController,private translateService:TranslateService,private api:DataService) {
+    this.translate();
     this.activities = JSON.parse(localStorage.getItem('activities'));
     this.measure = localStorage.getItem('measure');
 
@@ -67,7 +76,7 @@ export class PendingActivitiesPage implements OnInit {
 
       });
       this.remove(i);
-      this.presentToast('Se ha subido exitosamente la actividad a tu perfil','success');
+      this.presentToast(this.successactivity,'success');
     });
   }
 

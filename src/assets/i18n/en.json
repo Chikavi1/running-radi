@@ -63,7 +63,7 @@
   "home.nopetfriendly":" There are no pet friendly places near you",
   "home.messagerecommend":"But don't worry, if you know a place you can recommend",
   "home.ctalogin":"Login",
-  "home.ctarecommend":"Eecommend place",
+  "home.ctarecommend":"Recommend place",
   "home.suggestion":"Suggestions",
   "home.readmore":"Read more",
 
@@ -575,7 +575,15 @@
     "runshow.free":"There is no moment, to save the moment remember that you need Radi Pets Premium.",
     "runshow.subscribe":"Subscribe",
     "runshow.start":"Start",
-    "runshow.finish":"End"
+    "runshow.finish":"End",
+
+    "pendingactivities.noactivities": "You have no pending activities",
+    "pendingactivities.activities":"Pending activities",
+    "pendingactivities.min":"min",
+    "pendingactivities.discard":"discard",
+    "pendingactivities.upload":"Upload",
+    "pendingactivities.uploadsuccess":"Activity has been successfully uploaded to your profile"
+
 
 
 

@@ -1,0 +1,37 @@
+<ion-content>
+<img src="https://www.recetasparaperros10.com/wp-content/uploads/2018/10/Receta-de-verduras-para-perros-1024x683.jpg" alt="imagen">
+<div style="padding:1em;">
+  <h2>Receta de verduras para perros </h2>
+  <p>Tiempo: <b>15 min</b></p>
+  <p>Dificultad: <b>Fácil</b> </p>
+  <p>Calorias: <b>180 kg/cal</b> </p>
+  <p>Num de ingredientes: <b>7</b></p>
+
+  <ion-slides  [options]="slide" mode="ios">
+    <ion-slide *ngFor="let i of [1,1,1,1,1,1,1]">
+      <ion-card style="width: 100%;">
+        <p>1 Taza</p>
+        <h2>Arroz</h2>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-card  style="background-color: #a9411d;color:white;padding:1em;" (click)="openModal()">
+    <ion-row>
+      <ion-col>
+        <h2 class="bold">Instrucciones</h2>
+      </ion-col>
+      <ion-col>
+        <h2 style="text-align: right;">
+          <ion-icon name="expand-outline"></ion-icon>
+        </h2>
+      </ion-col>
+    </ion-row>
+    <p>Paso 1</p>
+    <p>Lo primero que haremos será preparar todos los ingredientes para hacer esta receta de verduras para perros.</p>
+    <p>Paso 2</p>
+    <p> Ahora agarramos las zanahorias y el calabacín y los cortaremos en cuadritos del tamaño de la uña del dedo chico, las podemos rallar también. Cuando las tengamos listas las apartaremos en un plato hasta más tarde que las necesitemos. Haremos lo mismo con el pollo pero en cuadritos más grandes.</p>
+  </ion-card>
+
+</div>
+</ion-content>

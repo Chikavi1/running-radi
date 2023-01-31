@@ -571,7 +571,14 @@
     "runshow.free":"No hay momento, para guardar el momento recuerda necesitas Radi Pets Premium.",
     "runshow.subscribe":"Suscribirse",
     "runshow.start":"Inicio",
-    "runshow.finish":"Final"
+    "runshow.finish":"Final",
+
+    "pendingactivities.noactivities": "No tienes actividades pendientes",
+    "pendingactivities.activities":"Actividades pendientes",
+    "pendingactivities.min":"min",
+    "pendingactivities.discard":"Descartar",
+    "pendingactivities.upload":"Subir",
+    "pendingactivities.uploadsuccess":"Se ha subido exitosamente la actividad a tu perfil"
 
 
 }

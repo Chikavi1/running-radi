@@ -22,7 +22,7 @@
     "@awesome-cordova-plugins/app-version": "^6.2.0",
     "@awesome-cordova-plugins/barcode-scanner": "^6.2.0",
     "@awesome-cordova-plugins/call-number": "^6.2.0",
-    "@awesome-cordova-plugins/clipboard": "^6.2.0",
+    "@awesome-cordova-plugins/clipboard": "^6.3.0",
     "@awesome-cordova-plugins/local-notifications": "^6.3.0",
     "@awesome-cordova-plugins/native-geocoder": "^6.3.0",
     "@awesome-cordova-plugins/network": "^6.2.0",

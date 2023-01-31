@@ -9,7 +9,7 @@
   <img alt="image" style="width: 100%;" [src]="blog.image" />
   <div style="padding: 1.5em;">
     <h1>{{blog.title}}</h1>
-    <p style="color:rgb(81, 74, 74);">{{ 'blog.update ' | translate }}  {{blog.date | date:'longDate'}}</p>
+    <p style="color:rgb(81, 74, 74);">{{ 'blog.update' | translate }}  {{blog.date | date:'longDate'}}</p>
     <div>
       <img style="width: 3em;height: 3em;vertical-align:middle;border-radius: 50%;" src="https://avatars.dicebear.com/api/initials/{{blog.author}}.svg" alt="A grey image showing text 60 x 60">
       <span style="font-weight: bold;" > &nbsp;{{blog.author}}</span>

@@ -8,6 +8,12 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { PipesModule } from '../pipes/pipes.module';
 import { TranslateModule } from '@ngx-translate/core';
+// import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+// const config: SocketIoConfig = {
+//   url: 'http://localhost:5000',
+//   options: {
+
+//   }};
 
 @NgModule({
   imports: [
@@ -15,6 +21,7 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     FormsModule,
     PipesModule,
+    // SocketIoModule.forRoot(config),
     TranslateModule,
     ExploreContainerComponentModule,
     Tab1PageRoutingModule

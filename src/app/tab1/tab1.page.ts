@@ -3,13 +3,19 @@ import {registerPlugin} from "@capacitor/core";
 import {BackgroundGeolocationPlugin} from "@capacitor-community/background-geolocation";
 const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("BackgroundGeolocation");
 
+
+// import { Socket } from 'ngx-socket-io';
+
+
 import { Geolocation } from '@capacitor/geolocation';
 
 import * as Leaflet from 'leaflet';
-import { AlertController, ModalController, ToastController } from '@ionic/angular';
+import {ModalController, ToastController } from '@ionic/angular';
 import { PlacePage } from '../pages/place/place.page';
 import { StartPage } from '../pages/start/start.page';
 import { FinishPage } from '../pages/finish/finish.page';
+
+import { SocketWebService } from '../services/socket-web.service';
 
 
 import { Network } from '@capacitor/network';
@@ -202,6 +208,8 @@ incompletewalkmessagesnd;
     private modalController:ModalController,
     private translateService:TranslateService,
     private api: DataService,
+    // private socket: Socket,
+    private socketWeb:SocketWebService,
     private toastController:ToastController){
       this.translate();
     if(localStorage.getItem('customer_id')){
@@ -640,7 +648,10 @@ ionViewDidEnter(){
 
 }
 
-ngOnInit() {
+ngOnInit(){
+
+
+
   this.initMap();
 }
 
@@ -654,6 +665,7 @@ initMap(){
     this.lat = resp.coords.latitude;
     this.lng = resp.coords.longitude;
     this.mapa = Leaflet.map('mapa-running',{ zoomControl: false}).setView([this.lat, this.lng], 10);
+    Leaflet.marker([20.6109151,-103.3009833],{draggable: true,icon: startIcon}).on('dragend', e => this.procesar(e) ).addTo(this.mapa).bindPopup(this.start);
 
       this.mapa.flyTo([this.lat, this.lng], 14, {
         animate: true,
@@ -690,15 +702,34 @@ Leaflet.tileLayer(tile, {
   }).catch((error) => {
     console.log('Error getting location', error);
   });
+
+  var startIcon = L.icon(
+    {
+      iconUrl:  '../../../assets/start.png',
+      iconSize:     [24, 24], // size of the icon
+    });
+
+
+
+
+
 }
 
 procesar(e){
 
-  this.oldlat = this.lat;
-  this.oldlng = this.lng;
+  const lat = e.target._latlng.lat;
+  const lng = e.target._latlng.lng;
 
-  this.lat = e.target._latlng.lat;
-  this.lng = e.target._latlng.lng;
+  // this.oldlat = this.lat;
+  // this.oldlng = this.lng;
+
+  this.socketWeb.emitEvent({lat,lng});
+
+
+  console.log({lat,lng});
+
+  // this.lat = e.target._latlng.lat;
+  // this.lng = e.target._latlng.lng;
 
 }
 
